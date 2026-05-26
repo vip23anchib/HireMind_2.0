@@ -6,73 +6,182 @@ Candidate Profile
 
 {% block content %}
 
-<h2>Candidate Profile</h2>
+<div style="
+    max-width:1000px;
+    margin:40px auto;
+    padding:20px;
+">
 
-<hr>
+    <h2 style="
+        margin-bottom:20px;
+        color:#1e293b;
+    ">
+        Candidate Profile
+    </h2>
 
-<p>
-    <strong>Name:</strong>
-    {{ candidate.name }}
-</p>
+    <div style="
+        background:white;
+        border:1px solid #e2e8f0;
+        border-radius:8px;
+        padding:25px;
+        margin-bottom:25px;
+        box-shadow:0 1px 3px rgba(0,0,0,0.05);
+    ">
 
-<p>
-    <strong>Email:</strong>
-    {{ candidate.email }}
-</p>
+        <h3 style="margin-top:0;">
+            Personal Information
+        </h3>
 
-<p>
-    <strong>Gender:</strong>
-    {{ candidate.gender }}
-</p>
+        <p>
+            <strong>Name:</strong>
+            {{ candidate.name }}
+        </p>
 
-<p>
-    <strong>Country:</strong>
-    {{ candidate.country }}
-</p>
+        <p>
+            <strong>Email:</strong>
+            {{ candidate.email }}
+        </p>
 
-<p>
-    <strong>Message:</strong>
-    {{ candidate.message }}
-</p>
+        <p>
+            <strong>Gender:</strong>
+            {{ candidate.gender }}
+        </p>
 
+        <p>
+            <strong>Country:</strong>
+            {{ candidate.country }}
+        </p>
 
-<hr>
+        <p>
+            <strong>Message:</strong>
+            {{ candidate.message }}
+        </p>
 
-<h3>Skills & Experience</h3>
+    </div>
 
-<table border="1" cellpadding="10">
+    <div style="
+        background:white;
+        border:1px solid #e2e8f0;
+        border-radius:8px;
+        padding:25px;
+        margin-bottom:25px;
+        box-shadow:0 1px 3px rgba(0,0,0,0.05);
+    ">
 
-    <tr>
-        <th>Skill</th>
-        <th>Years of Experience</th>
-    </tr>
+        <h3>
+            Skills & Experience
+        </h3>
 
-    {% for skill in skills %}
+        <table style="
+            width:100%;
+            border-collapse:collapse;
+        ">
 
-    <tr>
+            <thead>
 
-        <td>
-            {{ skill.skill.name }}
-        </td>
+                <tr style="
+                    background:#f8fafc;
+                ">
 
-        <td>
-            {{ skill.years_of_experience }} Years
-        </td>
+                    <th style="
+                        text-align:left;
+                        padding:12px;
+                    ">
+                        Skill
+                    </th>
 
-    </tr>
+                    <th style="
+                        text-align:left;
+                        padding:12px;
+                    ">
+                        Experience
+                    </th>
 
-    {% empty %}
+                </tr>
 
-    <tr>
+            </thead>
 
-        <td colspan="2">
-            No skills found
-        </td>
+            <tbody>
 
-    </tr>
+                {% for skill in skills %}
 
-    {% endfor %}
+                <tr style="
+                    border-top:1px solid #e2e8f0;
+                ">
 
-</table>
+                    <td style="padding:12px;">
+                        {{ skill.skill.name }}
+                    </td>
+
+                    <td style="padding:12px;">
+                        {{ skill.years_of_experience }} Years
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="2"
+                        style="
+                        padding:20px;
+                        text-align:center;
+                        color:#64748b;
+                    ">
+                        No skills found
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div style="
+        background:white;
+        border:1px solid #e2e8f0;
+        border-radius:8px;
+        padding:25px;
+        box-shadow:0 1px 3px rgba(0,0,0,0.05);
+    ">
+
+        <h3>
+            Resume
+        </h3>
+
+        {% if document %}
+
+            <a
+                href="{{ document.file.url }}"
+                target="_blank"
+                style="
+                    background:#2563eb;
+                    color:white;
+                    text-decoration:none;
+                    padding:10px 16px;
+                    border-radius:6px;
+                    display:inline-block;
+                    font-weight:600;
+                "
+            >
+                View Resume PDF
+            </a>
+
+        {% else %}
+
+            <p>
+                No resume uploaded.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+</div>
 
 {% endblock %}

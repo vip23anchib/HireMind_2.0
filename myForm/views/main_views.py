@@ -17,6 +17,7 @@ from django.core.paginator import Paginator
 
 from ..models import UserSkill
 
+from django.db.models import Q
 '''
 @login_required(login_url='login_view')
 def upload_file(request):
@@ -242,25 +243,50 @@ def delete_data(request, id):
 @login_required(login_url='login_view')
 def search_candidates(request):
 
-    skill = request.GET.get("skill"," ").strip()
+    # Get form values
+    skill = request.GET.get("skill", "").strip()
     experience = request.GET.get("experience", "").strip()
 
-    results = []
+    # Default empty results
+    results = UserSkill.objects.none()
 
+    # Run search only when skill is entered
     if skill:
 
-        results = UserSkill.objects.all()
-        results = results.filter(
-            skill__name__icontains=skill
-        )
+        # Convert:
+        # "Python,Django,React"
+        # into:
+        # ["Python", "Django", "React"]
+
+        skills_list = [
+            s.strip()
+            for s in skill.split(',')
+            if s.strip()
+        ]
+
+        # Build OR query
+        query = Q()
+
+        for skill_name in skills_list:
+
+            query |= Q(
+                skill__name__icontains=skill_name
+            )
+
+        # Apply skill filter
+        results = UserSkill.objects.filter(query)
+
+        # Apply experience filter
         if experience:
+
             results = results.filter(
                 years_of_experience__gte=experience
             )
-      
+
+        # Highest experience first
         results = results.order_by(
             '-years_of_experience'
-            )
+        )
 
     context = {
         'active_page': 'search_candidates',
@@ -275,7 +301,6 @@ def search_candidates(request):
         context
     )
 
-
 #---------------------------------------------------------------------------------------------------------
 # candidate PROFILE
 @login_required(login_url='login_view')
@@ -287,10 +312,17 @@ def candidate_profile(request, id):
         user_data=candidate
     ).order_by('-years_of_experience')
 
+    print("Candidate ID =", candidate.id)
+
+    document = Document.objects.filter(
+        user_data=candidate
+    ).first()
+
     context = {
         'candidate': candidate,
         'skills': skills,
-        'active_page': 'search_candidates'
+        'active_page': 'search_candidates',
+        'document': document,
     }
 
     return render(
