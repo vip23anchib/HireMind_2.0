@@ -143,13 +143,14 @@ Candidate Search
                     </td>
 
                     <td>
-                        <a href="#"
+                        <a  href="{% url 'candidate_profile' item.user_data.id %}"
                             style="
-                            background:#2563eb;
-                            color:white;
-                            text-decoration:none;
-                            padding:0.4rem 0.8rem;
-                            border-radius:4px;
+                                background:#2563eb;
+                                color:white;
+                                text-decoration:none;
+                                padding:0.5rem 0.8rem;
+                                border-radius:5px;
+                                font-size:0.85rem;
                             ">
                             View Profile
                         </a>

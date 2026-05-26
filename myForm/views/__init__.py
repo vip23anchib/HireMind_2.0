@@ -10,6 +10,7 @@ from .main_views import (
     edit_data,
     delete_data,
     search_candidates,
+    candidate_profile,
 
 )
 

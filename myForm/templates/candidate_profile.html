@@ -1,0 +1,78 @@
+{% extends 'master.html' %}
+
+{% block title %}
+Candidate Profile
+{% endblock %}
+
+{% block content %}
+
+<h2>Candidate Profile</h2>
+
+<hr>
+
+<p>
+    <strong>Name:</strong>
+    {{ candidate.name }}
+</p>
+
+<p>
+    <strong>Email:</strong>
+    {{ candidate.email }}
+</p>
+
+<p>
+    <strong>Gender:</strong>
+    {{ candidate.gender }}
+</p>
+
+<p>
+    <strong>Country:</strong>
+    {{ candidate.country }}
+</p>
+
+<p>
+    <strong>Message:</strong>
+    {{ candidate.message }}
+</p>
+
+
+<hr>
+
+<h3>Skills & Experience</h3>
+
+<table border="1" cellpadding="10">
+
+    <tr>
+        <th>Skill</th>
+        <th>Years of Experience</th>
+    </tr>
+
+    {% for skill in skills %}
+
+    <tr>
+
+        <td>
+            {{ skill.skill.name }}
+        </td>
+
+        <td>
+            {{ skill.years_of_experience }} Years
+        </td>
+
+    </tr>
+
+    {% empty %}
+
+    <tr>
+
+        <td colspan="2">
+            No skills found
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+{% endblock %}

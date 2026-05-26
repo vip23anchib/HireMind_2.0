@@ -4,7 +4,9 @@ from django.template import loader
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required # Import protection decorator
+
 from ..models import UserData, Document
+
 from django.contrib import messages
 
 from django.http import JsonResponse
@@ -155,6 +157,7 @@ def form_submit(request):
             )
 
         return redirect("success_page")
+        
 
 #-------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------
@@ -269,5 +272,29 @@ def search_candidates(request):
     return render(
         request,
         'search_candidates.html',
+        context
+    )
+
+
+#---------------------------------------------------------------------------------------------------------
+# candidate PROFILE
+@login_required(login_url='login_view')
+def candidate_profile(request, id):
+
+    candidate = UserData.objects.get(id=id)
+
+    skills = UserSkill.objects.filter(
+        user_data=candidate
+    ).order_by('-years_of_experience')
+
+    context = {
+        'candidate': candidate,
+        'skills': skills,
+        'active_page': 'search_candidates'
+    }
+
+    return render(
+        request,
+        'candidate_profile.html',
         context
     )

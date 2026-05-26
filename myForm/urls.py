@@ -15,5 +15,6 @@ urlpatterns = [
 
     path('search-candidates/',views.search_candidates,name='search_candidates'),
 
+    path('candidate/<int:id>/',views.candidate_profile,name='candidate_profile'),
 
 ]
