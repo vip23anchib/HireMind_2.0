@@ -1,0 +1,115 @@
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  width: 420px;
+  background: white;
+  margin: auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+textarea {
+  resize: none;
+  height: 80px;
+}
+
+.inline {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  background: #2e7dff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  button {
+  max-width: 100%;
+}
+}
+
+button:hover {
+  background: #3a20a0;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.buttons button {
+  width: 80%;
+}
+
+.danger {
+  background: #e53935;
+}
+
+.danger:hover {
+  background: #c62828;
+}
+
+pre {
+  background: #111;
+  color: #0f0;
+  padding: 10px;
+  margin-top: 15px;
+  border-radius: 5px;
+  font-size: 12px;
+  overflow-x: auto;
+}
+
+#edit{
+  height:50px;
+  width: 100px;
+}
+
+#delete{
+  height:50px;
+  width: 100px;
+ 
+  
+}
+
+td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+td button {
+  width: 80px;
+  margin: 5px;
+  box-sizing: border-box;
+}

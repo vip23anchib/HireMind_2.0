@@ -1,0 +1,58 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <link rel="stylesheet" href="{% static 'loginStyle.css' %}">
+</head>
+<body>
+
+  <div class="login-container">
+    <h2>Login</h2>
+
+    <!-- 1. The form now sends a POST request to our Django view named 'login_view' -->
+    <form method="POST" action="{% url 'login_view' %}">
+      <!-- 2. Security token required by Django for all POST forms -->
+      {% csrf_token %}
+      
+      <!-- 3. Crucial: Added the 'name' attribute so Django can read the inputs -->
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" placeholder="Enter username" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter password" required>
+
+      <button type="submit">Login</button>
+
+      <!-- 4. Display errors passed back from Django if login fails -->
+      {% if error %}
+        <p id="error" style="color: red; margin-top: 10px;">{{ error }}</p>
+      {% endif %}
+    </form>
+  </div>
+<!--
+  <script>
+    function loginUser(event) {
+      event.preventDefault();
+
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      const correctUser = "admin";
+      const correctPass = "1234";
+
+      if (username === correctUser && password === correctPass) {
+       
+        window.location.href = "my.html";
+      } else {
+        document.getElementById("error").innerText = "Invalid username or password";
+      }
+    }
+  </script>
+--> 
+</body>
+</html>
+

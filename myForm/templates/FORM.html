@@ -1,0 +1,302 @@
+{% extends "master.html" %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'form.css' %}">
+{% endblock %}
+{% block title %}
+User Data Form
+{% endblock %}
+
+{% block content %}
+
+<div class="form-wrapper">
+  <div class="form-card">
+  <h2>User Data Form</h2>
+
+  <form id="userForm" action="{% url 'contact_form' %}" method="POST" enctype="multipart/form-data">
+
+    {% csrf_token %}
+
+    {% if data %}
+        <input type="hidden" name="record_id" value="{{ data.id }}">
+    {% endif %}
+
+    <div class="form-group">
+      <label>Name</label>
+      <input type="text"
+             name="name"
+             value="{{ data.name }}"
+             required>
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email"
+             name="email"
+             value="{{ data.email }}"
+             required>
+    </div>
+
+    <div class="form-group">
+      <label>Gender</label>
+
+      <div class="inline">
+
+        <label>
+          <input type="radio"
+                 name="gender"
+                 value="Male"
+                 {% if data.gender == "Male" %}checked{% endif %}>
+          Male
+        </label>
+
+        <label>
+          <input type="radio"
+                 name="gender"
+                 value="Female"
+                 {% if data.gender == "Female" %}checked{% endif %}>
+          Female
+        </label>
+
+        <label>
+          <input type="radio"
+                 name="gender"
+                 value="Other"
+                 {% if data.gender == "Other" %}checked{% endif %}>
+          Other
+        </label>
+
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Skills</label>
+
+      <div class="inline">
+
+        <label>
+          <input type="checkbox"
+                 name="skills"
+                 value="HTML"
+                 {% if "HTML" in data.skills %}checked{% endif %}>
+          HTML
+        </label>
+
+        <label>
+          <input type="checkbox"
+                 name="skills"
+                 value="CSS"
+                 {% if "CSS" in data.skills %}checked{% endif %}>
+          CSS
+        </label>
+
+        <label>
+          <input type="checkbox"
+                 name="skills"
+                 value="JS"
+                 {% if "JS" in data.skills %}checked{% endif %}>
+          JS
+        </label>
+
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Country</label>
+
+      <select name="country">
+
+        <option value="India"
+                {% if data.country == "India" %}selected{% endif %}>
+          India
+        </option>
+
+        <option value="USA"
+                {% if data.country == "USA" %}selected{% endif %}>
+          USA
+        </option>
+
+        <option value="UK"
+                {% if data.country == "UK" %}selected{% endif %}>
+          UK
+        </option>
+
+        <option value="Other"
+                {% if data.country == "Other" %}selected{% endif %}>
+          Other
+        </option>
+
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Message</label>
+
+      <textarea name="message">{{ data.message }}</textarea>
+    </div>
+
+    <div class="form-group">
+      <label>File Upload</label>
+
+      <input type="file"
+             name="myfile"
+             accept=".pdf,application/pdf">
+    </div>
+
+    <button type="submit" class="btn-primary">
+        Save
+    </button>
+
+</form>
+
+  <p id="msg"></p>
+
+ 
+  {% if messages %}
+    {% for message in messages %}
+      <p class="msg-success">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+
+</div>
+</div>
+#code for loader while site is loading 
+<script>
+document.getElementById("userForm")
+.addEventListener("submit", function(){
+
+    document.getElementById("loader")
+    .style.display = "flex";
+
+});
+</script>
+{% endblock %}
+
+<!-- 
+ <script>
+let editIndex = null;
+
+const form = document.getElementById("userForm");
+
+function getData() {
+  return JSON.parse(localStorage.getItem("formData")) || [];
+}
+
+function saveData(data) {
+  localStorage.setItem("formData", JSON.stringify(data));
+}
+
+form.addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+  const gender = document.querySelector('input[name="gender"]:checked')?.value;
+
+  const skills = Array.from(document.querySelectorAll(".skill:checked"))
+                      .map(s => s.value);
+
+  const country = document.getElementById("country").value;
+  const message = document.getElementById("message").value;
+
+  const newEntry = { name, email, gender, skills, country, message };
+
+  let allData = getData();
+
+  if (editIndex === null) {
+    
+    allData.push(newEntry);
+  } else {
+   
+    allData[editIndex] = newEntry;
+    editIndex = null;
+  }
+
+  saveData(allData);
+
+  alert("Data saved successfully!");
+  form.reset();
+  viewData();
+});
+
+
+function viewData() {
+  const data = getData();
+  const output = document.getElementById("output");
+
+  if (data.length === 0) {
+    output.innerHTML = "No data found";
+    return;
+  }
+
+  let table = `
+  <table border="1" cellpadding="8" cellspacing="0" width="100%">
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Gender</th>
+      <th>Skills</th>
+      <th>Country</th>
+      <th>Message</th>
+      <th>Actions</th>
+    </tr>
+  `;
+
+  data.forEach((item, index) => {
+    table += `
+      <tr>
+        <td>${item.name}</td>
+        <td>${item.email}</td>
+        <td>${item.gender}</td>
+        <td>${item.skills.join(", ")}</td>
+        <td>${item.country}</td>
+        <td>${item.message}</td>
+        <td>
+          <button id="edit" onclick="editData(${index})">Edit</button>
+          <button id="del"  onclick="deleteRow(${index})">Delete</button>
+        </td>
+      </tr>
+    `;
+  });
+
+  table += "</table>";
+
+  output.innerHTML = table;
+}
+
+function editData(index) {
+  const data = getData();
+  const item = data[index];
+
+  document.getElementById("name").value = item.name;
+  document.getElementById("email").value = item.email;
+  document.getElementById("country").value = item.country;
+  document.getElementById("message").value = item.message;
+
+  document.querySelectorAll('input[name="gender"]').forEach(g => {
+    g.checked = g.value === item.gender;
+  });
+
+  document.querySelectorAll(".skill").forEach(skill => {
+    skill.checked = item.skills.includes(skill.value);
+  });
+
+  editIndex = index;
+}
+
+function deleteRow(index) {
+  let data = getData();
+  data.splice(index, 1);
+  saveData(data);
+  viewData();
+}
+
+function deleteData() {
+  localStorage.removeItem("formData");
+  document.getElementById("output").innerHTML = "";
+  alert("All data deleted");
+}
+</script>
+ -->
+
+

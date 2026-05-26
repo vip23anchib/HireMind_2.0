@@ -1,0 +1,182 @@
+
+{% extends "master.html" %}
+{% load static %}
+
+{% block title %}
+User Data
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'user_table.css' %}">
+
+<style>
+/* Pagination Container */
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+
+.pagination a {
+    display: inline-block;
+    padding: 8px 14px;
+    margin: 0 4px;
+    text-decoration: none;
+    background-color: #f4f4f4;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+/* Hover effect */
+.pagination a:hover {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+/* Current page */
+.active-page {
+    display: inline-block;
+    padding: 8px 14px;
+    margin: 0 4px;
+    background-color: #007bff;
+    color: white;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+/* Disable text selection */
+.pagination a {
+    user-select: none;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<h1>User Submitted Data</h1>
+
+{% if users %}
+
+<div class="table-container">
+
+<table>
+
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Gender</th>
+            <th>Country</th>
+            <th>Skills</th>
+            <th>Message</th>
+            <th>File</th>
+            <th>PDF Content</th>
+            <th>Experience</th>
+            <th>Additional Info</th>
+            <th>Actions</th>
+
+        </tr>
+    </thead>
+
+    <tbody>
+
+    {% for item in page_obj %}
+    <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.email }}</td>
+        <td>{{ item.gender }}</td>
+        <td>{{ item.country }}</td>
+        <td>{{ item.skills }}</td>
+        <td>{{ item.message }}</td>
+
+
+        <td>
+        {% for f in item.document_set.all %}
+            <a href="{{ f.file.url }}" target="_blank">
+                {{ f.file.name|cut:"uploads/" }}
+            </a>
+        {% empty %}
+            No File
+        {% endfor %}
+        </td>
+
+        <td>
+        {% for f in item.document_set.all %}
+            {{ f.pdf_text|truncatechars:100 }}
+        {% empty %}
+            No Content
+        {% endfor %}
+        </td>
+
+        <td>
+            {% for us in item.userskill_set.all %}
+            {{ us.skill.name }}:
+            {{ us.years_of_experience }} years
+            <br>
+            {% empty %}
+                None
+            {% endfor %}
+        </td>
+
+        <td>
+        {% for f in item.document_set.all %}
+            <pre>{{ f.additional_info }}</pre>
+                {% empty %}
+                No Info
+            {% endfor %}
+        </td>
+
+        <td>
+            <a href="{% url 'edit_data' item.id %}">Edit |</a>
+            <a href="{% url 'delete_data' item.id %}"
+               onclick="return confirm('Delete this record?')">
+               Delete
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+</div>
+
+<div class="pagination">
+
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">
+            Previous
+        </a>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+
+        {% if page_obj.number == num %}
+            <span class="active-page">{{ num }}</span>
+        {% else %}
+            <a href="?page={{ num }}">
+                {{ num }}
+            </a>
+        {% endif %}
+
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">
+            Next
+        </a>
+    {% endif %}
+
+</div>
+
+{% else %}
+<h3 class="no-data">No user data found</h3>
+{% endif %}
+
+{% endblock %}

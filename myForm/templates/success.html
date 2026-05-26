@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submission Successful</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'success.css' %}">
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+        </div>
+        
+        <h1>Submission Successful!</h1>
+        <p>Thank you for submitting your details. Your data has been securely saved to our database, and your profile is now updated.</p>
+        
+        <div class="info-card">
+            <span class="info-emoji">🔒</span>
+            <div class="info-text">
+                <h3>Safe Page Reload</h3>
+                <p>Because your submission handled a proper redirect, refreshing this page will not resubmit your form or generate duplicate records.</p>
+            </div>
+        </div>
+
+        <a href="{% url 'contact_form' %}" class="btn-return">Return to Form</a>
+
+    <a href="{% url 'main' %}" class="btn-return">
+    ← Back to Dashboard
+    </a>
+    </div>
+</body>
+</html>

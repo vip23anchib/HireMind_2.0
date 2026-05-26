@@ -1,0 +1,123 @@
+
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'membersStyle.css' %}">
+  {% block extra_css %}{% endblock %}
+  <style>
+    #loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: white;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9999;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+
+    border: 5px solid #ddd;
+    border-top: 5px solid #3498db;
+
+    border-radius: 50%;
+
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+  </style>
+</head>
+<body>
+  <div id="loader">
+    <div class="spinner"></div>
+    <p>Loading...</p>
+</div>
+  <div class="topnav" style="
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:10px 20px;
+  ">
+
+    <!-- Left side navigation -->
+    <nav>
+      <a href="{% url 'main' %}"
+         class="{% if active_page == 'home' %}active{% endif %}">
+          HOME |
+      </a>
+
+      <a href="{% url 'members' %}"
+         class="{% if active_page == 'members' %}active{% endif %}">
+          MEMBERS |
+      </a>
+
+      <a href="{% url 'contact_form' %}"
+         class="{% if active_page == 'form' %}active{% endif %}">
+          Registration Form |
+      </a>
+
+      <a href="{% url 'ajax_data' %}"
+         class="{% if active_page == 'ajax' %}active{% endif %}">
+          AJAX FORM |
+      </a>
+    </nav>
+
+    <!-- Right side user info -->
+    <div style="
+        display:flex;
+        align-items:center;
+        gap:15px;
+    ">
+      <span>
+        Logged in as:
+        <strong>{{ request.user.username }}</strong>
+      </span>
+
+      <a href="{% url 'logout_view' %}"
+         style="
+            color:white;
+            font-weight:bold;
+            text-decoration:none;
+            background:red;
+            padding:6px 12px;
+         ">
+          Log Out
+      </a>
+    </div>
+
+  </div>
+
+  {% block content %}
+  {% endblock %}
+<script>
+window.addEventListener("load", function () {
+
+    document.getElementById("loader").style.display = "none";
+
+});
+</script>
+</body>
+</html>

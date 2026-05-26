@@ -1,0 +1,128 @@
+/* ===== Page Center Layout ===== */
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f4f6f9;
+}
+
+/* ===== Center Container ===== */
+.form-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ===== Form Card ===== */
+form {
+    width: 100%;
+    max-width: 420px;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== Heading ===== */
+form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: #222;
+}
+
+/* ===== Labels ===== */
+label {
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+}
+
+/* ===== Inputs ===== */
+input[type="text"],
+input[type="email"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    font-size: 14px;
+    transition: 0.2s;
+    background: #fff;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
+}
+
+/* ===== Radio + Checkbox Row ===== */
+.inline {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+/* ===== Textarea ===== */
+textarea {
+    min-height: 90px;
+    resize: none;
+}
+
+/* ===== File Input ===== */
+input[type="file"] {
+    margin-top: 5px;
+}
+
+/* ===== Button ===== */
+button {
+    width: 100%;
+    margin-top: 18px;
+    padding: 11px;
+    border: none;
+    border-radius: 8px;
+    background: #4a90e2;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #357bd8;
+}
+
+/* ===== Logged in section ===== */
+.user-info {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 13px;
+    color: #666;
+}
+
+.logout-btn {
+    display: inline-block;
+    margin-top: 5px;
+    color: #e74c3c;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* ===== Messages ===== */
+.msg-success {
+    text-align: center;
+    color: green;
+    margin-top: 10px;
+    font-size: 14px;
+}
