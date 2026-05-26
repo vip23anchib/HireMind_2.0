@@ -13,6 +13,7 @@ from pypdf import PdfReader
 
 from django.core.paginator import Paginator
 
+from ..models import UserSkill
 
 '''
 @login_required(login_url='login_view')
@@ -232,3 +233,41 @@ def delete_data(request, id):
     )
 
     return redirect("form_data")
+
+#---------------------------------------------------------------------------------------------------------
+# candidate search 
+@login_required(login_url='login_view')
+def search_candidates(request):
+
+    skill = request.GET.get("skill"," ").strip()
+    experience = request.GET.get("experience", "").strip()
+
+    results = []
+
+    if skill:
+
+        results = UserSkill.objects.all()
+        results = results.filter(
+            skill__name__icontains=skill
+        )
+        if experience:
+            results = results.filter(
+                years_of_experience__gte=experience
+            )
+      
+        results = results.order_by(
+            '-years_of_experience'
+            )
+
+    context = {
+        'active_page': 'search_candidates',
+        'skill': skill,
+        'experience': experience,
+        'results': results,
+    }
+
+    return render(
+        request,
+        'search_candidates.html',
+        context
+    )

@@ -8,7 +8,9 @@ from .main_views import (
     form_submit,
     ajax_data,
     edit_data,
-    delete_data
+    delete_data,
+    search_candidates,
+
 )
 
 from .form_views import(

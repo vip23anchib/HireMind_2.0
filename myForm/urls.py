@@ -11,6 +11,9 @@ urlpatterns = [
     path('form-data/', views.form_data, name='form_data'),
     path('ajax-data/', views.ajax_data, name='ajax_data'),
     path('form-data/edit/<int:id>/',views.edit_data,name='edit_data'),
-    path("form-data/delete/<int:id>/",views.delete_data,name="delete_data"
-)
+    path("form-data/delete/<int:id>/",views.delete_data,name="delete_data"),
+
+    path('search-candidates/',views.search_candidates,name='search_candidates'),
+
+
 ]
