@@ -476,6 +476,20 @@ def ats_dashboard(request):
     )
     print(list(top_skills))
 
+    avg_experience = (
+        UserSkill.objects
+        .values('skill__name')
+        .annotate(
+            avg_years=Avg(
+                'years_of_experience'
+            )
+        )
+        .order_by(
+            '-avg_years'
+        )
+    )
+
+    #for top skills bar chart
     skills = []
     counts = []
     for skill in top_skills:
@@ -498,6 +512,30 @@ def ats_dashboard(request):
         output_type='div'
     )
 
+
+    #for avg experience bar chart
+    avg_skill_names = []
+    avg_skill_years = []
+    for item in avg_experience:
+        avg_skill_names.append(
+            item['skill__name']
+        )
+        avg_skill_years.append(
+            round(
+                item['avg_years'],
+                2
+            )
+        )
+    avg_exp_chart = px.bar(
+        x=avg_skill_names,
+        y=avg_skill_years,
+        title="Average Experience By Skill"
+    ) 
+    avg_exp_chart = plot(#convertbto html
+        avg_exp_chart,
+        output_type='div'
+    )
+
     context = {
          'active_page': 'ats_dashboard',
 
@@ -510,11 +548,12 @@ def ats_dashboard(request):
         'top_skills': top_skills,
 
         'chart': chart,
-    }
-    print(total_candidates)
-    print(total_skills)
-    print(total_user_skills)
 
+        'avg_exp_chart': avg_exp_chart,
+    }
+    
+    print(type(avg_exp_chart))
+    print(len(avg_exp_chart))
     return render(
         request,
         'ATS_dashboard.html',
