@@ -1,0 +1,166 @@
+{% extends 'master.html' %}
+
+{% block title %}
+ATS Dashboard
+{% endblock %}
+
+{% block content %}
+
+<div
+    style="
+    width:90%;
+    margin:40px auto;
+    font-family:Arial, sans-serif;
+    "
+>
+
+    <!-- Heading -->
+
+    <h1
+        style="
+        color:#1e293b;
+        margin-bottom:30px;
+        "
+    >
+        ATS Dashboard
+    </h1>
+
+    <!-- Stats Cards -->
+
+    <div
+        style="
+        display:flex;
+        gap:20px;
+        flex-wrap:wrap;
+        margin-bottom:40px;
+        "
+    >
+
+        <!-- Total Candidates -->
+
+        <div
+            style="
+            flex:1;
+            min-width:250px;
+            background:white;
+            padding:25px;
+            border-radius:12px;
+            box-shadow:0 2px 10px rgba(0,0,0,0.08);
+            "
+        >
+
+            <h4
+                style="
+                margin:0;
+                color:#64748b;
+                "
+            >
+                Total Candidates
+            </h4>
+
+            <h1
+                style="
+                margin-top:15px;
+                color:#2563eb;
+                "
+            >
+                {{ total_candidates }}
+            </h1>
+
+        </div>
+
+        <!-- Total Skills -->
+
+        <div
+            style="
+            flex:1;
+            min-width:250px;
+            background:white;
+            padding:25px;
+            border-radius:12px;
+            box-shadow:0 2px 10px rgba(0,0,0,0.08);
+            "
+        >
+
+            <h4
+                style="
+                margin:0;
+                color:#64748b;
+                "
+            >
+                Total Skills
+            </h4>
+
+            <h1
+                style="
+                margin-top:15px;
+                color:#16a34a;
+                "
+            >
+                {{ total_skills }}
+            </h1>
+
+        </div>
+
+        <!-- Total User Skills -->
+
+        <div
+            style="
+            flex:1;
+            min-width:250px;
+            background:white;
+            padding:25px;
+            border-radius:12px;
+            box-shadow:0 2px 10px rgba(0,0,0,0.08);
+            "
+        >
+
+            <h4
+                style="
+                margin:0;
+                color:#64748b;
+                "
+            >
+                Total User Skills
+            </h4>
+
+            <h1
+                style="
+                margin-top:15px;
+                color:#9333ea;
+                "
+            >
+                {{ total_user_skills }}
+            </h1>
+
+        </div>
+
+    </div>
+
+    <!-- Plotly Chart -->
+
+    <div
+        style="
+        background:white;
+        padding:25px;
+        border-radius:12px;
+        box-shadow:0 2px 10px rgba(0,0,0,0.08);
+        "
+    >
+
+        <h3
+            style="
+            margin-bottom:20px;
+            color:#334155;
+            "
+        >
+            Most In-Demand Skills
+        </h3>
+
+        {{ chart|safe }}
+
+    </div>
+
+</div>
+
+{% endblock %}

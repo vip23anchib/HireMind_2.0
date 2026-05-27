@@ -86,8 +86,15 @@
 
       <a href="{% url 'search_candidates' %}"
         class="{% if active_page == 'search_candidates' %}active{% endif %}">
-        Candidate Search
+        Candidate Search |
       </a>
+
+      <a
+        href="{% url 'ats_dashboard' %}"
+          class="{% if active_page == 'ats_dashboard' %}active{% endif %}"
+            >
+          ATS Dashboard |
+        </a>
     </nav>
 
     <!-- Right side user info -->

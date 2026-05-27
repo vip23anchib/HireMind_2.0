@@ -11,6 +11,7 @@ from .main_views import (
     delete_data,
     search_candidates,
     candidate_profile,
+    ats_dashboard,
 
 )
 

@@ -15,9 +15,13 @@ from pypdf import PdfReader
 
 from django.core.paginator import Paginator
 
-from ..models import UserSkill
+from ..models import UserSkill, Skill
 
 from django.db.models import Q
+
+from django.db.models import Count , Avg
+import plotly.express as px
+from plotly.offline import plot
 '''
 @login_required(login_url='login_view')
 def upload_file(request):
@@ -447,5 +451,72 @@ def candidate_profile(request, id):
     return render(
         request,
         'candidate_profile.html',
+        context
+    )
+
+
+#---------------------------------------------------------------------------------------------------------
+#function for ATS dashboard
+@login_required(login_url='login_view')
+def ats_dashboard(request):
+
+    total_candidates = UserData.objects.count()
+
+    total_skills = Skill.objects.count()
+
+    total_user_skills = UserSkill.objects.count()
+
+    top_skills = (
+        UserSkill.objects
+        .values('skill__name')
+        .annotate(
+            total=Count('skill')
+        )
+        .order_by('-total')
+    )
+    print(list(top_skills))
+
+    skills = []
+    counts = []
+    for skill in top_skills:
+        skills.append(
+            skill['skill__name']
+        )
+        counts.append(
+            skill['total']
+        )
+        
+    #plotly chart
+    fig = px.bar(
+        x=skills,
+        y=counts,
+        title="Top Skills"
+    )   
+    #convert chart to html
+    chart = plot(
+        fig,
+        output_type='div'
+    )
+
+    context = {
+         'active_page': 'ats_dashboard',
+
+        'total_candidates': total_candidates,
+
+        'total_skills': total_skills,
+
+        'total_user_skills': total_user_skills,
+
+        'top_skills': top_skills,
+
+        'chart': chart,
+    }
+    print(total_candidates)
+    print(total_skills)
+    print(total_user_skills)
+
+    return render(
+        request,
+        'ATS_dashboard.html',
         context
     )
