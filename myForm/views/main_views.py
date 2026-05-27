@@ -294,7 +294,6 @@ def search_candidates(request):
                 if candidate_ids is None:
                     candidate_ids = skill_candidates
 
-              
                 # intersection (&) operator. keeps ONLY the user IDs that exist in both the master list AND the new skill list.
                 # This guarantees that the final candidate_ids list only contains users who have ALL the skills.
                 else:
@@ -333,7 +332,7 @@ def search_candidates(request):
             '-years_of_experience'
         )
 
-        candidate_map = {}
+        candidate_map = {} #to show only non-duplicates rows so making dictionary of candidate, skills and experience 
         for item in results:
             candidate_id = item.user_data.id
             if candidate_id not in candidate_map:
@@ -374,9 +373,28 @@ def search_candidates(request):
             score = round((matched_count / requested_count) * 100)
 
             data['score'] = score
+       
+        #function to find missing skill
+        for data in candidate_map.values():
+            candidate_skills = set(
+                data['skills']
+            )
+            requested_skills = set(
+                skills_list
+            )
+            missing_skills = (
+                requested_skills
+                -           
+                candidate_skills
+                )
+
+            data['missing_skills'] = list(
+                missing_skills
+            )
+            print(candidate_results)
         
-    candidate_results = list(
-    candidate_map.values()
+        candidate_results = list(
+        candidate_map.values()
 )
     #function to sort result in descending order of ATS score
     candidate_results.sort(
