@@ -247,17 +247,20 @@ def search_candidates(request):
     skill = request.GET.get("skill", "").strip()
     experience = request.GET.get("experience", "").strip()
 
+    #search type AND or OR
+    search_type = request.GET.get(
+    "search_type",
+    "or")
+
     # Default empty results
     results = UserSkill.objects.none()
+    candidate_results = []
 
     # Run search only when skill is entered
     if skill:
 
         # Convert:
-        # "Python,Django,React"
-        # into:
-        # ["Python", "Django", "React"]
-
+        # "Python,Django,React" into : ["Python", "Django", "React"]
         skills_list = [
             s.strip()
             for s in skill.split(',')
@@ -265,16 +268,58 @@ def search_candidates(request):
         ]
 
         # Build OR query
-        query = Q()
-
-        for skill_name in skills_list:
-
-            query |= Q(
+        if search_type == "or":
+            query = Q()
+            for skill_name in skills_list:
+                query |= Q(
                 skill__name__icontains=skill_name
             )
 
-        # Apply skill filter
-        results = UserSkill.objects.filter(query)
+            results = UserSkill.objects.filter(query)
+        
+        else:
+            candidate_ids = None
+            for skill_name in skills_list:
+                # Get a unique set of user IDs who have the current skill in the loop
+                skill_candidates = set(
+                    UserSkill.objects.filter(
+                        skill__name__icontains=skill_name
+                    ).values_list(
+                        'user_data_id',
+                        flat=True
+                    )
+
+                )
+                # If this is the first skill we are checking, kickstart our master list
+                if candidate_ids is None:
+                    candidate_ids = skill_candidates
+
+              
+                # intersection (&) operator. keeps ONLY the user IDs that exist in both the master list AND the new skill list.
+                # This guarantees that the final candidate_ids list only contains users who have ALL the skills.
+                else:
+                    candidate_ids = (
+                        candidate_ids
+                        &
+                        skill_candidates
+                )
+            # STEP 2: Fetch all the UserSkill database records for these qualified users
+            # This acts like a SQL: WHERE user_data_id IN (list_of_ids)
+            results = UserSkill.objects.filter(
+                user_data_id__in=candidate_ids #WHERE user_data_id IN (39,40)
+            )
+
+            # STEP 3: Prune the results to ONLY show rows matching the searched skills (OR logic)
+            # Why? A user might have 20 skills. We only want to see the rows for the skills we searched for.
+            query = Q()
+            for skill_name in skills_list:
+                # Chain each skill search using the OR operator (|=)
+                # It creates a query like: WHERE skill LIKE '%A%' OR skill LIKE '%B%'
+                query |= Q(
+                    skill__name__icontains=skill_name
+                )
+            results = results.filter(query)
+            
 
         # Apply experience filter
         if experience:
@@ -288,11 +333,67 @@ def search_candidates(request):
             '-years_of_experience'
         )
 
+        candidate_map = {}
+        for item in results:
+            candidate_id = item.user_data.id
+            if candidate_id not in candidate_map:
+                candidate_map[candidate_id] = {
+                    'candidate': item.user_data,
+                    'skills': [
+                        item.skill.name
+                    ],
+                    'experience':
+                    item.years_of_experience
+                    or 0
+                }
+            else:
+
+                candidate_map[candidate_id][
+                    'skills'
+                ].append(
+                    item.skill.name
+                )
+                # Update highest experience
+                candidate_map[candidate_id][
+                    'experience'
+                ] = max(
+                    candidate_map[candidate_id][
+                        'experience'
+                    ],
+                    item.years_of_experience
+                    or 0
+                )
+        for data in candidate_map.values():
+            matched_count = len(
+                data['skills']
+            )
+            requested_count = len(
+                skills_list
+            )   
+
+            score = round((matched_count / requested_count) * 100)
+
+            data['score'] = score
+        
+    candidate_results = list(
+    candidate_map.values()
+)
+    #function to sort result in descending order of ATS score
+    candidate_results.sort(
+        key=lambda x: (
+        x['score'],
+        x['experience']
+    ),
+        reverse=True
+    )
+    
+    print(candidate_results)
     context = {
         'active_page': 'search_candidates',
         'skill': skill,
         'experience': experience,
         'results': results,
+        'candidate_results': candidate_results,
     }
 
     return render(
