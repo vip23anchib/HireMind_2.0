@@ -1,0 +1,104 @@
+
+{% extends "master.html" %}
+
+{% load static %}
+
+{% block title %}
+{{ job.title }}
+{% endblock %}
+
+{% block extra_css %}
+
+<link rel="stylesheet"
+      href="{% static 'job_detail.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+<div class="job-detail-container">
+
+    <!-- TOP SECTION -->
+
+    <div class="job-header">
+
+        <h1>
+            {{ job.title }}
+        </h1>
+
+        <div class="job-meta">
+
+            <span>
+                {{ job.department }}
+            </span>
+
+            <span>
+                {{ job.location }}
+            </span>
+
+            <span>
+                {{ job.job_type }}
+            </span>
+
+            <span>
+                {{ job.experience_required }}
+                Years Experience
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- DESCRIPTION -->
+
+    <div class="job-section">
+
+        <h2>Job Description</h2>
+
+        <p>
+            {{ job.description|linebreaks }}
+        </p>
+
+    </div>
+
+    <!-- REQUIREMENTS -->
+
+    <div class="job-section">
+
+        <h2>Requirements</h2>
+
+        <p>
+            {{ job.requirements|linebreaks }}
+        </p>
+
+    </div>
+
+    <!-- RESPONSIBILITIES -->
+
+    <div class="job-section">
+
+        <h2>Responsibilities</h2>
+
+        <p>
+            {{ job.responsibilities|linebreaks }}
+        </p>
+
+    </div>
+
+    <!-- APPLY BUTTON -->
+
+    <div class="apply-section">
+
+        <a href="{% url 'apply_job' job.slug %}"
+           class="apply-btn">
+
+            Apply Now
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}
+

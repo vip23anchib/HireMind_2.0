@@ -12,7 +12,11 @@ urlpatterns = [
 
     path('dashboard/', include('members.urls')), #dashboard
 
-    path('',include('myForm.urls')) #registration
+    path('',include('myForm.urls')) ,#registration
+    
+    path('', include('jobs.urls')),
+
+
 ]
 
 if settings.DEBUG:

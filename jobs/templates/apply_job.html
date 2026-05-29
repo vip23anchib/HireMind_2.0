@@ -1,0 +1,33 @@
+
+{% extends "master.html" %}
+
+{% load static %}
+
+{% block title %}
+Apply - {{ job.title }}
+{% endblock %}
+
+{% block extra_css %}
+
+<link rel="stylesheet"
+      href="{% static 'form.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+<div class="form-wrapper">
+
+    <div class="form-card">
+
+        <h1>
+            Apply for {{ job.title }}
+        </h1>
+
+        {% include "includes/form_fields.html" %}
+
+    </div>
+
+</div>
+
+{% endblock %}

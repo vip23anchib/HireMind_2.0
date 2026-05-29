@@ -71,7 +71,7 @@
 
       <a href="{% url 'members' %}"
          class="{% if active_page == 'members' %}active{% endif %}">
-          MEMBERS |
+          EMPLOYEES |
       </a>
 
       <a href="{% url 'contact_form' %}"
@@ -95,6 +95,14 @@
             >
           ATS Dashboard |
         </a>
+
+     
+    <a href="{% url 'careers' %}"
+     class="{% if active_page == 'careers_list' %}active{% endif %}">
+        Careers |
+    </a>
+
+
     </nav>
 
     <!-- Right side user info -->
