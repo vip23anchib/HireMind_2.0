@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
-
+from jobs.models import Job
 
 
 class UserData(models.Model):
@@ -114,6 +114,72 @@ class UserSkill(models.Model):
             'user_data',
             'skill'
     )
+
+
+
+class Application(models.Model):
+
+    STATUS_CHOICES = [
+
+        ('Applied', 'Applied'),
+
+        ('Under Review', 'Under Review'),
+
+        ('Shortlisted', 'Shortlisted'),
+
+        ('Interview Scheduled', 'Interview Scheduled'),
+
+        ('Rejected', 'Rejected'),
+
+        ('Hired', 'Hired'),
+
+    ]
+
+    candidate = models.ForeignKey(  #Means: many applications can belong to one candidate
+
+        UserData,
+
+        on_delete=models.CASCADE,
+
+        related_name='applications'
+
+    )
+
+    job = models.ForeignKey( #Means: many applications can belong to one job
+
+        Job,
+
+        on_delete=models.CASCADE,
+
+        related_name='applications'
+
+    )
+
+    status = models.CharField(
+
+        max_length=50,
+
+        choices=STATUS_CHOICES,
+
+        default='Applied'
+
+    )
+
+    ats_score = models.FloatField(
+
+        default=0
+
+    )
+
+    applied_at = models.DateTimeField(
+
+        auto_now_add=True
+
+    )
+
+    def __str__(self):
+
+        return f"{self.candidate.name} - {self.job.title}"
 
 
 

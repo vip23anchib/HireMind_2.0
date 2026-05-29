@@ -14,6 +14,9 @@ import re
 from .form_helper import extract_pdf_text, is_resume, extract_skills
 from .form_helper import extract_email, extract_phone, extract_experience,extract_skill_experience
 
+from jobs.models import Job 
+from ..models import Application
+
 
 #combined function for both create and update based on whether its GET or POST 
 
@@ -23,6 +26,7 @@ def form(request):
     if request.method == "POST":
 
         record_id = request.POST.get("record_id")
+        job_id = request.POST.get('job_id')
 
         if not request.FILES.get('myfile') and not record_id:
             messages.error(
@@ -56,6 +60,8 @@ def form(request):
             user_data.portfolio_url = request.POST.get(
                 'portfolio_url'
             )
+             
+            
 
             user_data.save()
 
@@ -256,6 +262,23 @@ def form(request):
 
                 experience_info=formatted_experience
             )
+
+         #IF candidate applied through careers page
+            if job_id:
+
+                job = Job.objects.get(
+                    id=job_id
+                )
+
+                Application.objects.create(
+
+                    candidate=user_data,
+
+                    job=job
+
+                )
+
+
 
             messages.success(
                 request,
