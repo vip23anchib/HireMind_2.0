@@ -104,7 +104,7 @@ def form_data(request):
     users = UserData.objects.all()
 
     #paginators
-    paginator = Paginator(users, 5)
+    paginator = Paginator(users, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 

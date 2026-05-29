@@ -10,11 +10,26 @@ class UserData(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
     gender = models.CharField(max_length=20)
+    phone_number = models.CharField(
+        max_length=15,
+        blank=True,
+        null=True
+    )
     country = models.CharField(max_length=100)
-    message = models.TextField()
-    skills = models.CharField(
-        max_length=200
-        )       
+    cover_letter = models.TextField(
+        blank=True,
+        null=True
+    )
+    linkedin_url = models.URLField(
+        blank=True,
+        null=True
+    )
+
+    portfolio_url = models.URLField(
+        blank=True,
+        null=True
+    )
+     
 
 
     skills_m2m = models.ManyToManyField(
@@ -25,6 +40,9 @@ class UserData(models.Model):
 
     class Meta:
         ordering = ['id']  # <-- This tells Django to always sort by ID automatically
+
+    def __str__(self):
+        return self.name
 
 
 class Document(models.Model):

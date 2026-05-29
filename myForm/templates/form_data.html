@@ -1,21 +1,24 @@
 
 {% extends "master.html" %}
+
 {% load static %}
 
 {% block title %}
-User Data
+Candidates Dashboard
 {% endblock %}
 
 {% block extra_css %}
+
 <link rel="stylesheet" href="{% static 'user_table.css' %}">
 
 <style>
-/* Pagination Container */
+
+/* Pagination */
+
 .pagination {
     margin-top: 20px;
     text-align: center;
 }
-
 
 .pagination a {
     display: inline-block;
@@ -30,14 +33,12 @@ User Data
     transition: all 0.3s ease;
 }
 
-/* Hover effect */
 .pagination a:hover {
     background-color: #007bff;
     color: white;
     border-color: #007bff;
 }
 
-/* Current page */
 .active-page {
     display: inline-block;
     padding: 8px 14px;
@@ -49,16 +50,72 @@ User Data
     font-weight: bold;
 }
 
-/* Disable text selection */
-.pagination a {
-    user-select: none;
+/* Status Badges */
+
+.status-badge {
+
+    padding: 6px 12px;
+
+    border-radius: 20px;
+
+    color: white;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    display: inline-block;
 }
+
+.applied {
+    background-color: #6c757d;
+}
+
+.review {
+    background-color: #0d6efd;
+}
+
+.shortlisted {
+    background-color: #198754;
+}
+
+.interview {
+    background-color: #fd7e14;
+}
+
+.rejected {
+    background-color: #dc3545;
+}
+
+.hired {
+    background-color: #20c997;
+}
+
+.action-links a {
+    text-decoration: none;
+    margin-right: 8px;
+    font-weight: 500;
+}
+
+.resume-btn {
+    background-color: #cfd0d1;
+    color: rgb(247, 244, 244);
+    padding: 6px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.resume-btn:hover {
+    opacity: 0.9;
+}
+
 </style>
+
 {% endblock %}
 
 {% block content %}
 
-<h1>User Submitted Data</h1>
+<h1>Candidates Dashboard</h1>
 
 {% if users %}
 
@@ -67,78 +124,176 @@ User Data
 <table>
 
     <thead>
+
         <tr>
+
             <th>Name</th>
-            <th>Email</th>
-            <th>Gender</th>
-            <th>Country</th>
+
             <th>Skills</th>
-            <th>Message</th>
-            <th>File</th>
-            <th>PDF Content</th>
+
             <th>Experience</th>
-            <th>Additional Info</th>
+
+            <th>ATS Score</th>
+
+            <th>Resume</th>
+
+            <th>Status</th>
+
             <th>Actions</th>
 
         </tr>
+
     </thead>
 
     <tbody>
 
     {% for item in page_obj %}
+
     <tr>
-        <td>{{ item.name }}</td>
-        <td>{{ item.email }}</td>
-        <td>{{ item.gender }}</td>
-        <td>{{ item.country }}</td>
-        <td>{{ item.skills }}</td>
-        <td>{{ item.message }}</td>
 
+        <!-- NAME -->
 
         <td>
-        {% for f in item.document_set.all %}
-            <a href="{{ f.file.url }}" target="_blank">
-                {{ f.file.name|cut:"uploads/" }}
-            </a>
-        {% empty %}
-            No File
-        {% endfor %}
+            {{ item.name }}
         </td>
 
-        <td>
-        {% for f in item.document_set.all %}
-            {{ f.pdf_text|truncatechars:100 }}
-        {% empty %}
-            No Content
-        {% endfor %}
-        </td>
+        <!-- SKILLS -->
 
         <td>
+
             {% for us in item.userskill_set.all %}
-            {{ us.skill.name }}:
-            {{ us.years_of_experience }} years
-            <br>
+
+                {{ us.skill.name }}{% if not forloop.last %}, {% endif %}
+
             {% empty %}
-                None
+
+                No Skills
+
             {% endfor %}
+
         </td>
 
-        <td>
-        {% for f in item.document_set.all %}
-            <pre>{{ f.additional_info }}</pre>
-                {% empty %}
-                No Info
-            {% endfor %}
-        </td>
+        <!-- EXPERIENCE -->
 
         <td>
-            <a href="{% url 'edit_data' item.id %}">Edit |</a>
-            <a href="{% url 'delete_data' item.id %}"
-               onclick="return confirm('Delete this record?')">
-               Delete
+
+            {% with item.userskill_set.all|first as top_skill %}
+
+                {% if top_skill %}
+
+                    {{ top_skill.years_of_experience }} Years
+
+                {% else %}
+
+                    0 Years
+
+                {% endif %}
+
+            {% endwith %}
+
+        </td>
+
+        <!-- ATS SCORE -->
+
+        <td>
+
+            {% if item.score %}
+                {{ item.score }}
+            {% else %}
+                N/A
+            {% endif %}
+
+        </td>
+
+        <!-- RESUME -->
+
+        <td>
+
+            {% for f in item.document_set.all %}
+
+                <a href="{{ f.file.url }}"
+                   target="_blank"
+                   class="resume-btn">
+
+                    View Resume
+
+                </a>
+
+            {% empty %}
+
+                No Resume
+
+            {% endfor %}
+
+        </td>
+
+        <!-- STATUS -->
+
+        <td>
+
+            {% if item.status == "Applied" %}
+
+                <span class="status-badge applied">
+                    Applied
+                </span>
+
+            {% elif item.status == "Under Review" %}
+
+                <span class="status-badge review">
+                    Under Review
+                </span>
+
+            {% elif item.status == "Shortlisted" %}
+
+                <span class="status-badge shortlisted">
+                    Shortlisted
+                </span>
+
+            {% elif item.status == "Interview Scheduled" %}
+
+                <span class="status-badge interview">
+                    Interview
+                </span>
+
+            {% elif item.status == "Rejected" %}
+
+                <span class="status-badge rejected">
+                    Rejected
+                </span>
+
+            {% elif item.status == "Hired" %}
+
+                <span class="status-badge hired">
+                    Hired
+                </span>
+
+            {% endif %}
+
+        </td>
+
+        <!-- ACTIONS -->
+
+        <td class="action-links">
+
+            <a href="{% url 'candidate_profile' item.id %}">
+                View
             </a>
+
+            <a href="{% url 'edit_data' item.id %}">
+                Edit
+            </a>
+
+            <a href="{% url 'delete_data' item.id %}"
+               onclick="return confirm('Delete this candidate?')">
+
+                Delete
+
+            </a>
+
         </td>
+
     </tr>
+
     {% endfor %}
 
     </tbody>
@@ -176,7 +331,12 @@ User Data
 </div>
 
 {% else %}
-<h3 class="no-data">No user data found</h3>
+
+<h3 class="no-data">
+    No candidates found
+</h3>
+
 {% endif %}
 
 {% endblock %}
+

@@ -1,167 +1,218 @@
+
 {% extends "master.html" %}
+
 {% load static %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'form.css' %}">
 {% endblock %}
+
 {% block title %}
-User Data Form
+Apply Now
 {% endblock %}
 
 {% block content %}
 
 <div class="form-wrapper">
+
   <div class="form-card">
-  <h2>User Data Form</h2>
 
-  <form id="userForm" action="{% url 'contact_form' %}" method="POST" enctype="multipart/form-data">
+    <h2>Job Application Form</h2>
 
-    {% csrf_token %}
+    <form id="userForm"
+          action="{% url 'contact_form' %}"
+          method="POST"
+          enctype="multipart/form-data">
 
-    {% if data %}
-        <input type="hidden" name="record_id" value="{{ data.id }}">
+      {% csrf_token %}
+
+      {% if data %}
+      <input type="hidden"
+             name="record_id"
+             value="{{ data.id }}">
+      {% endif %}
+
+      <!-- NAME -->
+
+      <div class="form-group">
+
+        <label>Name</label>
+
+        <input type="text"
+               name="name"
+               value="{{ data.name }}"
+               required>
+
+      </div>
+
+      <!-- EMAIL -->
+
+      <div class="form-group">
+
+        <label>Email</label>
+
+        <input type="email"
+               name="email"
+               value="{{ data.email }}"
+               required>
+
+      </div>
+
+      <!-- PHONE -->
+
+      <div class="form-group">
+
+        <label>Phone Number</label>
+
+        <input type="text"
+               name="phone_number"
+               value="{{ data.phone_number }}"
+               required>
+
+      </div>
+
+      <!-- GENDER -->
+
+      <div class="form-group">
+
+        <label>Gender</label>
+
+        <div class="inline">
+
+          <label>
+            <input type="radio"
+                   name="gender"
+                   value="Male"
+                   {% if data.gender == "Male" %}checked{% endif %}>
+            Male
+          </label>
+
+          <label>
+            <input type="radio"
+                   name="gender"
+                   value="Female"
+                   {% if data.gender == "Female" %}checked{% endif %}>
+            Female
+          </label>
+
+          <label>
+            <input type="radio"
+                   name="gender"
+                   value="Other"
+                   {% if data.gender == "Other" %}checked{% endif %}>
+            Other
+          </label>
+
+        </div>
+
+      </div>
+
+      <!-- COUNTRY -->
+
+      <div class="form-group">
+
+        <label>Country</label>
+
+        <select name="country">
+
+          <option value="India"
+            {% if data.country == "India" %}selected{% endif %}>
+            India
+          </option>
+
+          <option value="USA"
+            {% if data.country == "USA" %}selected{% endif %}>
+            USA
+          </option>
+
+          <option value="UK"
+            {% if data.country == "UK" %}selected{% endif %}>
+            UK
+          </option>
+
+          <option value="Other"
+            {% if data.country == "Other" %}selected{% endif %}>
+            Other
+          </option>
+
+        </select>
+
+      </div>
+
+      <!-- LINKEDIN -->
+
+      <div class="form-group">
+
+        <label>LinkedIn URL</label>
+
+        <input type="url"
+               name="linkedin_url"
+               value="{{ data.linkedin_url }}">
+
+      </div>
+
+      <!-- PORTFOLIO -->
+
+      <div class="form-group">
+
+        <label>GitHub / Portfolio URL</label>
+
+        <input type="url"
+               name="portfolio_url"
+               value="{{ data.portfolio_url }}">
+
+      </div>
+
+      <!-- COVER LETTER -->
+
+      <div class="form-group">
+
+        <label>Cover Letter</label>
+
+        <textarea name="cover_letter">
+{{ data.cover_letter }}
+        </textarea>
+
+      </div>
+
+      <!-- RESUME -->
+
+      <div class="form-group">
+
+        <label>Resume Upload (PDF only)</label>
+
+        <input type="file"
+               name="myfile"
+               accept=".pdf,application/pdf"
+               {% if not data %}required{% endif %}>
+
+      </div>
+
+      <button type="submit"
+              class="btn-primary">
+
+        Submit Application
+
+      </button>
+
+    </form>
+
+    <p id="msg"></p>
+
+    {% if messages %}
+      {% for message in messages %}
+        <p class="msg-success">
+          {{ message }}
+        </p>
+      {% endfor %}
     {% endif %}
 
-    <div class="form-group">
-      <label>Name</label>
-      <input type="text"
-             name="name"
-             value="{{ data.name }}"
-             required>
-    </div>
-
-    <div class="form-group">
-      <label>Email</label>
-      <input type="email"
-             name="email"
-             value="{{ data.email }}"
-             required>
-    </div>
-
-    <div class="form-group">
-      <label>Gender</label>
-
-      <div class="inline">
-
-        <label>
-          <input type="radio"
-                 name="gender"
-                 value="Male"
-                 {% if data.gender == "Male" %}checked{% endif %}>
-          Male
-        </label>
-
-        <label>
-          <input type="radio"
-                 name="gender"
-                 value="Female"
-                 {% if data.gender == "Female" %}checked{% endif %}>
-          Female
-        </label>
-
-        <label>
-          <input type="radio"
-                 name="gender"
-                 value="Other"
-                 {% if data.gender == "Other" %}checked{% endif %}>
-          Other
-        </label>
-
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label>Skills</label>
-
-      <div class="inline">
-
-        <label>
-          <input type="checkbox"
-                 name="skills"
-                 value="HTML"
-                 {% if "HTML" in data.skills %}checked{% endif %}>
-          HTML
-        </label>
-
-        <label>
-          <input type="checkbox"
-                 name="skills"
-                 value="CSS"
-                 {% if "CSS" in data.skills %}checked{% endif %}>
-          CSS
-        </label>
-
-        <label>
-          <input type="checkbox"
-                 name="skills"
-                 value="JS"
-                 {% if "JS" in data.skills %}checked{% endif %}>
-          JS
-        </label>
-
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label>Country</label>
-
-      <select name="country">
-
-        <option value="India"
-                {% if data.country == "India" %}selected{% endif %}>
-          India
-        </option>
-
-        <option value="USA"
-                {% if data.country == "USA" %}selected{% endif %}>
-          USA
-        </option>
-
-        <option value="UK"
-                {% if data.country == "UK" %}selected{% endif %}>
-          UK
-        </option>
-
-        <option value="Other"
-                {% if data.country == "Other" %}selected{% endif %}>
-          Other
-        </option>
-
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label>Message</label>
-
-      <textarea name="message">{{ data.message }}</textarea>
-    </div>
-
-    <div class="form-group">
-      <label>File Upload</label>
-
-      <input type="file"
-             name="myfile"
-             accept=".pdf,application/pdf">
-    </div>
-
-    <button type="submit" class="btn-primary">
-        Save
-    </button>
-
-</form>
-
-  <p id="msg"></p>
-
- 
-  {% if messages %}
-    {% for message in messages %}
-      <p class="msg-success">{{ message }}</p>
-    {% endfor %}
-  {% endif %}
+  </div>
 
 </div>
-</div>
-#code for loader while site is loading 
+
 <script>
+
 document.getElementById("userForm")
 .addEventListener("submit", function(){
 
@@ -169,8 +220,12 @@ document.getElementById("userForm")
     .style.display = "flex";
 
 });
+
 </script>
+
 {% endblock %}
+
+
 
 <!-- 
  <script>

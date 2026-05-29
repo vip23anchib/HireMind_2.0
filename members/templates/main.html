@@ -1,25 +1,25 @@
 {% extends "master.html" %}
 
 {% block title %}
-My Tennis Club
+HireMind
 {% endblock %}
 
 {% block content %}
 
 <div class="main">
-    <h1 style="font-size: 40px; color:rgb(23, 9, 110)">MY TENNIS CLUB</h1>
+    <h1 style="font-size: 40px; color:rgb(23, 9, 110)">Careers at HireMind </h1>
 
-    <h3 style="font-size:30px; color:rgb(31, 5, 133)">Members</h3>
+    <h3 style="font-size:30px; color:rgb(31, 5, 133)">Company Recruitment Portal</h3>
 
     <p style="font-size:20px; color:rgb(31, 5, 133)">
         Check out all our
-        <a href="{% url 'members' %}">members</a>
+        <a href="{% url 'members' %}">Employees</a>
     </p>
 
     <p style="font-size:20px; color:rgb(31, 5, 133)"> Click To:
-        <a href="{% url 'add_member' %}"><button style="background: rgb(31, 5, 133); color:rgb(250, 251, 251)">Add Member</button></a>
+        <a href="{% url 'add_member' %}"><button style="background: rgb(31, 5, 133); color:rgb(250, 251, 251)">Add Employee</button></a>
         <a href="{% url 'form_data' %}">
-    <button style="background: rgb(31, 5, 133); color:rgb(250, 251, 251)">View Form Data</button>
+    <button style="background: rgb(31, 5, 133); color:rgb(250, 251, 251)">Applicant Database</button>
 </a>
         </p>
 
