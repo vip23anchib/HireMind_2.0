@@ -22,6 +22,29 @@ urlpatterns = [
         name='apply_job'
     ),
 
+    path(
+        'manage/',
+        views.manage_jobs,
+        name='manage_jobs'
+    ),
+
+    path(
+        'job/<int:id>/toggle/',
+        views.toggle_job_status,
+        name='toggle_job_status'
+    ),
+
+    path(
+        'create-job/',
+        views.create_job,
+        name='create_job'
+    ),
+
+    path(
+        'edit-job/<int:id>/',
+        views.edit_job,
+        name='edit_job'
+    ),
 
 
 

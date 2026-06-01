@@ -1,0 +1,234 @@
+{% extends "master.html" %}
+
+{% block content %}
+<style>
+    /* Prevent master framework styles from hijacking layout alignment */
+    .form-page-wrapper {
+        max-width: 800px !important;
+        margin: 40px auto !important;
+        padding: 0 20px !important;
+        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Back links / navigation hints */
+    .back-nav {
+        margin-bottom: 20px !important;
+    }
+    .back-nav a {
+        color: #64748b !important;
+        text-decoration: none !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        transition: color 0.2s !important;
+    }
+    .back-nav a:hover {
+        color: #2563eb !important;
+    }
+
+    /* Header styling */
+    .form-header-title {
+        font-size: 28px !important;
+        color: #1e293b !important;
+        margin: 0 0 8px 0 !important;
+        font-weight: 700 !important;
+        letter-spacing: -0.5px !important;
+    }
+    .form-header-subtitle {
+        margin: 0 0 30px 0 !important;
+        color: #64748b !important;
+        font-size: 14px !important;
+    }
+
+    /* Form Container Card Structure */
+    .form-card {
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 8px !important;
+        padding: 32px !important;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03) !important;
+    }
+
+    /* Two-column grid layout for short form metrics */
+    .form-grid-2 {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 20px !important;
+        margin-bottom: 20px !important;
+    }
+
+    /* Standard single-column block elements */
+    .form-field-group {
+        margin-bottom: 20px !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    /* Form inputs and label micro-typography */
+    .form-card label {
+        display: block !important;
+        margin-bottom: 6px !important;
+        color: #475569 !important;
+        font-weight: 600 !important;
+        font-size: 13.5px !important;
+    }
+
+    .form-card input[type="text"],
+    .form-card input[type="number"],
+    .form-card select,
+    .form-card textarea {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 10px 14px !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 6px !important;
+        font-size: 14px !important;
+        color: #0f172a !important;
+        background-color: #ffffff !important;
+        font-family: inherit !important;
+        transition: border-color 0.2s, box-shadow 0.2s !important;
+    }
+
+    /* Interactive state behaviors */
+    .form-card input:focus,
+    .form-card select:focus,
+    .form-card textarea:focus {
+        outline: none !important;
+        border-color: #2563eb !important;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
+    }
+
+    .form-card textarea {
+        min-height: 120px !important;
+        resize: vertical !important;
+    }
+
+    /* Action triggers */
+    .form-actions-wrapper {
+        border-top: 1px solid #e2e8f0 !important;
+        margin-top: 30px !important;
+        padding-top: 20px !important;
+        display: flex !important;
+        justify-content: flex-end !important;
+        gap: 12px !important;
+    }
+
+    .btn-submit-job {
+        background-color: #2563eb !important;
+        color: #ffffff !important;
+        padding: 10px 24px !important;
+        border: none !important;
+        border-radius: 6px !important;
+        font-weight: 600 !important;
+        font-size: 14px !important;
+        cursor: pointer !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+        transition: background-color 0.2s !important;
+    }
+    .btn-submit-job:hover {
+        background-color: #1d4ed8 !important;
+    }
+
+    .btn-cancel-job {
+        background-color: #ffffff !important;
+        color: #475569 !important;
+        padding: 10px 20px !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 6px !important;
+        font-weight: 600 !important;
+        font-size: 14px !important;
+        text-decoration: none !important;
+        text-align: center !important;
+        transition: background-color 0.2s !important;
+    }
+    .btn-cancel-job:hover {
+        background-color: #f8fafc !important;
+        color: #1e293b !important;
+    }
+</style>
+
+<div class="form-page-wrapper">
+    
+    <!-- Quick Breadcrumb Back Navigation -->
+    <div class="back-nav">
+        <a href="{% url 'manage_jobs' %}">← Back to Manage Jobs</a>
+    </div>
+
+    <!-- Header Section -->
+    <div>
+        <h1 class="form-header-title">Edit Job Opening</h1>
+        <p class="form-header-subtitle">Modify the details and technical criteria for this hiring requisition.</p>
+    </div>
+
+    <!-- Main Entry Context Form Card -->
+    <div class="form-card">
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- Row 1: Title and Slug -->
+            <div class="form-grid-2">
+                <div class="form-field-group">
+                    <label for="id_title">Job Title</label>
+                    <input type="text" id="id_title" name="title" value="{{ job.title }}" required>
+                </div>
+                <div class="form-field-group">
+                    <label for="id_slug">URL Slug</label>
+                    <input type="text" id="id_slug" name="slug" value="{{ job.slug }}" required>
+                </div>
+            </div>
+
+            <!-- Row 2: Department and Location -->
+            <div class="form-grid-2">
+                <div class="form-field-group">
+                    <label for="id_department">Department</label>
+                    <input type="text" id="id_department" name="department" value="{{ job.department }}" required>
+                </div>
+                <div class="form-field-group">
+                    <label for="id_location">Location</label>
+                    <input type="text" id="id_location" name="location" value="{{ job.location }}" required>
+                </div>
+            </div>
+
+            <!-- Row 3: Job Type and Experience Required -->
+            <div class="form-grid-2">
+                <div class="form-field-group">
+                    <label for="id_job_type">Job Type</label>
+                    <select id="id_job_type" name="job_type">
+                        <option value="Full Time" {% if job.job_type == "Full Time" %}selected{% endif %}>Full Time</option>
+                        <option value="Internship" {% if job.job_type == "Internship" %}selected{% endif %}>Internship</option>
+                        <option value="Contract" {% if job.job_type == "Contract" %}selected{% endif %}>Contract</option>
+                    </select>
+                </div>
+                <div class="form-field-group">
+                    <label for="id_experience">Experience Required (Years)</label>
+                    <input type="number" id="id_experience" name="experience_required" min="0" value="{{ job.experience_required }}" required>
+                </div>
+            </div>
+
+            <!-- Rich Content Block Columns (Textareas) -->
+            <div class="form-field-group">
+                <label for="id_description">Job Description</label>
+                <textarea id="id_description" name="description">{{ job.description }}</textarea>
+            </div>
+
+            <div class="form-field-group">
+                <label for="id_requirements">Requirements</label>
+                <textarea id="id_requirements" name="requirements">{{ job.requirements }}</textarea>
+            </div>
+
+            <div class="form-field-group">
+                <label for="id_responsibilities">Responsibilities</label>
+                <textarea id="id_responsibilities" name="responsibilities">{{ job.responsibilities }}</textarea>
+            </div>
+
+            <!-- Form Submittal / Back Out Controls -->
+            <div class="form-actions-wrapper">
+                <a href="{% url 'manage_jobs' %}" class="btn-cancel-job">Cancel</a>
+                <button type="submit" class="btn-submit-job">Update Job</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
