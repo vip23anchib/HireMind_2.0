@@ -97,10 +97,15 @@
         </a>
 
      
-    <a href="{% url 'careers' %}"
-     class="{% if active_page == 'careers_list' %}active{% endif %}">
-        Careers |
-    </a>
+      <a href="{% url 'careers' %}"
+      class="{% if active_page == 'careers_list' %}active{% endif %}">
+          Careers |
+      </a>
+
+      <a href="{% url 'applications_list' %}"
+        class="{% if active_page == 'applications' %}active{% endif %}">
+            Application |
+        </a>
 
 
     </nav>

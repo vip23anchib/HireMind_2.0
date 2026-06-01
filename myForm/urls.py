@@ -19,4 +19,8 @@ urlpatterns = [
 
     path('ats_dashboard/',views.ats_dashboard,name='ats_dashboard'),
 
+    path('applications/',views.applications_list,name='applications_list'),
+
+    path('applications/<int:application_id>/status/',views.update_application_status,name='update_application_status'),
+
 ]

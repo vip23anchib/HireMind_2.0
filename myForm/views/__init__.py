@@ -12,9 +12,12 @@ from .main_views import (
     search_candidates,
     candidate_profile,
     ats_dashboard,
+    
 
 )
 
 from .form_views import(
-    form
+    form,
+    applications_list,
+    update_application_status
 )

@@ -34,6 +34,10 @@ class Job(models.Model):
     description = models.TextField()
 
     requirements = models.TextField()
+    required_skills = models.ManyToManyField(
+        'myForm.Skill',
+        blank=True
+    )
 
     responsibilities = models.TextField()
 
