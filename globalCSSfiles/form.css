@@ -1,126 +1,307 @@
-/* ===== Page Center Layout ===== */
-body {
-    margin: 0;
-    font-family: "Segoe UI", Arial, sans-serif;
-    background: #f4f6f9;
+/* ==========================================================================
+   Premium Application Form Stylesheet Architecture - HireMind Design System
+   ========================================================================== */
+
+:root {
+    --primary-color: #3730a3;       /* High-contrast Indigo-800 */
+    --primary-hover: #1e1b4b;       /* Deep High-contrast Indigo-950 */
+    --text-main: #0f172a;           /* Ultra-dark Slate-900 */
+    --text-muted: #475569;          /* Slate-600 metadata notes */
+    --text-body: #334155;           /* Slate-700 optimal reader accessibility */
+    --bg-light: #f1f5f9;            /* Page global backend canvas */
+    --bg-white: #ffffff;
+    --border-color: #cbd5e1;         /* Strengthened Slate-300 borders */
+    --focus-ring: rgba(55, 48, 163, 0.15);
+    --required-color: #b91c1c;      /* Crimson-700 alert */
+    
+    --radius-lg: 16px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+    --shadow-lg: 0 10px 25px -5px rgba(15, 23, 42, 0.12);
+    --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ===== Center Container ===== */
+/* ===== Global Reset Context Adjustments ===== */
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-main);
+    line-height: 1.5;
+}
+
+/* ===== Layout Structure Wrappers ===== */
 .form-wrapper {
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #f4f6f9;
+    padding: 3rem 1.5rem;
+    box-sizing: border-box;
 }
 
 .form-card {
     width: 100%;
-    max-width: 420px;
-    background: white;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-}
-/* ===== Heading ===== */
-form h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-weight: 600;
-    color: #222;
+    max-width: 540px; /* Enhanced wide form formatting to avoid data input cramping */
+    background: var(--bg-white);
+    padding: 3rem 2.5rem;
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
+    box-sizing: border-box;
 }
 
-/* ===== Labels ===== */
-label {
-    display: block;
-    margin-top: 12px;
-    margin-bottom: 5px;
-    font-size: 14px;
-    color: #333;
+/* ===== Typography Headers ===== */
+.form-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.form-header h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: -0.02em;
+}
+
+.form-header p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.95rem;
     font-weight: 500;
 }
 
-/* ===== Inputs ===== */
+/* ===== Field Group Scaffolding ===== */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label,
+.form-group .group-label-title {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.required-asterisk {
+    color: var(--required-color);
+}
+
+/* ===== Form Interactive Controls Overhaul ===== */
 input[type="text"],
 input[type="email"],
+input[type="url"],
 select,
 textarea {
     width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
     outline: none;
-    font-size: 14px;
-    transition: 0.2s;
-    background: #fff;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-main);
+    background-color: var(--bg-white);
+    transition: var(--transition);
+    box-sizing: border-box;
 }
 
 input:focus,
 select:focus,
 textarea:focus {
-    border-color: #4a90e2;
-    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px var(--focus-ring);
 }
 
-/* ===== Radio + Checkbox Row ===== */
-.inline {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-top: 5px;
-    font-size: 14px;
-}
-
-/* ===== Textarea ===== */
-textarea {
-    min-height: 90px;
-    resize: none;
-}
-
-/* ===== File Input ===== */
-input[type="file"] {
-    margin-top: 5px;
-}
-
-/* ===== Button ===== */
-button {
+/* ===== Custom Stylized Dropdown Architecture ===== */
+.select-dropdown-wrapper {
+    position: relative;
     width: 100%;
-    margin-top: 18px;
-    padding: 11px;
-    border: none;
-    border-radius: 8px;
-    background: #4a90e2;
-    color: white;
-    font-size: 15px;
-    font-weight: 600;
+}
+
+.select-dropdown-wrapper select {
     cursor: pointer;
-    transition: 0.2s;
+    appearance: none;
+    padding-right: 2.5rem;
 }
 
-button:hover {
-    background: #357bd8;
+.select-dropdown-wrapper::after {
+    content: "";
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.15rem;
+    height: 1.15rem;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    pointer-events: none;
 }
 
-/* ===== Logged in section ===== */
-.user-info {
-    text-align: center;
-    margin-top: 15px;
-    font-size: 13px;
-    color: #666;
+/* ===== Form Dynamic Textarea Metrics ===== */
+textarea {
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.6;
 }
 
-.logout-btn {
-    display: inline-block;
-    margin-top: 5px;
-    color: #e74c3c;
-    text-decoration: none;
+/* ===== Inline Radio Button Alignments ===== */
+.inline-radio-row {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    padding: 0.25rem 0;
+}
+
+.custom-radio-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    position: relative;
+}
+
+.custom-radio-container .label-text {
+    font-size: 0.95rem;
     font-weight: 600;
+    color: var(--text-body);
 }
 
-/* ===== Messages ===== */
+.custom-radio-container input[type="radio"] {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin: 0;
+    accent-color: var(--primary-color);
+    cursor: pointer;
+}
+
+/* ===== File Dropzone Form Box styling ===== */
+.file-dropzone-box {
+    background-color: var(--bg-light);
+    border: 2px dashed var(--border-color);
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+    box-sizing: border-box;
+}
+
+.file-dropzone-box:hover {
+    border-color: var(--primary-color);
+    background-color: #f8fafc;
+}
+
+.file-spec-alert {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-left: 0.25rem;
+}
+
+input[type="file"] {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-body);
+    cursor: pointer;
+    width: 100%;
+}
+
+/* ===== Dispatch Button Profile ===== */
+.btn-form-submit {
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: var(--radius-md);
+    background-color: var(--primary-color);
+    color: var(--bg-white);
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 6px rgba(55, 48, 163, 0.15);
+    margin-top: 1rem;
+}
+
+.btn-form-submit:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px rgba(55, 48, 163, 0.25);
+}
+
+/* ===== Form Notification Alerts System ===== */
+.django-messages-wrapper {
+    margin-top: 1.5rem;
+}
+
 .msg-success {
     text-align: center;
-    color: green;
-    margin-top: 10px;
-    font-size: 14px;
+    color: #166534; /* High-contrast Emerald Green-800 */
+    background-color: #dcfce7;
+    border: 1px solid #bbf7d0;
+    padding: 0.85rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.icon-check {
+    margin-right: 0.25rem;
+}
+
+/* ===== Fullscreen Asynchronous Processing Overlay ===== */
+.loader-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(15, 23, 42, 0.7); /* Translucent dark Slate-900 tint */
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(4px);
+}
+
+.loader-card {
+    background-color: var(--bg-white);
+    padding: 2rem 2.5rem;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+    border: 1px solid var(--border-color);
+}
+
+.loader-card p {
+    margin: 1rem 0 0 0;
+    font-weight: 700;
+    color: var(--text-main);
+    font-size: 1rem;
+}
+
+.spinner {
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 4px solid var(--bg-light);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    margin: 0 auto;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ===== Media Responsive Adaptations ===== */
+@media (max-width: 576px) {
+    .form-wrapper { padding: 1.5rem 1rem; }
+    .form-card { padding: 2rem 1.5rem; }
+    .form-header h2 { font-size: 1.5rem; }
+    .inline-radio-row { flex-direction: column; gap: 0.75rem; }
 }

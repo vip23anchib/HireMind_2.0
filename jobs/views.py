@@ -190,3 +190,45 @@ def edit_job(request, id):
             'active_page': 'manage_jobs'
         }
     )
+
+#function to show about us page
+@login_required(login_url='login_view')
+def about_us(request):
+
+    
+
+    return render(
+        request,
+        'aboutUs.html',
+        {
+            'active_page': 'about_us',
+        }
+    )
+
+#function to show services page
+@login_required(login_url='login_view')
+def services(request):
+
+    
+
+    return render(
+        request,
+        'services.html',
+        {
+            'active_page': 'services',
+        }
+    )
+
+#function to show services page
+@login_required(login_url='login_view')
+def contact(request):
+
+    
+
+    return render(
+        request,
+        'contact.html',
+        {
+            'active_page': 'contact',
+        }
+    )

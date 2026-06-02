@@ -1,56 +1,61 @@
-
 {% extends "master.html" %}
-
 {% load static %}
+
+{% block title %}
+Apply Now | HireMind
+{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'form.css' %}">
 {% endblock %}
 
-{% block title %}
-Apply Now
-{% endblock %}
-
 {% block content %}
+<main class="form-wrapper">
 
-<div class="form-wrapper">
+    <div id="loader" class="loader-backdrop" style="display: none;">
+        <div class="loader-card">
+            <div class="spinner"></div>
+            <p>Processing your application...</p>
+        </div>
+    </div>
 
-  <div class="form-card">
+    <div class="form-card">
+        <header class="form-header">
+            <h2>Job Application Form</h2>
+            <p>Please provide your professional background information details accurately below.</p>
+        </header>
+        
+        {% include "includes/form_fields.html" %}
 
-    <h2>Job Application Form</h2>
-    
-    {% include "includes/form_fields.html" %}
+        <div id="msg" class="notification-container" aria-live="polite"></div>
 
-    <p id="msg"></p>
+        {% if messages %}
+            <div class="django-messages-wrapper">
+                {% for message in messages %}
+                    <p class="msg-success">
+                        <span class="icon-check">✓</span> {{ message }}
+                    </p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
 
-    {% if messages %}
-      {% for message in messages %}
-        <p class="msg-success">
-          {{ message }}
-        </p>
-      {% endfor %}
-    {% endif %}
-
-  </div>
-
-</div>
+</main>
 
 <script>
+    // Screen-lock loader trigger logic execution
+    document.addEventListener("DOMContentLoaded", function() {
+        const applicationForm = document.getElementById("userForm");
+        const submissionLoader = document.getElementById("loader");
 
-document.getElementById("userForm")
-.addEventListener("submit", function(){
-
-    document.getElementById("loader")
-    .style.display = "flex";
-
-});
-
+        if (applicationForm && submissionLoader) {
+            applicationForm.addEventListener("submit", function() {
+                submissionLoader.style.display = "flex";
+            });
+        }
+    });
 </script>
-
 {% endblock %}
-
-
-
 <!-- 
  <script>
 let editIndex = null;

@@ -1,106 +1,533 @@
-
-{% extends "master.html" %}
-
+{% extends "public_master.html" %}
 {% load static %}
 
 {% block title %}
-Careers
+Careers | HireMind
 {% endblock %}
 
 {% block content %}
-<link rel="stylesheet"
-      href="{% static 'careers.css' %}">
-<div class="careers-container">
+<style>
+    /* Premium UI Stylesheet with Sectional Contrast Optimization */
+    :root {
+        --primary-color: #4f46e5;       /* Vibrant Indigo-600 */
+        --primary-hover: #4338ca;       /* Indigo-700 */
+        --text-main: #0f172a;           /* Ultra-dark Slate-900 for absolute contrast */
+        --text-muted: #475569;          /* Slate-600 secondary text */
+        --text-body: #334155;           /* Slate-700 optimal body */
+        --bg-white: #ffffff;
+        --border-color: #e2e8f0;        /* Refined Slate-200 lines */
+        --radius-lg: 16px;
+        --radius-md: 12px;
+        --radius-sm: 8px;
+        --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05);
+        --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.05);
+        --shadow-lg: 0 20px 40px -10px rgba(15, 23, 42, 0.08);
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-    <!-- HERO SECTION -->
+    .careers-page {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background-color: var(--bg-white);
+        -webkit-font-smoothing: antialiased;
+        margin: 0;
+        padding: 0;
+    }
 
-    <div class="careers-hero">
+    /* Light Top Hero Header Structure */
+    .careers-hero {
+        background: radial-gradient(136.56% 51.52% at 50% 0%, rgba(79, 70, 229, 0.05) 0%, rgba(255, 255, 255, 0) 100%), var(--bg-white);
+        padding: 6rem 1.5rem 8rem 1.5rem;
+        text-align: center;
+    }
 
-        <h1>Join Our Team</h1>
+    .hero-content {
+        max-width: 800px;
+        margin: 0 auto;
+    }
 
-        <p>
-            Explore exciting career opportunities
-            and grow with us.
-        </p>
+    .hero-tag {
+        display: inline-block;
+        background-color: #e0e7ff;
+        color: #312e81;
+        font-weight: 700;
+        font-size: 0.875rem;
+        padding: 0.4rem 1.2rem;
+        border-radius: 9999px;
+        margin-bottom: 1.5rem;
+        letter-spacing: 0.5px;
+        border: 1px solid #c7d2fe;
+    }
 
+    .hero-content h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        color: var(--text-main);
+        line-height: 1.15;
+        margin: 0 0 1.25rem 0;
+        letter-spacing: -0.02em;
+    }
+
+    .hero-content p {
+        font-size: 1.25rem;
+        color: var(--text-muted);
+        margin: 0 0 3.5rem 0;
+        max-width: 680px;
+        margin-left: auto;
+        margin-right: auto;
+        font-weight: 400;
+    }
+
+    /* Stats Grid System */
+    .hero-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        max-width: 720px;
+        margin: 0 auto;
+    }
+
+    .stat-box {
+        background: var(--bg-white);
+        padding: 1.5rem 1.25rem;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .stat-number {
+        display: block;
+        font-size: 2.25rem;
+        font-weight: 800;
+        color: var(--primary-color);
+        line-height: 1;
+        margin-bottom: 0.5rem;
+        letter-spacing: -0.02em;
+    }
+
+    .stat-label {
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    /* Search Input Interactive Module */
+    .filter-section {
+        max-width: 720px;
+        margin: -2.25rem auto 0 auto;
+        padding: 0 1.5rem;
+        box-sizing: border-box;
+        position: relative;
+        z-index: 10;
+    }
+
+    .filter-box {
+        display: flex;
+        background: var(--bg-white);
+        padding: 0.5rem;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        border: 1px solid var(--border-color); 
+    }
+
+    .search-input-wrapper {
+        display: flex;
+        align-items: center;
+        flex-grow: 1;
+        padding-left: 1.25rem;
+    }
+
+    .search-icon {
+        width: 1.35rem;
+        height: 1.35rem;
+        color: var(--text-muted);
+        margin-right: 0.75rem;
+        flex-shrink: 0;
+    }
+
+    .search-input-wrapper input {
+        width: 100%;
+        border: none;
+        outline: none;
+        font-size: 1.05rem;
+        font-weight: 500;
+        color: var(--text-main);
+        padding: 0.75rem 0;
+        background: transparent;
+    }
+
+    .search-input-wrapper input::placeholder {
+        color: #94a3b8;
+    }
+
+    .search-submit-btn {
+        background-color: var(--primary-color);
+        color: var(--bg-white);
+        border: none;
+        padding: 0.85rem 2rem;
+        font-weight: 600;
+        font-size: 1rem;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: var(--transition);
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+    }
+
+    .search-submit-btn:hover {
+        background-color: var(--primary-hover);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
+    }
+
+    /* CONTRAST SECTION: Deep Midnight Blue Blueprint Canvas */
+    .jobs-contrast-container {
+        background: radial-gradient(circle at bottom left, rgba(79, 70, 229, 0.12) 0%, rgba(15, 23, 42, 0) 50%), 
+                    linear-gradient(185deg, #0f172a 0%, #1e1b4b 100%);
+        padding: 8rem 1.5rem 9rem 1.5rem;
+        margin-top: -2.25rem; /* Extends underneath search component smoothly */
+        box-sizing: border-box;
+    }
+
+    .jobs-section {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 4.5rem;
+    }
+
+    .section-header h2 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin: 0 0 0.75rem 0;
+        letter-spacing: -0.02em;
+        background: linear-gradient(to right, #ffffff, #e2e8f0);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .section-header p {
+        color: #94a3b8; /* Slate-400 clear description text */
+        font-size: 1.15rem;
+        margin: 0;
+    }
+
+    /* High Pop Solid White Job Cards */
+    .jobs-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 2.5rem;
+    }
+
+    .job-card {
+        background: var(--bg-white); /* Forced solid white background */
+        border-radius: var(--radius-lg);
+        border: 1px solid #cbd5e1; 
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+    }
+
+    .job-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 5px;
+        background-color: var(--primary-color);
+        opacity: 0.95;
+    }
+
+    .job-card:hover {
+        transform: translateY(-6px);
+        border-color: #94a3b8;
+        box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+    }
+
+    .job-card-inner {
+        padding: 2.75rem 2.25rem;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Card Badge Typography Components */
+    .job-top {
+        display: flex;
+        gap: 0.6rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+    }
+
+    .department-badge, .job-type-badge {
+        font-size: 0.8rem;
+        font-weight: 700;
+        padding: 0.4rem 0.9rem;
+        border-radius: var(--radius-sm);
+        letter-spacing: 0.3px;
+        border: 1px solid transparent;
+    }
+
+    .department-badge {
+        background-color: #e0e7ff; /* Light Indigo-100 */
+        color: #3730a3;           /* Deep Indigo-800 */
+        border-color: #c7d2fe;
+    }
+
+    .job-type-badge {
+        background-color: #dcfce7; /* Light Green-100 */
+        color: #166534;           /* Deep Green-800 */
+        border-color: #bbf7d0;
+    }
+
+    .job-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-main); /* Dark text color for solid white card background */
+        margin: 0 0 1rem 0;
+        line-height: 1.3;
+        letter-spacing: -0.01em;
+    }
+
+    /* Card Metadata Typography Components */
+    .job-meta-info {
+        display: flex;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+    }
+
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        font-weight: 600;
+    }
+
+    .meta-icon {
+        width: 1.15rem;
+        height: 1.15rem;
+        color: #64748b; 
+        flex-shrink: 0;
+    }
+
+    .job-description {
+        font-size: 0.975rem;
+        color: var(--text-body);
+        margin: 0 0 2.25rem 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex-grow: 1;
+        line-height: 1.65;
+    }
+
+    /* Card CTA Links */
+    .card-footer {
+        margin-top: auto;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .view-details-action {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1rem;
+        transition: var(--transition);
+    }
+
+    .view-details-action:hover {
+        color: var(--primary-hover);
+    }
+
+    .action-arrow {
+        width: 1.15rem;
+        height: 1.15rem;
+        stroke-width: 2.5px;
+        transition: var(--transition);
+    }
+
+    .view-details-action:hover .action-arrow {
+        transform: translateX(4px);
+    }
+
+    /* Empty Grid State Fallback Panel */
+    .empty-state-card {
+        grid-column: 1 / -1;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: var(--radius-lg);
+        border: 2px dashed rgba(255, 255, 255, 0.15);
+        padding: 5rem 2rem;
+    }
+
+    .empty-icon-wrapper {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 4.5rem;
+        height: 4.5rem;
+        background-color: rgba(255, 255, 255, 0.04);
+        color: #64748b;
+        border-radius: 50%;
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .empty-icon {
+        width: 2.25rem;
+        height: 2.25rem;
+        color: #94a3b8;
+    }
+
+    .empty-state-card h3 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: #ffffff;
+        margin: 0 0 0.5rem 0;
+    }
+
+    .empty-state-card p {
+        color: #94a3b8;
+        max-width: 460px;
+        margin: 0 auto;
+        font-size: 1.05rem;
+    }
+
+    /* Responsive Layout Adaptability Grid System */
+    @media (max-width: 768px) {
+        .hero-content h1 { font-size: 2.5rem; }
+        .hero-stats { grid-template-columns: 1fr; gap: 1.25rem; }
+        .filter-box { flex-direction: column; gap: 0.75rem; padding: 0.75rem; }
+        .search-input-wrapper { padding-left: 0.5rem; }
+        .search-submit-btn { width: 100%; text-align: center; }
+        .jobs-contrast-container { padding: 6rem 1.5rem 7rem 1.5rem; }
+        .jobs-grid { grid-template-columns: 1fr; gap: 1.75rem; }
+    }
+</style>
+
+<main class="careers-page">
+
+    <!-- TOP SECTION: Light Premium Brand Header -->
+    <header class="careers-hero">
+        <div class="hero-content">
+            <span class="hero-tag">Careers at Meslova</span>
+            <h1>Build Your Future With Us</h1>
+            <p>
+                Join a world-class team that values innovation, seamless collaboration, 
+                and continuous professional development. Discover opportunities designed to match your skills.
+            </p>
+
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <span class="stat-number">{{ jobs|length }}</span>
+                    <span class="stat-label">Open Positions</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Growth Focused</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Supportive Culture</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- FLOATING INTERACTION LAYER: Search Form Component -->
+    <section class="filter-section">
+        <form class="filter-box" method="GET" action="">
+            <div class="search-input-wrapper">
+                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <input type="text" name="search" placeholder="Search open job titles..." aria-label="Search job titles">
+            </div>
+            <button type="submit" class="search-submit-btn">Search Jobs</button>
+        </form>
+    </section>
+
+    <!-- HIGH CONTRAST WRAPPER: Dark Blueprint Theme Container Area -->
+    <div class="jobs-contrast-container">
+        <section class="jobs-section">
+            <div class="section-header">
+                <h2>Current Openings</h2>
+                <p>Explore opportunities across our growing global departments.</p>
+            </div>
+
+            <div class="jobs-grid">
+                {% for job in jobs %}
+                <article class="job-card">
+                    <div class="job-card-inner">
+                        
+                        <div class="job-top">
+                            <span class="department-badge">{{ job.department }}</span>
+                            <span class="job-type-badge">{{ job.job_type }}</span>
+                        </div>
+
+                        <h3 class="job-title">{{ job.title }}</h3>
+
+                        <div class="job-meta-info">
+                            <div class="meta-item">
+                                <svg class="meta-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                <span>{{ job.location }}</span>
+                            </div>
+                            
+                            <div class="meta-item">
+                                <svg class="meta-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                                <span>{{ job.experience_required }} Years Exp</span>
+                            </div>
+                        </div>
+
+                        <p class="job-description">
+                            {{ job.description|truncatechars:150 }}
+                        </p>
+
+                        <div class="card-footer">
+                            <a href="{% url 'job_detail' job.slug %}" class="view-details-action">
+                                <span>View Details</span>
+                                <svg class="action-arrow" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                </svg>
+                            </a>
+                        </div>
+                        
+                    </div>
+                </article>
+                {% empty %}
+                <div class="empty-state-card">
+                    <div class="empty-icon-wrapper">
+                        <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0a2 2 0 01-2 2H6a2 2 0 01-2-2m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m3-3h6" />
+                        </svg>
+                    </div>
+                    <h3>No Open Positions Right Now</h3>
+                    <p>We don't have any matching openings at this time. Bookmark this page and check back soon!</p>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
     </div>
 
-    <!-- JOB LIST -->
-
-    <div class="jobs-grid">
-
-        {% for job in jobs %}
-
-        <div class="job-card">
-
-            <div class="job-header">
-
-                <h2>
-                    {{ job.title }}
-                </h2>
-
-                <span class="job-type">
-                    {{ job.job_type }}
-                </span>
-
-            </div>
-
-            <div class="job-meta">
-
-                <p>
-                    <strong>Department:</strong>
-                    {{ job.department }}
-                </p>
-
-                <p>
-                    <strong>Location:</strong>
-                    {{ job.location }}
-                </p>
-
-                <p>
-                    <strong>Experience:</strong>
-                    {{ job.experience_required }}
-                    Years
-                </p>
-
-            </div>
-
-            <div class="job-description">
-
-                <p>
-                    {{ job.description|truncatechars:150 }}
-                </p>
-
-            </div>
-
-            <div class="job-actions">
-
-                <a href="{% url 'job_detail' job.slug %}"
-                   class="details-btn">
-
-                    View Details
-
-                </a>
-
-            </div>
-
-        </div>
-
-        {% empty %}
-
-        <div class="no-jobs">
-
-            <h3>
-                No open positions available right now.
-            </h3>
-
-        </div>
-
-        {% endfor %}
-
-    </div>
-
-</div>
-
+</main>
 {% endblock %}
-

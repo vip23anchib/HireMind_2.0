@@ -1,0 +1,528 @@
+{% extends "public_master.html" %}
+
+{% block title %}
+HireMind | Recruitment Portal
+{% endblock %}
+
+{% block content %}
+
+<style>
+    /* Premium UI Stylesheet with High Contrast Optimization */
+    :root {
+        --primary-color: #3730a3;       /* High-contrast Indigo-800 */
+        --primary-hover: #1e1b4b;       /* Deep High-contrast Indigo-950 */
+        --accent-color: #4f46e5;        /* Vibrant Indigo-600 for high-impact CTA */
+        --text-main: #0f172a;           /* Ultra-dark Slate-900 */
+        --text-muted: #475569;          /* Slate-600 secondary text */
+        --text-body: #334155;           /* Slate-700 optimal readability */
+        --bg-light: #f8fafc;            /* Clean Slate-50 backdrop framework */
+        --bg-white: #ffffff;
+        --border-color: #e2e8f0;        /* Refined light Slate-200 lines */
+        --radius-lg: 16px;
+        --radius-md: 12px;
+        --radius-sm: 8px;
+        --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05);
+        --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.05);
+        --shadow-lg: 0 20px 40px -10px rgba(15, 23, 42, 0.08);
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Base Styling Reset Adaptation */
+    .portal-landing {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        color: var(--text-body);
+        background-color: var(--bg-white);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    /* Section Component Layouts */
+    .section {
+        padding: 7rem 1.5rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+
+    .section-header-center {
+        text-align: center;
+        max-width: 650px;
+        margin: 0 auto 4.5rem auto;
+    }
+
+    .section-badge {
+        display: inline-block;
+        background-color: #e0e7ff;
+        color: var(--primary-color);
+        padding: 6px 14px;
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-radius: 100px;
+        margin-bottom: 16px;
+    }
+
+    .section-header-center h2 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--text-main);
+        margin: 0 0 1rem 0;
+        letter-spacing: -0.02em;
+    }
+
+    .section-header-center p {
+        color: var(--text-muted);
+        font-size: 1.15rem;
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    /* Hero Section Component */
+    .hero {
+        min-height: 75vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(circle at top right, rgba(55, 48, 163, 0.15) 0%, rgba(15, 23, 42, 0) 50%), 
+                    linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+        color: var(--bg-white);
+        text-align: center;
+        padding: 6rem 1.5rem;
+        box-sizing: border-box;
+    }
+
+    .hero-content {
+        max-width: 840px;
+        margin: 0 auto;
+    }
+
+    .hero h1 {
+        font-size: 3.75rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        line-height: 1.15;
+        letter-spacing: -0.03em;
+        background: linear-gradient(to right, #ffffff, #e2e8f0);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+        font-size: 1.35rem;
+        color: #cbd5e1;
+        margin-bottom: 3rem;
+        font-weight: 400;
+        line-height: 1.7;
+        max-width: 720px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Global Action Buttons */
+    .hero-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 1.25rem;
+        flex-wrap: wrap;
+    }
+
+    .btn-primary {
+        background-color: var(--accent-color);
+        color: var(--bg-white) !important;
+        padding: 1rem 2.25rem;
+        border-radius: var(--radius-sm);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.05rem;
+        transition: var(--transition);
+        box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
+    }
+
+    .btn-primary:hover {
+        background-color: #4338ca;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(79, 70, 229, 0.45);
+    }
+
+    .btn-secondary {
+        border: 1.5px solid rgba(255, 255, 255, 0.3);
+        color: var(--bg-white);
+        background-color: rgba(255, 255, 255, 0.03);
+        padding: 0.95rem 2.25rem;
+        border-radius: var(--radius-sm);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.05rem;
+        transition: var(--transition);
+        box-sizing: border-box;
+    }
+
+    .btn-secondary:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-color: var(--bg-white);
+        transform: translateY(-2px);
+    }
+
+    /* Stats Grid Row Component */
+    .stats {
+        padding: 5rem 1.5rem;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2.5rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .stat {
+        padding: 1.5rem 1rem;
+        border-radius: var(--radius-md);
+        background: var(--bg-white);
+        transition: var(--transition);
+    }
+
+    .stat h2 {
+        color: var(--primary-color);
+        font-size: 3.25rem;
+        font-weight: 800;
+        margin: 0 0 0.5rem 0;
+        line-height: 1;
+        letter-spacing: -0.02em;
+    }
+
+    .stat p {
+        color: var(--text-muted);
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin: 0;
+    }
+
+    /* Core Features System */
+    .features-grid-wrapper {
+        background-color: var(--bg-light);
+        border-top: 1px solid var(--border-color);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2.5rem;
+    }
+
+    .feature-card {
+        background: var(--bg-white);
+        padding: 3rem 2.5rem;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow-sm);
+        transition: var(--transition);
+        box-sizing: border-box;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+        border-color: #c7d2fe;
+    }
+
+    .feature-card h3 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-main);
+        margin: 0 0 1rem 0;
+        letter-spacing: -0.01em;
+    }
+
+    .feature-card p {
+        color: var(--text-body);
+        font-size: 1.05rem;
+        margin: 0;
+        line-height: 1.7;
+    }
+
+    /* Featured Opportunities System Layout */
+    .job-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+        gap: 2.5rem;
+    }
+
+    .job-card {
+        background: var(--bg-white);
+        padding: 2.5rem;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow-sm);
+        transition: var(--transition);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 240px;
+        box-sizing: border-box;
+        position: relative;
+    }
+
+    .job-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 4px;
+        background-color: var(--primary-color);
+        border-top-left-radius: var(--radius-lg);
+        border-bottom-left-radius: var(--radius-lg);
+        opacity: 0.8;
+    }
+
+    .job-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+        border-color: #cbd5e1;
+    }
+
+    .job-card h3 {
+        font-size: 1.45rem;
+        font-weight: 700;
+        color: var(--text-main);
+        margin: 0 0 1rem 0;
+        letter-spacing: -0.01em;
+    }
+
+    .job-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .job-tag {
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        font-weight: 600;
+        background-color: var(--bg-light);
+        padding: 0.4rem 0.8rem;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border-color);
+    }
+
+    .job-card a {
+        text-decoration: none;
+        color: var(--primary-color);
+        font-weight: 700;
+        font-size: 1rem;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        width: fit-content;
+    }
+
+    .job-card a span {
+        transition: transform 0.2s ease;
+        margin-left: 6px;
+    }
+
+    .job-card a:hover {
+        color: var(--accent-color);
+    }
+
+    .job-card a:hover span {
+        transform: translateX(4px);
+    }
+
+    /* Call To Action Panel styling */
+    .cta-wrapper {
+        background: linear-gradient(135deg, var(--primary-hover) 0%, #020617 100%);
+    }
+
+    .cta {
+        color: var(--bg-white);
+        text-align: center;
+        padding: 8rem 1.5rem;
+        max-width: 750px;
+        margin: 0 auto;
+    }
+
+    .cta h2 {
+        font-size: 2.75rem;
+        font-weight: 800;
+        margin: 0 0 1.25rem 0;
+        letter-spacing: -0.02em;
+    }
+
+    .cta p {
+        font-size: 1.25rem;
+        color: #94a3b8;
+        margin: 0 0 3rem 0;
+        font-weight: 400;
+        line-height: 1.65;
+    }
+
+    /* Modern Footer Layout */
+    .footer {
+        background-color: #020617;
+        color: #64748b;
+        text-align: center;
+        padding: 2.5rem 1.5rem;
+        font-size: 0.95rem;
+        font-weight: 500;
+        border-top: 1px solid #0f172a;
+    }
+
+    /* Responsive Adaptive Breakpoints */
+    @media (max-width: 992px) {
+        .stats { grid-template-columns: repeat(2, 1fr); gap: 2rem; padding: 4rem 1.5rem; }
+    }
+
+    @media (max-width: 768px) {
+        .hero h1 { font-size: 2.75rem; }
+        .hero p { font-size: 1.15rem; }
+        .section { padding: 5rem 1.5rem; }
+        .section-header-center h2 { font-size: 2rem; }
+        .cta h2 { font-size: 2.25rem; }
+    }
+
+    @media (max-width: 480px) {
+        .stats { grid-template-columns: 1fr; gap: 1.5rem; }
+        .hero-buttons { flex-direction: column; gap: 1rem; }
+        .btn-primary, .btn-secondary { width: 100%; text-align: center; }
+        .feature-card { padding: 2.5rem 1.75rem; }
+    }
+</style>
+
+<div class="portal-landing">
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Build Your Career With Meslova</h1>
+            <p>
+                Discover exciting opportunities, apply effortlessly, and become part of a global specialized engineering ecosystem focused on scalable performance execution.
+            </p>
+            <div class="hero-buttons">
+                <a href="{% url 'careers' %}" class="btn-primary">
+                    View Open Positions
+                </a>
+                <a href="#why-us" class="btn-secondary">
+                    Why Join Us
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="stat">
+            <h2>250+</h2>
+            <p>Employees</p>
+        </div>
+        <div class="stat">
+            <h2>40+</h2>
+            <p>Open Positions</p>
+        </div>
+        <div class="stat">
+            <h2>12</h2>
+            <p>Countries Served</p>
+        </div>
+        <div class="stat">
+            <h2>95%</h2>
+            <p>Satisfaction Rate</p>
+        </div>
+    </section>
+
+    <div class="features-grid-wrapper" id="why-us">
+        <section class="section">
+            <div class="section-header-center">
+                <div class="section-badge">Culture Elements</div>
+                <h2>Why Join Meslova?</h2>
+                <p>We provide environment matrix parameters specialized around high-impact career progression and modern performance excellence.</p>
+            </div>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <h3>Career Growth</h3>
+                    <p>
+                        Work on technical flagship systems and organically grow your software and leadership skills within highly visible development tracks.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <h3>Learning Culture</h3>
+                    <p>
+                        Continuous internal structured optimization via personal development funding, interactive mentorship, and dynamic knowledge sharing.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <h3>Flexible Environment</h3>
+                    <p>
+                        Hybrid structural framework execution balanced dynamically around true production velocity and long-term engineer wellness.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <section class="section">
+        <div class="section-header-center">
+            <div class="section-badge">Live Vacancies</div>
+            <h2>Featured Opportunities</h2>
+            <p>Accelerated operational roles currently expanding inside our centralized engineering departments.</p>
+        </div>
+
+        <div class="job-grid">
+            <div class="job-card">
+                <div>
+                    <h3>Backend Developer</h3>
+                    <div class="job-tags">
+                        <span class="job-tag">Python</span>
+                        <span class="job-tag">Django</span>
+                        <span class="job-tag">PostgreSQL</span>
+                    </div>
+                </div>
+                <a href="{% url 'careers' %}">View Job <span>➔</span></a>
+            </div>
+
+            <div class="job-card">
+                <div>
+                    <h3>Frontend Developer</h3>
+                    <div class="job-tags">
+                        <span class="job-tag">React</span>
+                        <span class="job-tag">JavaScript</span>
+                        <span class="job-tag">Tailwind</span>
+                    </div>
+                </div>
+                <a href="{% url 'careers' %}">View Job <span>➔</span></a>
+            </div>
+
+            <div class="job-card">
+                <div>
+                    <h3>Data Analyst</h3>
+                    <div class="job-tags">
+                        <span class="job-tag">SQL</span>
+                        <span class="job-tag">Python</span>
+                        <span class="job-tag">Power BI</span>
+                    </div>
+                </div>
+                <a href="{% url 'careers' %}">View Job <span>➔</span></a>
+            </div>
+        </div>
+    </section>
+
+    <div class="cta-wrapper">
+        <section class="cta">
+            <h2>Ready To Start Your Journey?</h2>
+            <p>Explore current interactive open structural options and execute your professional engineering profile with our talent team today.</p>
+            <a href="{% url 'careers' %}" class="btn-primary">
+                Browse All Careers
+            </a>
+        </section>
+    </div>
+
+    <footer class="footer">
+        &copy; 2026 Meslova Recruitment Portal. All industrial architecture profiles reserved.
+    </footer>
+
+</div>
+
+{% endblock %}

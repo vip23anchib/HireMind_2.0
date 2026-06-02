@@ -1,0 +1,269 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+
+    <link rel="stylesheet" href="{% static 'membersStyle.css' %}">
+
+    {% block extra_css %}
+    {% endblock %}
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+            font-family:'Segoe UI',sans-serif;
+            background:#f8fafc;
+        }
+
+        /* LOADER */
+
+        #loader{
+            position:fixed;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            background:white;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            flex-direction:column;
+            z-index:9999;
+        }
+
+        .spinner{
+            width:50px;
+            height:50px;
+            border:5px solid #e5e7eb;
+            border-top:5px solid #2563eb;
+            border-radius:50%;
+            animation:spin 1s linear infinite;
+        }
+
+        @keyframes spin{
+
+            from{
+                transform:rotate(0deg);
+            }
+
+            to{
+                transform:rotate(360deg);
+            }
+
+        }
+
+        /* NAVBAR */
+
+        .navbar{
+
+            position:sticky;
+            top:0;
+
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+
+            padding:18px 60px;
+
+            background:white;
+
+            box-shadow:
+            0 2px 15px rgba(0,0,0,0.08);
+
+            z-index:1000;
+
+        }
+
+        .logo{
+
+            font-size:28px;
+            font-weight:700;
+
+            color:#2563eb;
+
+            text-decoration:none;
+
+        }
+
+        .nav-links{
+
+            display:flex;
+
+            align-items:center;
+
+            gap:35px;
+
+        }
+
+        .nav-links a{
+
+            text-decoration:none;
+
+            color:#334155;
+
+            font-weight:500;
+
+            transition:0.3s;
+
+        }
+
+        .nav-links a:hover{
+
+            color:#2563eb;
+
+        }
+
+        .nav-links a.active{
+
+            color:#f0ecec !important;
+            background-color: #0f0645 !important;
+            font-weight:700;
+
+        }
+
+        .login-btn{
+
+            background:#2563eb;
+
+            color:white !important;
+
+            padding:10px 20px;
+
+            border-radius:8px;
+
+            text-decoration:none;
+
+            font-weight:600;
+
+            transition:0.3s;
+
+        }
+
+        .login-btn:hover{
+
+            background:#1d4ed8;
+
+        }
+
+        .page-container{
+
+            min-height:calc(100vh - 80px);
+
+        }
+
+       
+    /* 1. Style the anchor link wrapper */
+    .logo-link {
+        display: inline-flex !important;
+        align-items: center !important;
+        text-decoration: none !important;
+        max-height: 50px !important; /* Prevents the container from bloating */
+    }
+
+    /* 2. Explicitly force the image to look like a navbar logo */
+    .logo-img {
+        height: 40px !important;    /* This shrinks the image down to standard logo size */
+        width: auto !important;     /* Keeps the aspect ratio perfect so it doesn't squish */
+        object-fit: contain !important; /* Ensures the graphic stays crisp and centered */
+        display: block !important;
+    }
+
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- LOADER -->
+
+    <div id="loader">
+
+        <div class="spinner"></div>
+
+        <p style="margin-top:15px;">
+            Loading...
+        </p>
+
+    </div>
+
+    <!-- NAVBAR -->
+
+    <header class="navbar">
+
+        {% load static %} 
+        <a href="{% url 'landing_page' %}" class="logo-link {% if active_page == 'landing_page' %}active{% endif %}">
+            <img src="{% static 'images/logo.jpg' %}" alt="Meslova Logo" class="logo-img">
+        </a>
+        <nav class="nav-links">
+
+            <a href="{% url 'landing_page' %}"
+               class="{% if active_page == 'landing_page' %}active{% endif %}">
+                Home
+            </a>
+
+            <a href="{% url 'about_us' %}"
+            class="{% if active_page == 'about_us' %}active{% endif %}">
+                About Us
+                        </a>
+
+            <a href="{% url 'services' %}"
+            class="{% if active_page == 'services' %}active{% endif %}">
+                Services
+            </a>
+
+            <a href="{% url 'careers' %}"
+               class="{% if active_page == 'careers_list' %}active{% endif %}">
+                Careers
+            </a>
+
+            <a href="{% url 'contact' %}"
+            class="{% if active_page == 'contact' %}active{% endif %}">
+                Contact
+            </a>
+
+        </nav>
+
+        <a href="{% url 'login_view' %}"
+           class="login-btn">
+
+            HR Login
+
+        </a>
+
+    </header>
+
+    <div class="page-container">
+
+        {% block content %}
+        {% endblock %}
+
+    </div>
+
+    <script>
+
+        window.addEventListener("load", function(){
+
+            document.getElementById("loader")
+            .style.display = "none";
+
+        });
+
+    </script>
+
+</body>
+
+</html>

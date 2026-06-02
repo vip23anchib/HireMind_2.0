@@ -15,7 +15,8 @@ urlpatterns = [
     path('',include('myForm.urls')) ,#registration
     
     path('', include('jobs.urls')),
-
+    
+    path('landing-dashboard/', include('members.urls')),
 
 ]
 

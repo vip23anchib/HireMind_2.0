@@ -1,104 +1,239 @@
-
-{% extends "master.html" %}
-
+{% extends "public_master.html" %}
 {% load static %}
 
 {% block title %}
-{{ job.title }}
-{% endblock %}
-
-{% block extra_css %}
-
-<link rel="stylesheet"
-      href="{% static 'job_detail.css' %}">
-
+{{ job.title }} | HireMind
 {% endblock %}
 
 {% block content %}
+<style>
+    /* Premium High-Contrast Job Detail Interface Styling */
+    :root {
+        --primary-color: #3730a3;       /* High-contrast Indigo-800 */
+        --primary-hover: #1e1b4b;       /* Deep Indigo-950 */
+        --text-main: #0f172a;           /* Ultra-dark Slate-900 */
+        --text-muted: #475569;          /* Slate-600 secondary details */
+        --text-body: #334155;           /* Slate-700 optimal line reading */
+        --bg-light: #1e1b4b;            /* Page structural background block */
+        --bg-white: #ffffff;
+        --border-color: #cbd5e1;         /* Slate-300 borders */
+        --radius-lg: 16px;
+        --radius-md: 12px;
+        --radius-sm: 8px;
+        --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
+        --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.1);
+        --shadow-lg: 0 10px 25px -5px rgba(15, 23, 42, 0.15);
+        --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-<div class="job-detail-container">
+    .careers-detail-page {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        color: var(--text-main);
+        background-color: var(--bg-light);
+        padding: 4rem 1.5rem;
+        box-sizing: border-box;
+    }
 
-    <!-- TOP SECTION -->
+    .job-detail-container {
+        max-width: 1140px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 360px;
+        gap: 2.5rem;
+        align-items: start;
+    }
 
-    <div class="job-header">
+    /* Core Info Header Column Block */
+    .job-main-column {
+        background: var(--bg-white);
+        padding: 3rem;
+        border-radius: var(--radius-lg);
+        border: 2px solid var(--border-color);
+        box-shadow: var(--shadow-sm);
+    }
 
-        <h1>
-            {{ job.title }}
-        </h1>
+    .job-header {
+        border-bottom: 2px solid var(--bg-light);
+        padding-bottom: 2rem;
+        margin-bottom: 2.5rem;
+    }
 
-        <div class="job-meta">
+    .job-header h1 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--text-main);
+        line-height: 1.2;
+        margin: 0 0 1.5rem 0;
+        letter-spacing: -0.02em;
+    }
 
-            <span>
-                {{ job.department }}
-            </span>
+    /* Meta Badges Row */
+    .job-meta {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
 
-            <span>
-                {{ job.location }}
-            </span>
+    .job-meta span {
+        font-size: 0.85rem;
+        font-weight: 700;
+        padding: 0.4rem 1rem;
+        border-radius: var(--radius-sm);
+        letter-spacing: 0.3px;
+        border: 1px solid transparent;
+    }
 
-            <span>
-                {{ job.job_type }}
-            </span>
+    /* High contrast color maps for badges */
+    .meta-dept { background-color: #e0e7ff; color: #312e81; border-color: #c7d2fe; }
+    .meta-loc { background-color: #f1f5f9; color: #1e293b; border-color: #cbd5e1; }
+    .meta-type { background-color: #dcfce7; color: #166534; border-color: #bbf7d0; }
+    .meta-exp { background-color: #fef3c7; color: #78350f; border-color: #fde68a; }
 
-            <span>
-                {{ job.experience_required }}
-                Years Experience
-            </span>
+    /* Text sections structure content formatting */
+    .job-section {
+        margin-bottom: 3rem;
+    }
 
+    .job-section:last-child {
+        margin-bottom: 0;
+    }
+
+    .job-section h2 {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: var(--text-main);
+        margin: 0 0 1.25rem 0;
+        position: relative;
+        padding-bottom: 0.5rem;
+    }
+
+    .job-section h2::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 4px;
+        background-color: var(--primary-color);
+        border-radius: 2px;
+    }
+
+    .job-section p {
+        color: var(--text-body);
+        font-size: 1.05rem;
+        line-height: 1.8;
+        font-weight: 500;
+        margin: 0;
+    }
+
+    /* Floating Structural Action Sidebar */
+    .job-sidebar {
+        background: var(--bg-white);
+        padding: 2.5rem;
+        border-radius: var(--radius-lg);
+        border: 2px solid var(--text-main); /* Outer high contrast map border */
+        box-shadow: var(--shadow-md);
+        position: sticky;
+        top: 2rem;
+    }
+
+    .sidebar-widget-title {
+        font-size: 1.2rem;
+        font-weight: 800;
+        color: var(--text-main);
+        margin: 0 0 0.75rem 0;
+    }
+
+    .sidebar-text {
+        font-size: 0.95rem;
+        color: var(--text-muted);
+        margin: 0 0 2rem 0;
+        font-weight: 600;
+        line-height: 1.5;
+    }
+
+    .apply-btn {
+        display: block;
+        text-align: center;
+        background-color: var(--primary-color);
+        color: var(--bg-white) !important;
+        text-decoration: none;
+        padding: 1.1rem 2rem;
+        border-radius: var(--radius-md);
+        font-size: 1.1rem;
+        font-weight: 700;
+        transition: var(--transition);
+        box-shadow: 0 4px 6px rgba(55, 48, 163, 0.2);
+    }
+
+    .apply-btn:hover {
+        background-color: var(--primary-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(55, 48, 163, 0.3);
+    }
+
+    /* Media Responsive Layout Elements Mapping */
+    @media (max-width: 992px) {
+        .job-detail-container {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        .job-main-column {
+            padding: 2rem;
+        }
+        .job-sidebar {
+            position: static;
+            padding: 2rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .careers-detail-page { padding: 2rem 1rem; }
+        .job-header h1 { font-size: 2rem; }
+        .job-main-column { padding: 1.5rem 1.25rem; }
+    }
+</style>
+
+<main class="careers-detail-page">
+    <div class="job-detail-container">
+        
+        <div class="job-main-column">
+            <header class="job-header">
+                <h1>{{ job.title }}</h1>
+                <div class="job-meta">
+                    <span class="meta-dept">{{ job.department }}</span>
+                    <span class="meta-loc">{{ job.location }}</span>
+                    <span class="meta-type">{{ job.job_type }}</span>
+                    <span class="meta-exp">{{ job.experience_required }} Years Experience</span>
+                </div>
+            </header>
+
+            <section class="job-section">
+                <h2>Job Description</h2>
+                <p>{{ job.description|linebreaks }}</p>
+            </section>
+
+            <section class="job-section">
+                <h2>Requirements</h2>
+                <p>{{ job.requirements|linebreaks }}</p>
+            </section>
+
+            <section class="job-section">
+                <h2>Responsibilities</h2>
+                <p>{{ job.responsibilities|linebreaks }}</p>
+            </section>
         </div>
 
-    </div>
-
-    <!-- DESCRIPTION -->
-
-    <div class="job-section">
-
-        <h2>Job Description</h2>
-
-        <p>
-            {{ job.description|linebreaks }}
-        </p>
+        <aside class="job-sidebar">
+            <h3 class="sidebar-widget-title">Interested in this role?</h3>
+            <p class="sidebar-text">
+                Review our application process criteria carefully before submitting your professional portfolio.
+            </p>
+            <a href="{% url 'apply_job' job.slug %}" class="apply-btn">
+                Apply For This Job
+            </a>
+        </aside>
 
     </div>
-
-    <!-- REQUIREMENTS -->
-
-    <div class="job-section">
-
-        <h2>Requirements</h2>
-
-        <p>
-            {{ job.requirements|linebreaks }}
-        </p>
-
-    </div>
-
-    <!-- RESPONSIBILITIES -->
-
-    <div class="job-section">
-
-        <h2>Responsibilities</h2>
-
-        <p>
-            {{ job.responsibilities|linebreaks }}
-        </p>
-
-    </div>
-
-    <!-- APPLY BUTTON -->
-
-    <div class="apply-section">
-
-        <a href="{% url 'apply_job' job.slug %}"
-           class="apply-btn">
-
-            Apply Now
-
-        </a>
-
-    </div>
-
-</div>
-
+</main>
 {% endblock %}
-

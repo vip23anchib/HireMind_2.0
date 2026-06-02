@@ -1,0 +1,412 @@
+{% extends "public_master.html" %}
+
+{% block title %}
+Services | Meslova Systems
+{% endblock %}
+
+{% block content %}
+
+<style>
+/* --- DESIGN SYSTEM & CSS VARIABLES --- */
+:root {
+    --bg-dark: #0f172a;
+    --bg-surface: #1e293b;
+    --bg-light: #f8fafc;
+    --surface-card: #ffffff;
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --text-main: #0f172a;
+    --text-body: #334155;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.services-page {
+    background: var(--bg-light);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text-body);
+    overflow-x: hidden;
+}
+
+/* --- HERO SECTION --- */
+.services-hero {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    position: relative;
+    color: white;
+    text-align: center;
+    padding: 140px 24px 120px;
+}
+
+/* Subtle architectural pattern */
+.services-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0);
+    background-size: 24px 24px;
+}
+
+.services-hero h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    margin-bottom: 20px;
+    background: linear-gradient(to right, #ffffff, #cbd5e1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.services-hero p {
+    max-width: 760px;
+    margin: auto;
+    font-size: 1.25rem;
+    line-height: 1.75;
+    color: #94a3b8;
+}
+
+/* --- SECTION HEADERS --- */
+.section-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 64px;
+}
+
+.section-header h2 {
+    color: var(--text-main);
+    font-size: 2.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+}
+
+.section-header p {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+/* --- CORE SERVICES GRID --- */
+.services-section {
+    max-width: 1280px;
+    margin: -40px auto 0;
+    padding: 0 24px 100px;
+    position: relative;
+    z-index: 10;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+}
+
+.service-card {
+    background: var(--surface-card);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+    position: relative;
+}
+
+.service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: #cbd5e1;
+}
+
+.service-icon {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    background: #eff6ff;
+    color: var(--primary);
+    margin-bottom: 28px;
+}
+
+.service-icon svg {
+    width: 26px;
+    height: 26px;
+}
+
+.service-card h3 {
+    color: var(--text-main);
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+    letter-spacing: -0.01em;
+}
+
+.service-card p {
+    color: var(--text-body);
+    font-size: 0.95rem;
+    line-height: 1.65;
+}
+
+/* --- WHY CHOOSE US SECTION (DARK) --- */
+.why-us {
+    padding: 100px 24px;
+    background: #0f172a;
+    position: relative;
+}
+
+.why-us .section-header h2 {
+    color: #fff;
+}
+
+.why-us .section-header p {
+    color: #94a3b8;
+}
+
+.why-grid {
+    max-width: 1280px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.why-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 32px;
+    border-radius: var(--radius-lg);
+    backdrop-filter: blur(8px);
+    transition: var(--transition);
+}
+
+.why-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.why-card h3 {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.why-card p {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* --- CTA SECTION --- */
+.services-cta {
+    padding: 100px 24px;
+    text-align: center;
+    background: var(--surface-card);
+    border-top: 1px solid var(--border-color);
+}
+
+.services-cta h2 {
+    color: var(--text-main);
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+}
+
+.services-cta p {
+    color: var(--text-muted);
+    max-width: 640px;
+    margin: 0 auto 32px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.cta-btn {
+    display: inline-block;
+    background: var(--primary);
+    color: white !important;
+    padding: 14px 32px;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+
+.cta-btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+/* --- RESPONSIVE MEDIA QUERIES --- */
+@media (max-width: 1024px) {
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .why-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .services-hero {
+        padding: 100px 20px 80px;
+    }
+    .services-hero h1 {
+        font-size: 2.5rem;
+    }
+    .services-hero p {
+        font-size: 1.1rem;
+    }
+    .section-header h2 {
+        font-size: 1.85rem;
+    }
+    .services-section {
+        margin-top: 0;
+        padding-bottom: 64px;
+    }
+    .services-grid, .why-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .service-card {
+        padding: 32px 24px;
+    }
+    .services-cta h2 {
+        font-size: 2rem;
+    }
+}
+</style>
+
+<div class="services-page">
+
+    <!-- HERO -->
+    <section class="services-hero">
+        <h1>Our Enterprise Capabilities</h1>
+        <p>
+            We deploy production-grade software frameworks, scalable computational infrastructures, and artificial intelligence models engineered to give businesses precision operational efficiency.
+        </p>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="services-section">
+        <div class="services-grid">
+
+            <!-- ADVANCED ARTIFICIAL INTELLIGENCE -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                </div>
+                <h3>Advanced Artificial Intelligence</h3>
+                <p>
+                    Unlock the competitive value hidden within your operational data layers. From natural language processors and cognitive intelligence to predictive analytics algorithms, we construct automated AI architecture at institutional scale.
+                </p>
+            </div>
+
+            <!-- PYTHON DEVELOPMENT -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                </div>
+                <h3>Python Engineering Labs</h3>
+                <p>
+                    Build microservices and web backends powered by rigorous, asynchronous code environments. Our engineers assemble type-safe, maintainable pipelines configured specifically for intensive compute loads and secure high-frequency transaction traffic.
+                </p>
+            </div>
+
+            <!-- DATA MIGRATION -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                </div>
+                <h3>Data Infrastructure & Migration</h3>
+                <p>
+                    Safely re-architect your data storage setups. We isolate legacy schemas, execute zero-downtime cross-platform data transitions, and reassemble modern data engines, ensuring perfect transactional integrity throughout.
+                </p>
+            </div>
+
+            <!-- MOBILE APPLICATION DEVELOPMENT -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                </div>
+                <h3>Mobile Application Development</h3>
+                <p>
+                    Deploy lightning-fast native and cross-platform applications across iOS and Android ecosystems. Our design layouts balance fluid client-side performance benchmarks alongside tight security protocols.
+                </p>
+            </div>
+
+            <!-- .NET DEVELOPMENT SERVICES -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-7-4h.01M9 16h.01"></path></svg>
+                </div>
+                <h3>.NET Enterprise Solutions</h3>
+                <p>
+                    Engineer durable backbones for mission-critical company applications. Utilizing modern, cross-platform .NET Core frameworks, we craft dependable architectures tailored specifically for large distributed workforces.
+                </p>
+            </div>
+
+            <!-- CLOUD COMPUTING -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
+                </div>
+                <h3>Cloud Computing & DevOps</h3>
+                <p>
+                    Transition from local server spaces into auto-scaling hybrid environments. We audit infrastructure design layouts to reduce unneeded runtime bills while adding strict fallback recovery setups.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US -->
+    <section class="why-us">
+        <div class="section-header">
+            <h2>Why Organizations Choose Meslova</h2>
+            <p>Combining structural safety patterns with top-tier product delivery performance metrics.</p>
+        </div>
+
+        <div class="why-grid">
+            <div class="why-card">
+                <h3>Industry Expertise</h3>
+                <p>Deep foundational expertise in artificial intelligence, cloud deployment logic, and complex system engineering workflows.</p>
+            </div>
+            <div class="why-card">
+                <h3>Quality First</h3>
+                <p>Every digital product undergoes extensive continuous integration tests focused entirely on platform durability and future maintenance cycles.</p>
+            </div>
+            <div class="why-card">
+                <h3>Global Delivery</h3>
+                <p>Supporting corporate networks across multiple regions via synchronized, compliant engineering environments.</p>
+            </div>
+            <div class="why-card">
+                <h3>Innovation Driven</h3>
+                <p>Actively applying production-ready modern technologies to resolve persistent hardware bottleneck issues.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="services-cta">
+        <h2>Ready to Build Something Exceptional?</h2>
+        <p>
+            Connect with our solution engineers to map out your digital transformation, modernization blueprint, or upcoming software milestone.
+        </p>
+        <a href="{% url 'contact' %}" class="cta-btn">Get In Touch</a>
+    </section>
+
+</div>
+
+{% endblock %}

@@ -56,4 +56,10 @@ def add_member(request):
     return render(request, 'add_member.html', {'form': form})
 
 
+#function for main landing public page of dashboard
+def landing_page(request):
+    return render(request, 'landing_page.html', {
+        'active_page': 'landing_page'
+    })
+
    

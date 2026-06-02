@@ -1,187 +1,131 @@
 <form id="userForm"
-          action="{% url 'contact_form' %}"
-          method="POST"
-          enctype="multipart/form-data">
+      action="{% url 'contact_form' %}"
+      method="POST"
+      enctype="multipart/form-data"
+      class="premium-form-layout">
 
-      {% csrf_token %}
+    {% csrf_token %}
 
-      {% if data %}
-      <input type="hidden"
-             name="record_id"
-             value="{{ data.id }}">
-      {% endif %}
-
-
-    {% if job %}
-
-    <input type="hidden"
-        name="job_id"
-        value="{{ job.id }}">
-
+    {% if data %}
+        <input type="hidden" name="record_id" value="{{ data.id }}">
     {% endif %}
 
+    {% if job %}
+        <input type="hidden" name="job_id" value="{{ job.id }}">
+    {% endif %}
 
-      <!-- NAME -->
-
-      <div class="form-group">
-
-        <label>Name</label>
-
+    <div class="form-group">
+        <label for="id_name">Full Name <span class="required-asterisk">*</span></label>
         <input type="text"
+               id="id_name"
                name="name"
-               value="{{ data.name }}"
+               value="{{ data.name|default:'' }}"
+               placeholder="e.g., Sarah Jenkins"
                required>
+    </div>
 
-      </div>
-
-      <!-- EMAIL -->
-
-      <div class="form-group">
-
-        <label>Email</label>
-
+    <div class="form-group">
+        <label for="id_email">Email Address <span class="required-asterisk">*</span></label>
         <input type="email"
+               id="id_email"
                name="email"
-               value="{{ data.email }}"
+               value="{{ data.email|default:'' }}"
+               placeholder="name@company.com"
                required>
+    </div>
 
-      </div>
-
-      <!-- PHONE -->
-
-      <div class="form-group">
-
-        <label>Phone Number</label>
-
+    <div class="form-group">
+        <label for="id_phone">Phone Number <span class="required-asterisk">*</span></label>
         <input type="text"
+               id="id_phone"
                name="phone_number"
-               value="{{ data.phone_number }}"
+               value="{{ data.phone_number|default:'' }}"
+               placeholder="e.g., +1 (555) 019-2834"
                required>
+    </div>
 
-      </div>
+    <div class="form-group">
+        <label class="group-label-title">Gender Identity</label>
+        <div class="inline-radio-row">
+            <label class="custom-radio-container">
+                <input type="radio"
+                       name="gender"
+                       value="Male"
+                       {% if data.gender == "Male" %}checked{% endif %}>
+                <span class="radio-checkmark"></span>
+                <span class="label-text">Male</span>
+            </label>
 
-      <!-- GENDER -->
+            <label class="custom-radio-container">
+                <input type="radio"
+                       name="gender"
+                       value="Female"
+                       {% if data.gender == "Female" %}checked{% endif %}>
+                <span class="radio-checkmark"></span>
+                <span class="label-text">Female</span>
+            </label>
 
-      <div class="form-group">
-
-        <label>Gender</label>
-
-        <div class="inline">
-
-          <label>
-            <input type="radio"
-                   name="gender"
-                   value="Male"
-                   {% if data.gender == "Male" %}checked{% endif %}>
-            Male
-          </label>
-
-          <label>
-            <input type="radio"
-                   name="gender"
-                   value="Female"
-                   {% if data.gender == "Female" %}checked{% endif %}>
-            Female
-          </label>
-
-          <label>
-            <input type="radio"
-                   name="gender"
-                   value="Other"
-                   {% if data.gender == "Other" %}checked{% endif %}>
-            Other
-          </label>
-
+            <label class="custom-radio-container">
+                <input type="radio"
+                       name="gender"
+                       value="Other"
+                       {% if data.gender == "Other" %}checked{% endif %}>
+                <span class="radio-checkmark"></span>
+                <span class="label-text">Other</span>
+            </label>
         </div>
+    </div>
 
-      </div>
+    <div class="form-group">
+        <label for="id_country">Country of Residence</label>
+        <div class="select-dropdown-wrapper">
+            <select id="id_country" name="country">
+                <option value="India" {% if data.country == "India" %}selected{% endif %}>India</option>
+                <option value="USA" {% if data.country == "USA" %}selected{% endif %}>USA</option>
+                <option value="UK" {% if data.country == "UK" %}selected{% endif %}>UK</option>
+                <option value="Other" {% if data.country == "Other" %}selected{% endif %}>Other</option>
+            </select>
+        </div>
+    </div>
 
-      <!-- COUNTRY -->
-
-      <div class="form-group">
-
-        <label>Country</label>
-
-        <select name="country">
-
-          <option value="India"
-            {% if data.country == "India" %}selected{% endif %}>
-            India
-          </option>
-
-          <option value="USA"
-            {% if data.country == "USA" %}selected{% endif %}>
-            USA
-          </option>
-
-          <option value="UK"
-            {% if data.country == "UK" %}selected{% endif %}>
-            UK
-          </option>
-
-          <option value="Other"
-            {% if data.country == "Other" %}selected{% endif %}>
-            Other
-          </option>
-
-        </select>
-
-      </div>
-
-      <!-- LINKEDIN -->
-
-      <div class="form-group">
-
-        <label>LinkedIn URL</label>
-
+    <div class="form-group">
+        <label for="id_linkedin">LinkedIn Profile URL</label>
         <input type="url"
+               id="id_linkedin"
                name="linkedin_url"
-               value="{{ data.linkedin_url }}">
+               value="{{ data.linkedin_url|default:'' }}"
+               placeholder="https://linkedin.com/in/yourprofile">
+    </div>
 
-      </div>
-
-      <!-- PORTFOLIO -->
-
-      <div class="form-group">
-
-        <label>GitHub / Portfolio URL</label>
-
+    <div class="form-group">
+        <label for="id_portfolio">GitHub / Portfolio Link</label>
         <input type="url"
+               id="id_portfolio"
                name="portfolio_url"
-               value="{{ data.portfolio_url }}">
+               value="{{ data.portfolio_url|default:'' }}"
+               placeholder="https://github.com/yourusername">
+    </div>
 
-      </div>
+    <div class="form-group">
+        <label for="id_cover_letter">Cover Letter Introduction</label>
+        <textarea id="id_cover_letter" 
+                  name="cover_letter" 
+                  placeholder="Introduce yourself and express briefly why your skillset targets this specific technical role vacancy...">{{ data.cover_letter|default:'' }}</textarea>
+    </div>
 
-      <!-- COVER LETTER -->
+    <div class="form-group">
+        <label for="id_resume">Curriculum Vitae / Resume <span class="file-spec-alert">(PDF Format Only)</span></label>
+        <div class="file-dropzone-box">
+            <input type="file"
+                   id="id_resume"
+                   name="myfile"
+                   accept=".pdf,application/pdf"
+                   {% if not data %}required{% endif %}>
+        </div>
+    </div>
 
-      <div class="form-group">
+    <button type="submit" class="btn-form-submit">
+        Submit Application Profile
+    </button>
 
-        <label>Cover Letter</label>
-
-        <textarea name="cover_letter">
-{{ data.cover_letter }}
-        </textarea>
-
-      </div>
-
-      <!-- RESUME -->
-
-      <div class="form-group">
-
-        <label>Resume Upload (PDF only)</label>
-
-        <input type="file"
-               name="myfile"
-               accept=".pdf,application/pdf"
-               {% if not data %}required{% endif %}>
-
-      </div>
-
-      <button type="submit"
-              class="btn-primary">
-
-        Submit Application
-
-      </button>
-
-    </form>
+</form>

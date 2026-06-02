@@ -47,8 +47,8 @@ nav a {
 }
 
 nav a.active {
-    background-color: #24b8e9 !important;
-    color: black !important;
+    background-color: #6abedb !important;
+    color: rgb(18, 17, 17) !important;
     border-radius: 5px;
 }
 body {
@@ -110,7 +110,7 @@ li:hover {
   transform: scale(1.1);
 }
 a:link, a:visited {
-  color: #4364da; 
+  color: #0c1535; 
 }
 .main, .main h1 {
   text-align:center;
