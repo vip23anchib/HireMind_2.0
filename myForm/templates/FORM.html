@@ -1,30 +1,34 @@
-{% extends "master.html" %}
+{% extends "public_master.html" %}
 {% load static %}
 
 {% block title %}
 Apply Now | HireMind
 {% endblock %}
 
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'form.css' %}">
-{% endblock %}
+
 
 {% block content %}
-<main class="form-wrapper">
 
-    <div id="loader" class="loader-backdrop" style="display: none;">
+
+
+<main class="application-page">
+
+    <div id="loader" class="loader-backdrop" style="display:none;">
         <div class="loader-card">
             <div class="spinner"></div>
-            <p>Processing your application...</p>
+            <h3>Submitting Application</h3>
+            <p>Please wait while we process your application.</p>
         </div>
     </div>
 
-    <div class="form-card">
-        <header class="form-header">
-            <h2>Job Application Form</h2>
-            <p>Please provide your professional background information details accurately below.</p>
-        </header>
-        
+    <section class="application-container">
+
+        <div class="application-header">
+            <span class="application-tag">Career Application</span>
+            <h1>Apply Now</h1>
+            <p>Complete the application form below and upload your resume.</p>
+        </div>
+
         {% include "includes/form_fields.html" %}
 
         <div id="msg" class="notification-container" aria-live="polite"></div>
@@ -32,18 +36,16 @@ Apply Now | HireMind
         {% if messages %}
             <div class="django-messages-wrapper">
                 {% for message in messages %}
-                    <p class="msg-success">
-                        <span class="icon-check">✓</span> {{ message }}
-                    </p>
+                    <p class="msg-success">✓ {{ message }}</p>
                 {% endfor %}
             </div>
         {% endif %}
-    </div>
+
+    </section>
 
 </main>
 
 <script>
-    // Screen-lock loader trigger logic execution
     document.addEventListener("DOMContentLoaded", function() {
         const applicationForm = document.getElementById("userForm");
         const submissionLoader = document.getElementById("loader");

@@ -65,7 +65,7 @@ def login_view(request):
 
         if user is not None:
             login(request, user)  # Creates the secure session for the user
-            return redirect('main')  # Redirects to your data entry form view
+            return redirect('landing_page')  # Redirects to your data entry form view
         else:
             # If authentication fails, pass an error message back to the template
             return render(request, 'LOGIN.html', {'error': 'Invalid username or password'})

@@ -1,58 +1,209 @@
+/* ==========================================================================
+   1. DESIGN TOKENS & SYSTEM VARIABLES
+   ========================================================================== */
+:root {
+    /* High-Contrast Color Matrix (Dedicated Light-on-Dark Contrast) */
+    --bg-app: #f1f5f9;            /* Crisp, premium light-slate background */
+    --bg-card: #0f172a;           /* Deep midnight-slate card for maximum pop */
+    --bg-input: #1e293b;          /* Slightly lighter slate for input contrast */
+    
+    /* Branding & Interactive Accent */
+    --primary: #6366f1;           /* Vibrant indigo that glows on dark cards */
+    --primary-hover: #4f46e5;
+    --primary-alpha: rgba(99, 102, 241, 0.15);
+    --focus-ring: rgba(99, 102, 241, 0.4);
+    
+    /* High-Contrast Typography Scale */
+    --text-main: #ffffff;         /* Pure white for headers inside the card */
+    --text-body: #cbd5e1;         /* Soft silver/gray for readable form labels */
+    --text-muted: #64748b;        /* Muted slate for placeholders */
+    
+    /* Dedicated Error Notification Styling */
+    --text-error: #f87171;        /* Highly visible pastel red */
+    --bg-error: rgba(239, 68, 68, 0.15);
+    --border-error: rgba(239, 68, 68, 0.4);
+    
+    /* Structural Constants */
+    --radius-lg: 20px;
+    --radius-md: 12px;
+    --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Premium Drop Shadows */
+    --shadow-premium: 0 25px 50px -12px rgba(15, 23, 42, 0.25), 
+                      0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================================================================
+   2. BODY RESET & VIEWPORT CENTERING
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-  background: #6c8fb3;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+    background-color: var(--bg-app);
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.05) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(79, 70, 229, 0.05) 0px, transparent 50%);
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 1.5rem;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
 }
 
+/* ==========================================================================
+   3. HIGH-CONTRAST LOGIN CARD CONTAINER
+   ========================================================================== */
 .login-container {
-  width: 320px;
-  background: white;
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    background: var(--bg-card);
+    width: 100%;
+    max-width: 400px;
+    padding: 3rem 2.5rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-premium);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition-smooth);
 }
 
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
+/* Subtle outer glow effect when a user interacts with fields inside the card */
+.login-container:has(input:focus) {
+    box-shadow: 0 30px 60px -15px rgba(15, 23, 42, 0.4), 
+                0 0 0 1px rgba(99, 102, 241, 0.2);
+}
+
+.login-container h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-main);
+    text-align: center;
+    margin-bottom: 2.25rem;
+    letter-spacing: -0.03em;
+}
+
+/* ==========================================================================
+   4. FORM LAYOUT & ELEMENTS
+   ========================================================================== */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Better breathing room between sections */
 }
 
 label {
-  font-size: 14px;
-  font-weight: bold;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-body);
+    margin-bottom: -0.75rem; /* Pulls label closer to its companion input */
+    letter-spacing: 0.01em;
 }
 
-input {
-  width: 100%;
-  padding: 10px;
-  margin: 8px 0 15px 0;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    color: var(--text-main);
+    background: var(--bg-input);
+    transition: var(--transition-smooth);
 }
 
-button {
-  width: 100%;
-  padding: 10px;
-  background: #2563eb;
-  border: none;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 15px;
+input::placeholder {
+    color: var(--text-muted);
 }
 
-button:hover {
-  background: #1e40af;
+input:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-#error {
-  color: red;
-  font-size: 13px;
-  text-align: center;
-  margin-top: 10px;
+input:focus {
+    outline: none;
+    background: var(--bg-card); /* Darkens input slightly on focus for sleek feedback */
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px var(--focus-ring);
+}
+
+/* ==========================================================================
+   5. INTERACTIVE BUTTON STYLE
+   ========================================================================== */
+button[type="submit"] {
+    width: 100%;
+    border: none;
+    border-radius: var(--radius-md);
+    background: var(--primary);
+    color: #ffffff;
+    padding: 15px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+    transition: var(--transition-smooth);
+    margin-top: 0.5rem;
+    letter-spacing: -0.01em;
+}
+
+button[type="submit"]:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 22px rgba(99, 102, 241, 0.5);
+}
+
+button[type="submit"]:active {
+    transform: translateY(1px);
+}
+
+/* ==========================================================================
+   6. HIGH-CONTRAST DJANGO SYSTEM ERRORS
+   ========================================================================== */
+/* Rewrites your hardcoded template styles into a beautiful UI notification component */
+p#error {
+    color: var(--text-error) !important; 
+    background-color: var(--bg-error);
+    border: 1px solid var(--border-error);
+    padding: 12px 14px;
+    border-radius: var(--radius-md);
+    font-size: 0.88rem;
+    font-weight: 600;
+    line-height: 1.4;
+    text-align: center;
+    margin-top: 0.5rem !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+/* Clean CSS feedback graphic decoration */
+p#error::before {
+    content: "✕";
+    font-weight: 800;
+    font-size: 0.85rem;
+    background: rgba(239, 68, 68, 0.2);
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+}
+
+/* ==========================================================================
+   7. MOBILE RESPONSIEVNESS 
+   ========================================================================== */
+@media (max-width: 480px) {
+    body {
+        padding: 1rem;
+        background: var(--bg-card); /* Flattens to dark full screen seamlessly on mobile devices */
+    }
+    
+    .login-container {
+        padding: 2rem 1rem;
+        box-shadow: none;
+        border: none;
+    }
 }
