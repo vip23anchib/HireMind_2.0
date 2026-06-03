@@ -144,3 +144,4 @@ def extract_skill_experience(text):
         experience_data[skill] = years
 
     return experience_data
+    print(experience_data)
