@@ -1,0 +1,401 @@
+
+:root {
+    --primary-color: #2563eb;       /* Vibrant Enterprise Blue */
+    --primary-hover: #1d4ed8;       /* Deep Deep Blue */
+    --text-main: #0f172a;           /* Slate-900 */
+    --text-body: #334155;           /* Slate-700 */
+    --text-muted: #64748b;          /* Slate-500 */
+    --bg-light: #f8fafc;            /* Slate-50 alternative background */
+    --bg-white: #ffffff;
+    --border-color: #e2e8f0;        /* Slate-200 split borders */
+    --radius-lg: 16px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+    --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* BASE STRUCTURE */
+.about-page {
+    background: var(--bg-white);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text-body);
+    overflow-x: hidden;
+}
+
+.about-section {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 100px 24px;
+}
+
+.about-section.bg-offset {
+    max-width: 100%;
+    background-color: var(--bg-light);
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.about-section-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+/* SECTION BADGES & HEADERS */
+.section-badge {
+    display: inline-flex;
+    align-items: center;
+    background-color: #eff6ff;
+    color: var(--primary-color);
+    padding: 6px 14px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 9999px;
+    margin-bottom: 16px;
+}
+
+.section-heading {
+    text-align: center;
+    margin-bottom: 64px;
+}
+
+.section-heading h2 {
+    color: var(--text-main);
+    font-size: 2.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+}
+
+.section-heading p {
+    color: var(--text-muted);
+    max-width: 640px;
+    margin: 0 auto;
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+/* HERO SECTION */
+.about-hero {
+    padding: 140px 24px;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: var(--bg-white);
+    text-align: center;
+    position: relative;
+}
+
+.about-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0);
+    background-size: 24px 24px;
+}
+
+.hero-container {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.about-hero h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    background: linear-gradient(to right, #ffffff, #cbd5e1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.about-hero p {
+    font-size: 1.25rem;
+    line-height: 1.7;
+    color: #94a3b8;
+    font-weight: 400;
+}
+
+/* COMPANY STORY */
+.story-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 64px;
+    align-items: center;
+}
+
+.story-content h2 {
+    font-size: 2.25rem;
+    color: var(--text-main);
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: -0.02em;
+}
+
+.story-content p {
+    color: var(--text-body);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.story-card {
+    background: var(--bg-white);
+    padding: 48px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+}
+
+.story-card .card-icon {
+    color: var(--primary-color);
+    background-color: #eff6ff;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    margin-bottom: 24px;
+}
+
+.story-card .card-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.story-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+}
+
+.story-card p {
+    color: var(--text-body);
+    font-size: 0.95rem;
+    line-height: 1.65;
+}
+
+/* STATS */
+.stats-section {
+    background: var(--bg-light);
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 60px 24px;
+}
+
+.stats-grid {
+    max-width: 1250px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+}
+
+.stat-card {
+    background: var(--bg-white);
+    text-align: center;
+    padding: 36px 24px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+}
+
+.stat-card h3 {
+    font-size: 2.75rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    margin-bottom: 6px;
+    letter-spacing: -0.02em;
+}
+
+.stat-card p {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* CAPABILITIES & VALUES GRID */
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+}
+
+.value-card {
+    background: var(--bg-white);
+    padding: 40px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+}
+
+.value-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: #bfdbfe;
+}
+
+.value-card h3 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+    color: var(--text-main);
+    letter-spacing: -0.01em;
+}
+
+.value-card p {
+    color: var(--text-body);
+    font-size: 0.95rem;
+    line-height: 1.65;
+}
+
+/* INDUSTRY IMPACT GRID */
+.impact-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.impact-card {
+    background: var(--bg-white);
+    padding: 36px 28px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+
+.impact-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.impact-header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+}
+
+.impact-header span {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 6px;
+}
+
+.impact-header h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.impact-card p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-body);
+}
+
+/* INDUSTRIAL CTA SECTION */
+.about-cta {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: var(--bg-white);
+    text-align: center;
+    padding: 100px 24px;
+}
+
+.cta-container {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.about-cta h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+}
+
+.about-cta p {
+    font-size: 1.1rem;
+    line-height: 1.65;
+    color: #94a3b8;
+    margin-bottom: 36px;
+}
+
+.cta-btn {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white !important;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 14px 32px;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.cta-btn:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+/* RESPONSIVE BREAKPOINTS */
+@media(max-width: 1024px) {
+    .impact-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+    }
+}
+
+@media(max-width: 900px) {
+    .story-grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+    }
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+    }
+    .values-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+    .about-hero h1 {
+        font-size: 2.75rem;
+    }
+    .about-section {
+        padding: 80px 24px;
+    }
+}
+
+@media(max-width: 600px) {
+    .stats-grid, .impact-grid {
+        grid-template-columns: 1fr;
+    }
+    .section-heading h2 {
+        font-size: 1.85rem;
+    }
+    .about-hero h1 {
+        font-size: 2.25rem;
+    }
+    .story-card {
+        padding: 36px 24px;
+    }
+    .value-card {
+        padding: 32px 24px;
+    }
+}

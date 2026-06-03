@@ -1,0 +1,194 @@
+
+    body {
+        background-color: #f8fafc;
+        color: #334155;
+        margin: 0;
+    }
+
+    /* --------------------------------------------------------------------------
+       1. Top Hero Header Segment (Deep Professional Charcoal Slate)
+       -------------------------------------------------------------------------- */
+    .form-hero-header {
+        background-color: #0f172a; /* Solid structural dark anchor */
+        padding: 48px 0 110px 0;   /* Generous bottom padding to cradle the overlapping card */
+        margin-bottom: -70px;      /* Pulls the form card up over the dark canvas boundary */
+    }
+
+    .form-header-inner {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 24px;
+        box-sizing: border-box;
+    }
+
+    /* Dark-mode context navigation links */
+    .back-nav {
+        margin-bottom: 16px;
+    }
+    .back-nav a {
+        color: #94a3b8; /* Crisp medium slate gray over dark background */
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        transition: color 0.15s ease;
+    }
+    .back-nav a:hover {
+        color: #3b82f6; /* Modern deep sky blue hover highlight */
+    }
+
+    /* Core Title Typography inside header block */
+    .form-header-title {
+        font-size: 1.85rem;
+        color: #ffffff; /* Brilliant white contrast over charcoal slate */
+        margin: 0 0 6px 0;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+    }
+    .form-header-subtitle {
+        margin: 0;
+        color: #94a3b8;
+        font-size: 0.9rem;
+    }
+
+    /* --------------------------------------------------------------------------
+       2. Form Content Area Frame (Clean Pure White Elevation)
+       -------------------------------------------------------------------------- */
+    .form-page-wrapper {
+        max-width: 800px;
+        margin: 0 auto 60px auto;
+        padding: 0 24px;
+        box-sizing: border-box;
+    }
+
+    .form-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 40px;
+        box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 16px -6px rgba(15, 23, 42, 0.04);
+    }
+
+    /* Input Structure Matrix Grid */
+    .form-grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        margin-bottom: 24px;
+    }
+
+    .form-field-group {
+        margin-bottom: 24px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Micro-Typography Metadata Form Labels */
+    .form-card label {
+        display: block;
+        margin-bottom: 8px;
+        color: #475569;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+
+    /* Interactive Component Styling */
+    .form-card input[type="text"],
+    .form-card input[type="number"],
+    .form-card select,
+    .form-card textarea {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 11px 14px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        color: #0f172a;
+        background-color: #ffffff;
+        font-family: inherit;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    /* Interactive Focused Input States */
+    .form-card input:focus,
+    .form-card select:focus,
+    .form-card textarea:focus {
+        outline: none;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    }
+
+    .form-card textarea {
+        min-height: 120px;
+        resize: vertical;
+        line-height: 1.5;
+    }
+
+    /* --------------------------------------------------------------------------
+       3. Action Panel Interface Tray
+       -------------------------------------------------------------------------- */
+    .form-actions-wrapper {
+        border-top: 1px solid #f1f5f9;
+        margin-top: 40px;
+        padding-top: 24px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+    }
+
+    /* Submit Action Base Configuration */
+    .btn-submit-job {
+        background-color: #2563eb;
+        color: #ffffff;
+        padding: 11px 24px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.875rem;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+        transition: all 0.2s ease;
+    }
+    .btn-submit-job:hover {
+        background-color: #1d4ed8;
+        box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
+    }
+
+    /* Cancel Action Base Configuration */
+    .btn-cancel-job {
+        background-color: #ffffff;
+        color: #475569;
+        padding: 10px 20px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.875rem;
+        text-decoration: none;
+        text-align: center;
+        transition: all 0.15s ease;
+    }
+    .btn-cancel-job:hover {
+        background-color: #f8fafc;
+        color: #0f172a;
+        border-color: #94a3b8;
+    }
+
+    /* --------------------------------------------------------------------------
+       4. Breakpoint Media Inversion Rules
+       -------------------------------------------------------------------------- */
+    @media (max-width: 640px) {
+        .form-grid-2 {
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+        .form-card {
+            padding: 24px;
+        }
+        .form-actions-wrapper {
+            flex-direction: column-reverse;
+        }
+        .btn-cancel-job, .btn-submit-job {
+            width: 100%;
+        }
+    }

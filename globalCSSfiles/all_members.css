@@ -1,0 +1,236 @@
+    .page-wrapper {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        min-height: calc(100vh - 70px);
+        background-color: #f8fafc !important; /* Soft light background for high readability */
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+        box-sizing: border-box !important;
+    }
+
+    /* LAYERED CONTRAST: Deep Charcoal-Navy Dashboard Header Administrative Plane */
+    .hr-control-plane {
+        background-color: #0f172a !important; 
+        border-bottom: 4px solid #3b82f6 !important; /* Tech Blue authority border line */
+        padding: 60px 24px 110px 24px !important;
+        color: #ffffff !important;
+        box-sizing: border-box !important;
+    }
+
+    .plane-container {
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+        width: 100% !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important; /* Center metrics and actions nicely inline */
+        flex-wrap: wrap !important;
+        gap: 20px !important;
+    }
+
+    .hr-title {
+        color: #ffffff !important;
+        font-size: 2.25rem !important;
+        font-weight: 800 !important;
+        margin: 0 !important;
+        letter-spacing: -0.03em !important;
+    }
+
+    .hr-subtitle {
+        color: #94a3b8 !important;
+        font-size: 0.95rem !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.08em !important;
+        margin-top: 6px !important;
+        display: block !important;
+    }
+
+    /* Header Controls Container Wrap */
+    .control-plane-actions {
+        display: flex !important;
+        align-items: center !important;
+        gap: 16px !important;
+        flex-wrap: wrap !important;
+    }
+
+    /* Professional Call-to-Action Add Button */
+    .btn-add-operator {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        background-color: #2563eb !important; /* Vibrant tech blue action primary */
+        color: #ffffff !important;
+        text-decoration: none !important;
+        padding: 10px 20px !important;
+        border-radius: 8px !important;
+        font-size: 0.9rem !important;
+        font-weight: 600 !important;
+        transition: all 0.2s ease !important;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2) !important;
+    }
+
+    .btn-add-operator:hover {
+        background-color: #1d4ed8 !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3) !important;
+    }
+
+    /* LAYERED CONTRAST: Lower Light Workspace Surface Grid Floor */
+    .hr-workspace-surface {
+        max-width: 1200px !important;
+        margin: -60px auto 60px auto !important; /* Overlap elevation layout anchor */
+        padding: 0 24px !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
+    }
+
+    /* ==========================================================================
+       2. HR TEAM SYSTEM ACCESS LAYOUT CARDS
+       ========================================================================== */
+    .hr-grid-container {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)) !important;
+        gap: 24px !important;
+    }
+
+    .hr-card-node {
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 12px !important;
+        padding: 24px !important;
+        box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.04) !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        text-decoration: none !important;
+        position: relative !important;
+        overflow: hidden !important;
+    }
+
+    .hr-card-node:hover {
+        transform: translateY(-4px) !important;
+        border-color: #2563eb !important;
+        box-shadow: 0 16px 30px -5px rgba(37, 99, 235, 0.08) !important;
+    }
+
+    .hr-card-header {
+        display: flex !important;
+        align-items: center !important;
+        margin-bottom: 16px !important;
+    }
+
+    /* Corporate Security Initials/Profile Blocks */
+    .hr-avatar-node {
+        width: 52px !important;
+        height: 52px !important;
+        background-color: #eff6ff !important;
+        border: 1px solid #bfdbfe !important;
+        color: #1e40af !important;
+        border-radius: 8px !important; /* Box-cut modern profile style */
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-weight: 700 !important;
+        font-size: 1.1rem !important;
+        flex-shrink: 0 !important;
+    }
+
+    .hr-meta-block {
+        padding-left: 16px !important;
+    }
+
+    .hr-operator-name {
+        margin: 0 !important;
+        font-size: 1.15rem !important;
+        font-weight: 700 !important;
+        color: #0f172a !important;
+        transition: color 0.2s ease !important;
+    }
+
+    .hr-card-node:hover .hr-operator-name {
+        color: #2563eb !important;
+    }
+
+    .hr-system-id {
+        font-size: 0.78rem !important;
+        font-family: monospace !important;
+        color: #64748b !important;
+        display: block !important;
+        margin-top: 2px !important;
+    }
+
+    /* System Security Access Badges */
+    .hr-card-footer {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        border-top: 1px solid #f1f5f9 !important;
+        padding-top: 14px !important;
+        margin-top: 4px !important;
+    }
+
+    .access-badge {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        background-color: #f0fdf4 !important;
+        color: #166534 !important;
+        border: 1px solid #bbf7d0 !important;
+        padding: 4px 10px !important;
+        border-radius: 6px !important;
+        font-size: 0.78rem !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.02em !important;
+    }
+
+    .indicator-dot {
+        width: 6px !important;
+        height: 6px !important;
+        background-color: #22c55e !important;
+        border-radius: 50% !important;
+    }
+
+    .action-panel-link {
+        font-size: 0.85rem !important;
+        color: #2563eb !important;
+        font-weight: 600 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 4px !important;
+    }
+
+    .hr-card-node:hover .action-panel-link {
+        text-decoration: underline !important;
+    }
+
+    /* Roster Counter System Elements */
+    .system-counter-tag {
+        background-color: rgba(255, 255, 255, 0.08) !important;
+        padding: 8px 14px !important;
+        border-radius: 6px !important;
+        font-size: 0.85rem !important;
+        font-weight: 600 !important;
+        color: #93c5fd !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+
+    .empty-directory-state {
+        text-align: center !important;
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 12px !important;
+        color: #94a3b8 !important;
+        padding: 64px 24px !important;
+        margin: 0 !important;
+        font-weight: 500 !important;
+    }
+
+    @media (max-width: 640px) {
+        .hr-control-plane { padding: 40px 16px 90px 16px !important; }
+        .hr-workspace-surface { padding: 0 16px !important; margin-top: -60px !important; }
+        .plane-container { flex-direction: column !important; align-items: flex-start !important; gap: 16px !important; }
+        .control-plane-actions { width: 100% !important; justify-content: space-between !important; }
+    }

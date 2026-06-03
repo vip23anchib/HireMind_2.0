@@ -499,7 +499,6 @@ def candidate_profile(request, id):
     context = {
         'candidate': candidate,
         'skills': skills,
-        'active_page': 'search_candidates',
         'document': document,
     }
 
