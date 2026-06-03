@@ -1,6 +1,7 @@
 # HireMind ATS
 
 A modern Applicant Tracking System (ATS) built with Django that helps recruiters manage jobs, track applications, search candidates, analyze resumes, and streamline hiring workflows.
+Built a domain-specific B2B workflow tool (an ATS) that solves real business problems: data extraction, search filtering, and analytics.
 
 ---
 
