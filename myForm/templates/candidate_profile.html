@@ -5,183 +5,283 @@ Candidate Profile
 {% endblock %}
 
 {% block content %}
+<style>
+    /* ==========================================================================
+       1. BASE LAYOUT & CONTRAST PLANE SETTINGS
+       ========================================================================== */
+    .page-wrapper {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        min-height: calc(100vh - 70px);
+        background-color: #f8fafc !important; /* Premium light workspace background */
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+        box-sizing: border-box !important;
+    }
 
-<div style="
-    max-width:1000px;
-    margin:40px auto;
-    padding:20px;
-">
+    /* LAYERED CONTRAST: Deep Charcoal-Navy Profile Header Plane */
+    .dark-control-plane {
+        background-color: #0f172a !important;
+        padding: 56px 24px 110px 24px !important; /* Deep padding to establish strong contrast anchors */
+        color: #ffffff !important;
+        box-sizing: border-box !important;
+    }
 
-    <h2 style="
-        margin-bottom:20px;
-        color:#1e293b;
-    ">
-        Candidate Profile
-    </h2>
+    .plane-container {
+        max-width: 1000px !important;
+        margin: 0 auto !important;
+        width: 100% !important;
+    }
 
-    <div style="
-        background:white;
-        border:1px solid #e2e8f0;
-        border-radius:8px;
-        padding:25px;
-        margin-bottom:25px;
-        box-shadow:0 1px 3px rgba(0,0,0,0.05);
-    ">
+    /* LAYERED CONTRAST: Lower Light Workspace Layout Surface */
+    .light-workspace-surface {
+        max-width: 1000px !important;
+        margin: -70px auto 60px auto !important; /* Drags profile contents cleanly over the dark block */
+        padding: 0 24px !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
+    }
 
-        <h3 style="margin-top:0;">
-            Personal Information
-        </h3>
+    /* ==========================================================================
+       2. HERO CARD IDENTITY SUMMARY (Within Dark Plane)
+       ========================================================================== */
+    .profile-hero-meta {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: flex-start !important;
+        flex-wrap: wrap !important;
+        gap: 16px !important;
+    }
 
-        <p>
-            <strong>Name:</strong>
-            {{ candidate.name }}
-        </p>
+    .candidate-name-title {
+        font-size: 2.25rem !important;
+        font-weight: 800 !important;
+        margin: 0 0 8px 0 !important;
+        letter-spacing: -0.03em !important;
+        color: #ffffff !important;
+    }
 
-        <p>
-            <strong>Email:</strong>
-            {{ candidate.email }}
-        </p>
+    .candidate-quick-tags {
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        color: #94a3b8 !important;
+        font-size: 0.95rem !important;
+    }
 
-        <p>
-            <strong>Gender:</strong>
-            {{ candidate.gender }}
-        </p>
+    .meta-split-dot {
+        width: 4px !important;
+        height: 4px !important;
+        background-color: #475569 !important;
+        border-radius: 50% !important;
+    }
 
-        <p>
-            <strong>Country:</strong>
-            {{ candidate.country }}
-        </p>
+    /* ==========================================================================
+       3. PROFILE WORKSPACE INFO PANELS (Light Layer Elements)
+       ========================================================================== */
+    .profile-info-card {
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 12px !important;
+        padding: 28px !important;
+        box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05) !important;
+        margin-bottom: 24px !important;
+    }
 
-        <p>
-            <strong>Message:</strong>
-            {{ candidate.message }}
-        </p>
+    .profile-info-card h3 {
+        margin: 0 0 20px 0 !important;
+        font-size: 1.15rem !important;
+        font-weight: 700 !important;
+        color: #0f172a !important;
+        border-bottom: 1px solid #f1f5f9 !important;
+        padding-bottom: 12px !important;
+    }
 
+    /* Message Block Styling */
+    .candidate-message-box {
+        background-color: #f8fafc !important;
+        border-left: 4px solid #cbd5e1 !important;
+        padding: 16px 20px !important;
+        margin-top: 12px !important;
+        border-radius: 0 8px 8px 0 !important;
+        color: #475569 !important;
+        font-size: 0.95rem !important;
+        line-height: 1.6 !important;
+    }
+
+    /* ==========================================================================
+       4. DATA PRESENTATION (Skills Metrics & Table Configurations)
+       ========================================================================== */
+    .skills-display-table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        text-align: left !important;
+        font-size: 0.95rem !important;
+    }
+
+    .skills-display-table th {
+        background-color: #f8fafc !important;
+        color: #64748b !important;
+        font-weight: 700 !important;
+        padding: 12px 16px !important;
+        text-transform: uppercase !important;
+        font-size: 0.75rem !important;
+        letter-spacing: 0.05em !important;
+        border-bottom: 1px solid #e2e8f0 !important;
+    }
+
+    .skills-display-table td {
+        padding: 14px 16px !important;
+        color: #334155 !important;
+        border-bottom: 1px solid #f1f5f9 !important;
+    }
+
+    .skills-display-table tr:last-child td {
+        border-bottom: none !important;
+    }
+
+    .experience-metric-badge {
+        display: inline-block !important;
+        background-color: #e0f2fe !important;
+        color: #0369a1 !important;
+        padding: 4px 10px !important;
+        border-radius: 6px !important;
+        font-size: 0.85rem !important;
+        font-weight: 700 !important;
+    }
+
+    /* ==========================================================================
+       5. DOCUMENTS / CALL-TO-ACTION UTILITIES
+       ========================================================================== */
+    .btn-action-primary {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        background: #2563eb !important; /* Solid tech blue action button */
+        color: #ffffff !important;
+        text-decoration: none !important;
+        padding: 12px 24px !important;
+        border-radius: 8px !important;
+        font-weight: 600 !important;
+        font-size: 0.95rem !important;
+        transition: background-color 0.2s ease, transform 0.2s ease !important;
+        box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2) !important;
+    }
+
+    .btn-action-primary:hover {
+        background-color: #1d4ed8 !important;
+        transform: translateY(-1px) !important;
+    }
+
+    .empty-state-text {
+        text-align: center !important;
+        color: #94a3b8 !important;
+        padding: 32px 0 !important;
+        margin: 0 !important;
+        font-weight: 500 !important;
+    }
+
+    @media (max-width: 640px) {
+        .dark-control-plane { padding: 40px 16px 90px 16px !important; }
+        .light-workspace-surface { padding: 0 16px !important; margin-top: -60px !important; }
+        .profile-info-card { padding: 20px !important; }
+    }
+</style>
+
+<div class="page-wrapper">
+    
+    <!-- Top Deep Dark Charcoal-Navy Visual Control Plane Grid Frame -->
+    <div class="dark-control-plane">
+        <div class="plane-container">
+            <div class="profile-hero-meta">
+                <div>
+                    <h2 class="candidate-name-title">{{ candidate.name }}</h2>
+                    <div class="candidate-quick-tags">
+                        <span>{{ candidate.email }}</span>
+                        <div class="meta-split-dot"></div>
+                        <span>{{ candidate.country }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div style="
-        background:white;
-        border:1px solid #e2e8f0;
-        border-radius:8px;
-        padding:25px;
-        margin-bottom:25px;
-        box-shadow:0 1px 3px rgba(0,0,0,0.05);
-    ">
+    <!-- Light Surface Drop Down Workspace Information Cards Layer -->
+    <div class="light-workspace-surface">
+        
+        <!-- Section Panel: Core Demographics & Cover Details -->
+        <div class="profile-info-card">
+            <h3>Personal Information</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px;">
+                <div>
+                    <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; font-weight: 700; display: block; margin-bottom: 4px;">Gender Structure</span>
+                    <strong style="color: #0f172a; font-size: 1.05rem;">{{ candidate.gender }}</strong>
+                </div>
+                <div>
+                    <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; font-weight: 700; display: block; margin-bottom: 4px;">Geographic Origin</span>
+                    <strong style="color: #0f172a; font-size: 1.05rem;">{{ candidate.country }}</strong>
+                </div>
+            </div>
 
-        <h3>
-            Skills & Experience
-        </h3>
+            {% if candidate.message %}
+            <div style="margin-top: 24px;">
+                <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; font-weight: 700; display: block; margin-bottom: 4px;">Candidate Message Notes</span>
+                <div class="candidate-message-box">
+                    {{ candidate.message }}
+                </div>
+            </div>
+            {% endif %}
+        </div>
 
-        <table style="
-            width:100%;
-            border-collapse:collapse;
-        ">
+        <!-- Section Panel: Tracked Skills & Industry Field Experience Matrices -->
+        <div class="profile-info-card">
+            <h3>Skills & Experience</h3>
+            <table class="skills-display-table">
+                <thead>
+                    <tr>
+                        <th>Skillset Metric Name</th>
+                        <th>Acquired Industry Experience</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for skill in skills %}
+                    <tr>
+                        <td style="font-weight: 600; color: #0f172a;">
+                            {{ skill.skill.name }}
+                        </td>
+                        <td>
+                            <span class="experience-metric-badge">
+                                {{ skill.years_of_experience }} Years
+                            </span>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="2" class="empty-state-text">
+                            No matching skills verified inside the candidate track record.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
-            <thead>
-
-                <tr style="
-                    background:#f8fafc;
-                ">
-
-                    <th style="
-                        text-align:left;
-                        padding:12px;
-                    ">
-                        Skill
-                    </th>
-
-                    <th style="
-                        text-align:left;
-                        padding:12px;
-                    ">
-                        Experience
-                    </th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                {% for skill in skills %}
-
-                <tr style="
-                    border-top:1px solid #e2e8f0;
-                ">
-
-                    <td style="padding:12px;">
-                        {{ skill.skill.name }}
-                    </td>
-
-                    <td style="padding:12px;">
-                        {{ skill.years_of_experience }} Years
-                    </td>
-
-                </tr>
-
-                {% empty %}
-
-                <tr>
-
-                    <td colspan="2"
-                        style="
-                        padding:20px;
-                        text-align:center;
-                        color:#64748b;
-                    ">
-                        No skills found
-                    </td>
-
-                </tr>
-
-                {% endfor %}
-
-            </tbody>
-
-        </table>
+        <!-- Section Panel: External Vetted Documentation Attachments -->
+        <div class="profile-info-card">
+            <h3>Resume Attachment</h3>
+            {% if document %}
+                <div style="padding: 4px 0;">
+                    <a href="{{ document.file.url }}" target="_blank" class="btn-action-primary">
+                        📂 Open Verified Resume PDF
+                    </a>
+                </div>
+            {% else %}
+                <p class="empty-state-text" style="text-align: left; padding: 8px 0;">
+                    No resume portfolio file uploaded inside the application system database.
+                </p>
+            {% endif %}
+        </div>
 
     </div>
-
-    <div style="
-        background:white;
-        border:1px solid #e2e8f0;
-        border-radius:8px;
-        padding:25px;
-        box-shadow:0 1px 3px rgba(0,0,0,0.05);
-    ">
-
-        <h3>
-            Resume
-        </h3>
-
-        {% if document %}
-
-            <a
-                href="{{ document.file.url }}"
-                target="_blank"
-                style="
-                    background:#2563eb;
-                    color:white;
-                    text-decoration:none;
-                    padding:10px 16px;
-                    border-radius:6px;
-                    display:inline-block;
-                    font-weight:600;
-                "
-            >
-                View Resume PDF
-            </a>
-
-        {% else %}
-
-            <p>
-                No resume uploaded.
-            </p>
-
-        {% endif %}
-
-    </div>
-
 </div>
-
 {% endblock %}

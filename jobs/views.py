@@ -11,7 +11,7 @@ from django.contrib import messages
 
 
 
-@login_required(login_url='login_view')
+
 def careers(request):
 
     jobs = Job.objects.filter(
@@ -30,7 +30,6 @@ def careers(request):
     )
 
 #function tfor showing job details on career page
-@login_required(login_url='login_view')
 def job_detail(request, slug):
 
     job = get_object_or_404(
@@ -50,7 +49,7 @@ def job_detail(request, slug):
     )
 
 
-@login_required(login_url='login_view')
+
 def apply_job(request, slug):
 
     job = get_object_or_404(
@@ -192,7 +191,6 @@ def edit_job(request, id):
     )
 
 #function to show about us page
-@login_required(login_url='login_view')
 def about_us(request):
 
     
@@ -206,7 +204,6 @@ def about_us(request):
     )
 
 #function to show services page
-@login_required(login_url='login_view')
 def services(request):
 
     
@@ -219,8 +216,8 @@ def services(request):
         }
     )
 
+
 #function to show services page
-@login_required(login_url='login_view')
 def contact(request):
 
     

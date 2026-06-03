@@ -23,4 +23,8 @@ urlpatterns = [
 
     path('applications/<int:application_id>/status/',views.update_application_status,name='update_application_status'),
 
+    path('home-page/',views.home_page,name='home-page'),
+
 ]
+
+

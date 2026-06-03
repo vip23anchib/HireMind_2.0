@@ -22,6 +22,10 @@ from django.db.models import Q
 from django.db.models import Count , Avg
 import plotly.express as px
 from plotly.offline import plot
+
+from jobs.models import Job
+from myForm.models import UserData, Application
+
 '''
 @login_required(login_url='login_view')
 def upload_file(request):
@@ -48,6 +52,56 @@ def upload_file(request):
     return JsonResponse({"error": "Invalid request"}, status=400)
 '''
 
+@login_required(login_url='login_view')
+def home_page(request):
+
+    total_applications = Application.objects.count()
+
+    active_jobs = Job.objects.filter(
+        is_active=True
+    ).count()
+
+    total_candidates = UserData.objects.count()
+
+    shortlisted = Application.objects.filter(
+        status='Shortlisted'
+    ).count()
+
+    interviews = Application.objects.filter(
+        status='Interview Scheduled'
+    ).count()
+
+    hired = Application.objects.filter(
+        status='Hired'
+    ).count()
+
+    recent_applications = Application.objects.select_related(
+        'candidate',
+        'job'
+    ).order_by(
+        '-applied_at'
+    )[:5]
+
+    context = {
+
+        'total_applications': total_applications,
+        'active_jobs': active_jobs,
+        'total_candidates': total_candidates,
+        'shortlisted': shortlisted,
+        'interviews': interviews,
+        'hired': hired,
+        'recent_applications': recent_applications,
+
+    }
+
+    return render(
+        request,
+        "hr_homePage.html",
+        context
+    )
+
+
+
    # 3. Create a simple view for your success page
 def success_view(request):
     return render(request, 'success.html')
@@ -65,7 +119,7 @@ def login_view(request):
 
         if user is not None:
             login(request, user)  # Creates the secure session for the user
-            return redirect('landing_page')  # Redirects to your data entry form view
+            return redirect('home-page')  # Redirects to your data entry form view
         else:
             # If authentication fails, pass an error message back to the template
             return render(request, 'LOGIN.html', {'error': 'Invalid username or password'})
@@ -77,7 +131,7 @@ def login_view(request):
 # --- NEW LOGOUT VIEW ---
 def logout_view(request):
     logout(request)  # This destroys the session cookie in the browser
-    return redirect('login_view')  # Send them back to the login page after logging out
+    return redirect('landing_page')  # Send them back to the login page after logging out
 
 '''
 @login_required(login_url='login_view')
@@ -136,7 +190,8 @@ def form_data(request):
     '''
     return render(request, 'form_data.html', {
         'users': users,
-        'page_obj': page_obj
+        'page_obj': page_obj,
+        'active_page': 'form_data',
     })
 #---------------------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------------------

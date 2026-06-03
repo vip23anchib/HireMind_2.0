@@ -1,13 +1,254 @@
 {% extends "master.html" %}
 
 {% block title %}
-  Details about {{ mymember.firstname }} {{ mymember.lastname }}
+HR Operations - Profile Details for {{ mymember.firstname }} {{ mymember.lastname }}
 {% endblock %}
 
 {% block content %}
-  <div class="mycard">
-    <h1>{{ mymember.firstname }} {{ mymember.lastname }}</h1>
-    <p>Phone {{ mymember.phone }}</p>
-    <p>Member since: {{ mymember.joined_date }}</p>
-  </div>
-{% endblock %}  
+<style>
+    /* ==========================================================================
+       1. BASE LAYOUT & CONTRAST PLANE SETTINGS
+       ========================================================================== */
+    .page-wrapper {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        min-height: calc(100vh - 70px);
+        background-color: #f8fafc !important; /* Soft light background for workspace clarity */
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+        box-sizing: border-box !important;
+    }
+
+    /* LAYERED CONTRAST: Deep Charcoal-Navy Profile Header Administrative Plane */
+    .hr-control-plane {
+        background-color: #0f172a !important;
+        border-bottom: 4px solid #3b82f6 !important; /* Tech Blue authority border line */
+        padding: 56px 24px 110px 24px !important; /* Raised depth anchor */
+        color: #ffffff !important;
+        box-sizing: border-box !important;
+    }
+
+    .plane-container {
+        max-width: 900px !important;
+        margin: 0 auto !important;
+        width: 100% !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        flex-wrap: wrap !important;
+        gap: 20px !important;
+    }
+
+    .hr-operator-name {
+        color: #ffffff !important;
+        font-size: 2.25rem !important;
+        font-weight: 800 !important;
+        margin: 0 0 8px 0 !important;
+        letter-spacing: -0.03em !important;
+    }
+
+    /* System Security Access Status Pill */
+    .access-status-indicator {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        background-color: rgba(34, 197, 94, 0.15) !important;
+        color: #4ade80 !important;
+        border: 1px solid rgba(34, 197, 94, 0.3) !important;
+        padding: 6px 14px !important;
+        border-radius: 30px !important;
+        font-size: 0.8rem !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.05em !important;
+    }
+
+    .indicator-pulse-dot {
+        width: 8px !important;
+        height: 8px !important;
+        background-color: #22c55e !important;
+        border-radius: 50% !important;
+    }
+
+    /* LAYERED CONTRAST: Lower Light Workspace Surface Card */
+    .hr-workspace-surface {
+        max-width: 900px !important;
+        margin: -70px auto 60px auto !important; /* Overlap elevation anchor positioning */
+        padding: 0 24px !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
+    }
+
+    /* ==========================================================================
+       2. SECURE CREDENTIAL DISPLAY PANEL
+       ========================================================================== */
+    .profile-details-card {
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 12px !important;
+        padding: 36px !important;
+        box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05) !important;
+    }
+
+    .profile-card-header {
+        border-bottom: 1px solid #f1f5f9 !important;
+        padding-bottom: 16px !important;
+        margin-bottom: 28px !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+
+    .profile-card-header h3 {
+        margin: 0 !important;
+        font-size: 1.25rem !important;
+        font-weight: 700 !important;
+        color: #0f172a !important;
+    }
+
+    .system-serial-token {
+        font-size: 0.82rem !important;
+        font-family: monospace !important;
+        color: #64748b !important;
+        background-color: #f8fafc !important;
+        padding: 4px 8px !important;
+        border-radius: 4px !important;
+        border: 1px solid #e2e8f0 !important;
+    }
+
+    /* Data Field Matrix Components */
+    .data-meta-grid {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+        gap: 24px !important;
+        margin-bottom: 32px !important;
+    }
+
+    .meta-field-node {
+        background-color: #f8fafc !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 8px !important;
+        padding: 16px 20px !important;
+    }
+
+    .field-label {
+        font-size: 0.78rem !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.05em !important;
+        color: #64748b !important;
+        font-weight: 700 !important;
+        display: block !important;
+        margin-bottom: 6px !important;
+    }
+
+    .field-value {
+        color: #0f172a !important;
+        font-size: 1.1rem !important;
+        font-weight: 600 !important;
+        word-break: break-all !important;
+    }
+
+    /* Action Navigation Utilities */
+    .btn-return-back {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        background-color: #ffffff !important;
+        color: #475569 !important;
+        border: 1px solid #cbd5e1 !important;
+        text-decoration: none !important;
+        padding: 10px 20px !important;
+        border-radius: 8px !important;
+        font-weight: 600 !important;
+        font-size: 0.9rem !important;
+        transition: all 0.2s ease !important;
+    }
+
+    .btn-return-back:hover {
+        color: #0f172a !important;
+        border-color: #0f172a !important;
+        background-color: #f8fafc !important;
+    }
+
+    @media (max-width: 640px) {
+        .hr-control-plane { padding: 40px 16px 90px 16px !important; }
+        .hr-workspace-surface { padding: 0 16px !important; margin-top: -60px !important; }
+        .profile-details-card { padding: 24px !important; }
+        .plane-container { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; }
+    }
+</style>
+
+<div class="page-wrapper">
+    
+    <!-- Top Deep Dark Charcoal-Navy Visual Control Plane Layer Frame -->
+    <div class="hr-control-plane">
+        <div class="plane-container">
+            <div>
+                <h1 class="hr-operator-name">
+                    {{ mymember.firstname }} {{ mymember.lastname }}
+                </h1>
+                <span style="color: #94a3b8; font-size: 1rem; font-weight: 500;">
+                    HR Administrative Personnel Profile
+                </span>
+            </div>
+            
+            <div class="access-status-indicator">
+                <div class="indicator-pulse-dot"></div>
+                Clearance Valid
+            </div>
+        </div>
+    </div>
+
+    <!-- Light Surface Layout Workspace Account Information Card Drop Layer -->
+    <div class="hr-workspace-surface">
+        
+        <div class="profile-details-card">
+            
+            <div class="profile-card-header">
+                <h3>Authentication & Meta Log</h3>
+                <span class="system-serial-token">
+                    SYS_NODE_00{{ mymember.id }}
+                </span>
+            </div>
+
+            <!-- Structured Metadata Data Grid Configuration Block -->
+            <div class="data-meta-grid">
+                
+                <!-- FIELD: Secure Contact Line -->
+                <div class="meta-field-node">
+                    <span class="field-label">Secured Contact Extension</span>
+                    <div class="field-value">
+                        {% if mymember.phone %}
+                            {{ mymember.phone }}
+                        {% else %}
+                            <span style="color: #94a3b8; font-style: italic; font-weight: 400;">No line allocated</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- FIELD: Registration Frame Date Timestamp -->
+                <div class="meta-field-node">
+                    <span class="field-label">System Authorization Date</span>
+                    <div class="field-value">
+                        {% if mymember.joined_date %}
+                            {{ mymember.joined_date }}
+                        {% else %}
+                            <span style="color: #94a3b8; font-style: italic; font-weight: 400;">Date unrecorded</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Action Return Utility Control Link Button -->
+            <div style="border-top: 1px solid #f1f5f9; padding-top: 24px;">
+                <a href="javascript:history.back()" class="btn-return-back">
+                    &larr; Return to Team Roster Directory
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}

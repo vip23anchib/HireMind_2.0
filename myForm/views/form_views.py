@@ -22,7 +22,7 @@ from jobs.models import Job
 
 #combined function for both create and update based on whether its GET or POST 
 
-@login_required(login_url='login_view')
+
 def form(request):
 
     if request.method == "POST":
@@ -166,8 +166,6 @@ def form(request):
 
             user_data = UserData.objects.create(
 
-                user=request.user,
-
                 name=request.POST['name'],
 
                 email=request.POST['email'],
@@ -188,7 +186,8 @@ def form(request):
 
                 portfolio_url=request.POST.get(
                     'portfolio_url'
-                )
+                ),
+                user=request.user if request.user.is_authenticated else None
             )
 
             uploaded_file = request.FILES.get(
@@ -252,7 +251,7 @@ def form(request):
 
             Document.objects.create(
 
-                user=request.user,
+                user=request.user if request.user.is_authenticated else None,
 
                 user_data=user_data,
 

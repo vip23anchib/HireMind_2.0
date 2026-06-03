@@ -1,153 +1,255 @@
-
-
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'membersStyle.css' %}">
   {% block extra_css %}{% endblock %}
+  
   <style>
+    /* =======================================================
+       GLOBAL RESET & SYSTEM LOADER STYLES
+    ======================================================= */
+    html, body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
     #loader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-
-    background: white;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    z-index: 9999;
-}
-
-.spinner {
-    width: 50px;
-    height: 50px;
-
-    border: 5px solid #ddd;
-    border-top: 5px solid #2e97de;
-
-    border-radius: 50%;
-
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-
-    0% {
-        transform: rotate(0deg);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #ffffff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        z-index: 9999;
+        font-family: system-ui, -apple-system, sans-serif;
     }
 
-    100% {
-        transform: rotate(360deg);
+    #loader p {
+        color: #64748b;
+        font-weight: 600;
+        font-size: 0.95rem;
+        letter-spacing: 0.05em;
     }
-}
+
+    .spinner {
+        width: 44px;
+        height: 44px;
+        border: 4px solid #f1f5f9;
+        border-top: 4px solid #4f46e5;
+        border-radius: 50%;
+        animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* =======================================================
+       CLEAN LIGHT-MODE STICKY NAVIGATION BAR
+    ======================================================= */
+    .topnav {
+        position: sticky;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #ffffff; /* Clean white background matching logo */
+        padding: 12px 28px;
+        box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06); /* Softer drop shadow */
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        border-bottom: 1px solid #e2e8f0; /* Subtle boundary border line */
+    }
+
+    /* Left Group Container: Branding + Primary Links */
+    .nav-left-group {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+    }
+
+    /* Logo Structural Anchors */
+    .logo-link {
+        display: inline-flex;
+        align-items: center;
+        text-decoration: none;
+        max-height: 44px; 
+    }
+
+    .logo-img {
+        height: 38px;          
+        width: auto;           
+        object-fit: contain;   
+        display: block;
+    }
+
+    /* Navigation Hub Links */
+    .topnav nav {
+        display: flex;
+        align-items: center;
+        gap: 4px; 
+    }
+
+    .topnav nav a {
+        color: #475569; /* Darker slate gray for clean readability on white */
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 600;
+        padding: 8px 14px;
+        border-radius: 8px;
+        letter-spacing: 0.01em;
+        transition: all 0.2s ease;
+    }
+
+    /* Hover & Active Context States */
+    .topnav nav a:hover {
+        color: #0f172a; /* Darkest slate highlight */
+        background-color: #f1f5f9; /* Soft gray background hover indicator */
+    }
+
+    .topnav nav a.active {
+        color: #ffffff !important;
+        background-color: #4f46e5; /* Premium Indigo Accent */
+    }
+
+    /* Right Navigation Context Panel */
+    .user-meta-panel {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .user-profile-tag {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #475569;
+        font-size: 0.88rem;
+    }
+
+    /* Modern Slate Profile Badge Container */
+    .user-avatar-badge {
+        background-color: #f1f5f9;
+        color: #334155;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        border: 1px solid #e2e8f0;
+    }
+
+    .user-profile-tag strong {
+        color: #0f172a;
+        font-weight: 700;
+    }
+
+    /* Clean Interactive Logout Action Element */
+    .btn-nav-logout {
+        color: #ffffff;
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-decoration: none;
+        background-color: #ef4444; 
+        padding: 8px 16px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(239, 68, 68, 0.15);
+        transition: all 0.2s ease;
+    }
+
+    .btn-nav-logout:hover {
+        background-color: #dc2626;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    }
+
+    .btn-nav-logout:active {
+        transform: translateY(1px);
+    }
+
+    /* Mobile Friendly Structural Adjustments */
+    @media (max-width: 1024px) {
+        .topnav {
+            flex-direction: column;
+            gap: 16px;
+            padding: 16px;
+        }
+        .nav-left-group {
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+        }
+        .topnav nav {
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 4px;
+        }
+        .user-meta-panel {
+            width: 100%;
+            justify-content: space-between;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 12px;
+        }
+    }
   </style>
 </head>
 <body>
+
   <div id="loader">
-    <div class="spinner"></div>
-    <p>Loading...</p>
-</div>
-  <div class="topnav" style="
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:10px 20px;
-  ">
+      <div class="spinner"></div>
+      <p>LOADING</p>
+  </div>
 
-    <!-- Left side navigation -->
-    <nav>
-      <a href="{% url 'main' %}"
-         class="{% if active_page == 'home' %}active{% endif %}">
-          HOME |
+  <div class="topnav">
+    <div class="nav-left-group">
+      <a href="{% url 'home-page' %}" class="logo-link {% if active_page == 'landing_page' %}active{% endif %}">
+          <img src="{% static 'images/logo.jpg' %}" alt="Meslova Logo" class="logo-img">
       </a>
+      
+      <nav>
+        <a href="{% url 'home-page' %}" class="{% if active_page == 'home' %}active{% endif %}">HOME</a>
+        <a href="{% url 'members' %}" class="{% if active_page == 'members' %}active{% endif %}">EMPLOYEES</a>
+        <a href="{% url 'form_data' %}" class="{% if active_page == 'form_data' %}active{% endif %}">CANDIDATES</a>
+        <a href="{% url 'search_candidates' %}" class="{% if active_page == 'search_candidates' %}active{% endif %}">CANDIDATE SEARCH</a>
+        <a href="{% url 'ats_dashboard' %}" class="{% if active_page == 'ats_dashboard' %}active{% endif %}">ANALYTICS</a>
+        <a href="{% url 'applications_list' %}" class="{% if active_page == 'applications' %}active{% endif %}">APPLICATIONS</a>
+        <a href="{% url 'manage_jobs' %}" class="{% if active_page == 'manage_jobs' %}active{% endif %}">JOBS</a>
+      </nav>
+    </div> <div class="user-meta-panel">
+      <div class="user-profile-tag">
+        <div class="user-avatar-badge">
+          {{ request.user.username|slice:":1" }}
+        </div>
+        <span>Logged in as: <strong>{{ request.user.username }}</strong></span>
+      </div>
 
-      <a href="{% url 'members' %}"
-         class="{% if active_page == 'members' %}active{% endif %}">
-          EMPLOYEES |
-      </a>
-
-      <a href="{% url 'contact_form' %}"
-         class="{% if active_page == 'form' %}active{% endif %}">
-          Registration Form |
-      </a>
-
-      <a href="{% url 'ajax_data' %}"
-         class="{% if active_page == 'ajax' %}active{% endif %}">
-          AJAX FORM |
-      </a>
-
-      <a href="{% url 'search_candidates' %}"
-        class="{% if active_page == 'search_candidates' %}active{% endif %}">
-        Candidate Search |
-      </a>
-
-      <a
-        href="{% url 'ats_dashboard' %}"
-          class="{% if active_page == 'ats_dashboard' %}active{% endif %}"
-            >
-          ATS Dashboard |
-        </a>
-
-     
-      <a href="{% url 'careers' %}"
-      class="{% if active_page == 'careers_list' %}active{% endif %}">
-          Careers |
-      </a>
-
-      <a href="{% url 'applications_list' %}"
-        class="{% if active_page == 'applications' %}active{% endif %}">
-            Application |
-        </a>
-
-      <a href="{% url 'manage_jobs' %}"
-        class="{% if active_page == 'manage_jobs' %}active{% endif %}">
-          Jobs
-      </a>
-
-
-    </nav>
-
-    <!-- Right side user info -->
-    <div style="
-        display:flex;
-        align-items:center;
-        gap:15px;
-    ">
-      <span>
-        Logged in as:
-        <strong>{{ request.user.username }}</strong>
-      </span>
-
-      <a href="{% url 'logout_view' %}"
-         style="
-            color:white;
-            font-weight:bold;
-            text-decoration:none;
-            background:red;
-            padding:6px 12px;
-         ">
-          Log Out
-      </a>
+      <a href="{% url 'logout_view' %}" class="btn-nav-logout">Log Out</a>
     </div>
-
   </div>
 
   {% block content %}
   {% endblock %}
-<script>
-window.addEventListener("load", function () {
 
-    document.getElementById("loader").style.display = "none";
-
-});
-</script>
+  <script>
+    window.addEventListener("load", function () {
+        document.getElementById("loader").style.display = "none";
+    });
+  </script>
 </body>
 </html>

@@ -2,86 +2,196 @@
 {% load static %}
 
 {% block title %}
-Add Members
-{% endblock %}
-
-{% block extra_css %}
-<style>
-  .card {
-    background: white;
-    padding: 30px;
-    width: 420px;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    margin: 60px auto;
-  }
-
-  h1 {
-    text-align: center;
-    margin-bottom: 25px;
-    color: #333;
-  }
-
-  label {
-    display: block;
-    margin-top: 12px;
-    margin-bottom: 5px;
-    font-size: 14px;
-    color: #555;
-  }
-
-  input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    outline: none;
-  }
-
-  input:focus {
-    border-color: #007bff;
-  }
-
-  button {
-    width: 100%;
-    margin-top: 20px;
-    padding: 12px;
-    background: #28a745;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-
-  button:hover {
-    background: #218838;
-  }
-</style>
+HR Operations - Authorize New Operator
 {% endblock %}
 
 {% block content %}
+<style>
+    /* ==========================================================================
+       1. FORM WORKSPACE CONSOLE WRAPPER
+       ========================================================================== */
+    .form-page-wrapper {
+        width: 100% !important;
+        min-height: calc(100vh - 70px);
+        background-color: #f8fafc !important; /* Soft workspace grey */
+        padding: 60px 24px !important;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
 
-<div class="card">
-  <h1>Add Member</h1>
+    /* Secure Form Portal Container Card */
+    .secure-form-card {
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 12px !important;
+        width: 100% !important;
+        max-width: 480px !important;
+        padding: 40px !important;
+        box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.08) !important;
+        box-sizing: border-box !important;
+    }
 
-  <form method="POST">
-    {% csrf_token %}
+    /* ==========================================================================
+       2. CONSOLE HEADERS & FIELD INLINE OVERRIDES
+       ========================================================================== */
+    .form-header-block {
+        text-align: center !important;
+        margin-bottom: 32px !important;
+    }
 
-    <label>First Name</label>
-    {{ form.firstname }}
+    .form-main-title {
+        color: #0f172a !important;
+        font-size: 1.65rem !important;
+        font-weight: 800 !important;
+        margin: 0 0 6px 0 !important;
+        letter-spacing: -0.02em !important;
+    }
 
-    <label>Last Name</label>
-    {{ form.lastname }}
+    .form-subtitle {
+        color: #64748b !important;
+        font-size: 0.88rem !important;
+        font-weight: 500 !important;
+    }
 
-    <label>Phone</label>
-    {{ form.phone }}
+    .form-group-node {
+        margin-bottom: 20px !important;
+    }
 
-    <label>Joined Date</label>
-    {{ form.joined_date }}
+    .form-group-node label {
+        display: block !important;
+        font-size: 0.8rem !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.05em !important;
+        color: #475569 !important;
+        font-weight: 700 !important;
+        margin-bottom: 6px !important;
+    }
 
-    <button type="submit">Add Member</button>
-  </form>
+    /* Dynamic Target Interception styling for Django Native raw output variables */
+    .form-group-node input, 
+    .form-group-node select, 
+    .form-group-node textarea {
+        width: 100% !important;
+        padding: 10px 14px !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 8px !important;
+        background-color: #ffffff !important;
+        color: #0f172a !important;
+        font-size: 0.95rem !important;
+        font-weight: 500 !important;
+        outline: none !important;
+        transition: all 0.2s ease !important;
+        box-sizing: border-box !important;
+    }
+
+    .form-group-node input:focus {
+        border-color: #2563eb !important;
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1) !important;
+        background-color: #ffffff !important;
+    }
+
+    /* ==========================================================================
+       3. INTERACTIVE PRIMARY INTERACTION SUBMIT BUTTON
+       ========================================================================== */
+    .btn-submit-registration {
+        width: 100% !important;
+        margin-top: 12px !important;
+        padding: 12px 24px !important;
+        background-color: #2563eb !important; /* Premium Tech Blue Accent color alignment */
+        color: #ffffff !important;
+        border: none !important;
+        border-radius: 8px !important;
+        font-size: 0.95rem !important;
+        font-weight: 600 !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15) !important;
+    }
+
+    .btn-submit-registration:hover {
+        background-color: #1d4ed8 !important;
+        box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25) !important;
+    }
+
+    .btn-submit-registration:active {
+        transform: scale(0.98) !important;
+    }
+
+    /* Context Action Link Cancel Tool */
+    .cancel-action-wrap {
+        text-align: center !important;
+        margin-top: 20px !important;
+    }
+
+    .link-cancel-return {
+        color: #64748b !important;
+        text-decoration: none !important;
+        font-size: 0.88rem !important;
+        font-weight: 600 !important;
+        transition: color 0.2s ease !important;
+    }
+
+    .link-cancel-return:hover {
+        color: #0f172a !important;
+    }
+
+    @media (max-width: 520px) {
+        .secure-form-card { padding: 28px 20px !important; border-radius: 8px !important; }
+        .form-page-wrapper { padding: 24px 16px !important; }
+    }
+</style>
+
+<div class="form-page-wrapper">
+    <div class="secure-form-card">
+        
+        <!-- Header Text Block Info Console Layer -->
+        <div class="form-header-block">
+            <h1 class="form-main-title">Add Team Member</h1>
+            <span class="form-subtitle">Provision access credentials into the security portal registry</span>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- FIRST NAME FIELD -->
+            <div class="form-group-node">
+                <label for="{{ form.firstname.id_for_label }}">First Name</label>
+                {{ form.firstname }}
+            </div>
+
+            <!-- LAST NAME FIELD -->
+            <div class="form-group-node">
+                <label for="{{ form.lastname.id_for_label }}">Last Name</label>
+                {{ form.lastname }}
+            </div>
+
+            <!-- SECURED CONTACT FIELD -->
+            <div class="form-group-node">
+                <label for="{{ form.phone.id_for_label }}">Phone Line Extension</label>
+                {{ form.phone }}
+            </div>
+
+            <!-- JOINED DATE METRIC FIELD -->
+            <div class="form-group-node">
+                <label for="{{ form.joined_date.id_for_label }}">System Onboarding Date</label>
+                {{ form.joined_date }}
+            </div>
+
+            <!-- OPERATION FORM ACTION CONTROLLERS -->
+            <button type="submit" class="btn-submit-registration">
+                Authorize Personnel Account
+            </button>
+            
+            <div class="cancel-action-wrap">
+                <a href="{% url 'members' %}" class="link-cancel-return">
+                    Cancel and Return to Dashboard
+                </a>
+            </div>
+        </form>
+
+    </div>
 </div>
-
 {% endblock %}

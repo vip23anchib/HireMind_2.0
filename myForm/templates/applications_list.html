@@ -6,117 +6,146 @@ Applications Dashboard
 
 {% block content %}
 <style>
-    /* Full-page wrapper centering */
+    /* ==========================================================================
+       1. BASE LAYOUT & CONTRAST PLANE SETTINGS
+       ========================================================================== */
     .page-wrapper {
-        display: flex !important;
-        justify-content: center !important;
-        align-items: flex-start !important;
-        min-height: 90vh !important;
-        background-color: #f8fafc !important;
-        padding: 40px 20px !important;
-        box-sizing: border-box !important;
-        font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
-    }
-
-    /* Main Dashboard Container - Professional Centered Width */
-    .dashboard-container {
         width: 100% !important;
-        max-width: 1200px !important;
-        background: #ffffff !important;
-        border-radius: 16px !important;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
-        padding: 32px !important;
-        border: 1px solid #e2e8f0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        min-height: calc(100vh - 70px);
+        background-color: #f8fafc !important; /* Light clean workspace background */
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
         box-sizing: border-box !important;
     }
 
-    /* Top Header Section */
+    /* LAYERED CONTRAST: Deep Charcoal-Navy Dashboard Control Plane */
+    .dark-control-plane {
+        background-color: #0f172a !important; /* Deep charcoal-navy */
+        padding: 48px 24px 96px 24px !important; /* Elevated height padding to let table blend in */
+        color: #ffffff !important;
+        box-sizing: border-box !important;
+    }
+
+    .plane-container {
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+        width: 100% !important;
+    }
+
+    /* LAYERED CONTRAST: Lower Light Workspace Layout Surface */
+    .light-workspace-surface {
+        max-width: 1200px !important;
+        margin: -64px auto 60px auto !important; /* Pulls filters and tables cleanly upward */
+        padding: 0 24px !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
+    }
+
+    /* ==========================================================================
+       2. HEADER SECTION (Within Dark Plane)
+       ========================================================================== */
     .dashboard-header {
         display: flex !important;
         justify-content: space-between !important;
         align-items: center !important;
-        margin-bottom: 28px !important;
-        border-bottom: 1px solid #f1f5f9 !important;
+        margin-bottom: 32px !important;
+        border-bottom: 1px solid #334155 !important; /* Soft dark border divider */
         padding-bottom: 20px !important;
     }
 
     .dashboard-title {
-        color: #0f172a !important;
-        font-size: 1.75rem !important;
-        font-weight: 700 !important;
+        color: #ffffff !important;
+        font-size: 1.85rem !important;
+        font-weight: 800 !important;
         margin: 0 !important;
+        letter-spacing: -0.02em !important;
     }
 
     .applicant-count {
-        background-color: #eff6ff !important;
-        color: #1d4ed8 !important;
-        padding: 6px 14px !important;
+        background-color: rgba(56, 189, 248, 0.12) !important; /* Glowing Sky Blue accent tag */
+        color: #38bdf8 !important;
+        padding: 6px 16px !important;
         border-radius: 9999px !important;
         font-size: 0.85rem !important;
-        font-weight: 600 !important;
+        font-weight: 700 !important;
     }
 
-    /* Modern KPI Statistics Row Layout */
+    /* ==========================================================================
+       3. METRICS / STATS GRID (Within Dark Plane)
+       ========================================================================== */
     .stats-container {
-        display: flex !important;
-        flex-wrap: wrap !important;
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important;
         gap: 16px !important;
-        margin-bottom: 30px !important;
+        margin-bottom: 0 !important;
     }
 
     .stat-card {
-        flex: 1 !important;
-        min-width: 140px !important;
-        background: #ffffff !important;
-        border: 1px solid #e2e8f0 !important;
+        background: #1e293b !important; /* Slate slate integration */
+        border: 1px solid #334155 !important;
         border-radius: 12px !important;
-        padding: 16px 20px !important;
+        padding: 18px 20px !important;
         text-align: left !important;
-        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
+        transition: transform 0.2s ease, border-color 0.2s ease !important;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-2px) !important;
+        border-color: #475569 !important;
     }
 
     .stat-card h3 {
-        margin: 0 0 6px 0 !important;
-        color: #64748b !important;
-        font-size: 0.8rem !important;
+        margin: 0 0 8px 0 !important;
+        color: #94a3b8 !important;
+        font-size: 0.75rem !important;
         text-transform: uppercase !important;
         letter-spacing: 0.05em !important;
-        font-weight: 600 !important;
+        font-weight: 700 !important;
     }
 
     .stat-card p {
         margin: 0 !important;
-        font-size: 1.75rem !important;
-        font-weight: 700 !important;
-        color: #0f172a !important;
+        font-size: 1.85rem !important;
+        font-weight: 800 !important;
+        color: #ffffff !important;
+        letter-spacing: -0.02em !important;
     }
 
-    /* Polished Filter Control Panel Form */
+    /* ==========================================================================
+       4. FILTER PANEL ACTIONS (Transition Layer)
+       ========================================================================== */
     .filter-panel-form {
         display: flex !important;
         flex-wrap: wrap !important;
         align-items: center !important;
         gap: 12px !important;
-        background-color: #f8fafc !important;
+        background-color: #ffffff !important;
         border: 1px solid #e2e8f0 !important;
         padding: 16px !important;
         border-radius: 12px !important;
-        margin-bottom: 24px !important;
+        margin-bottom: 20px !important;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
     }
 
     .filter-select {
-        min-width: 180px !important;
+        flex: 1 !important;
+        min-width: 190px !important;
         padding: 10px 14px !important;
         border-radius: 8px !important;
         border: 1px solid #cbd5e1 !important;
         background-color: #ffffff !important;
         color: #334155 !important;
-        font-weight: 500 !important;
+        font-weight: 600 !important;
         font-size: 0.9rem !important;
         cursor: pointer !important;
         outline: none !important;
         font-family: inherit !important;
-        transition: border-color 0.2s, box-shadow 0.2s !important;
+        transition: all 0.2s ease !important;
+    }
+
+    .filter-select:hover {
+        border-color: #94a3b8 !important;
     }
 
     .filter-select:focus {
@@ -125,27 +154,31 @@ Applications Dashboard
     }
 
     .btn-filter-submit {
-        background-color: #0f172a !important;
+        background-color: #2563eb !important; /* Premium workspace brand blue pop */
         color: #ffffff !important;
-        font-weight: 600 !important;
+        font-weight: 700 !important;
         font-size: 0.9rem !important;
-        padding: 10px 20px !important;
+        padding: 11px 24px !important;
         border: none !important;
         border-radius: 8px !important;
         cursor: pointer !important;
-        transition: background-color 0.2s !important;
+        transition: all 0.2s ease !important;
     }
 
     .btn-filter-submit:hover {
-        background-color: #1e293b !important;
+        background-color: #1d4ed8 !important;
+        transform: translateY(-1px) !important;
     }
 
-    /* Responsive Table Framework */
+    /* ==========================================================================
+       5. DATA TABLE PRESENTATION (Light Workspace Surface)
+       ========================================================================== */
     .table-responsive {
         overflow-x: auto !important;
         border-radius: 12px !important;
         border: 1px solid #e2e8f0 !important;
         background-color: #ffffff !important;
+        box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05) !important;
     }
 
     .custom-table {
@@ -158,7 +191,7 @@ Applications Dashboard
     .custom-table th {
         background-color: #f8fafc !important;
         color: #64748b !important;
-        font-weight: 600 !important;
+        font-weight: 700 !important;
         padding: 16px 20px !important;
         text-transform: uppercase !important;
         font-size: 0.75rem !important;
@@ -181,39 +214,41 @@ Applications Dashboard
         background-color: #f8fafc !important;
     }
 
-    /* ATS Score Pill */
+    /* ==========================================================================
+       6. COMPONENT STYLING (BADGES, ACTIONS, FORM SELECTION)
+       ========================================================================== */
     .score-badge {
         display: inline-block !important;
-        padding: 6px 10px !important;
-        border-radius: 8px !important;
-        font-weight: 600 !important;
-        font-size: 0.85rem !important;
+        padding: 6px 12px !important;
+        border-radius: 6px !important;
+        font-weight: 700 !important;
+        font-size: 0.82rem !important;
         text-align: center !important;
     }
-    .score-high { background-color: #ecfdf5 !important; color: #065f46 !important; }
-    .score-mid { background-color: #fffde7 !important; color: #854d0e !important; }
-    .score-low { background-color: #fef2f2 !important; color: #991b1b !important; }
+    .score-high { background-color: #dcfce7 !important; color: #15803d !important; }
+    .score-mid  { background-color: #fef9c3 !important; color: #a16207 !important; }
+    .score-low  { background-color: #fee2e2 !important; color: #b91c1c !important; }
 
-    /* Interactive Inline Action Status Dropdown */
     .status-select {
         padding: 8px 12px !important;
         border-radius: 8px !important;
         border: 1px solid #cbd5e1 !important;
         background-color: #ffffff !important;
-        color: #334155 !important;
-        font-weight: 500 !important;
-        font-size: 0.9rem !important;
+        color: #0f172a !important;
+        font-weight: 600 !important;
+        font-size: 0.88rem !important;
         cursor: pointer !important;
         outline: none !important;
-        font-family: inherit !important;
-        transition: all 0.2s !important;
+        transition: all 0.15s ease !important;
+    }
+    .status-select:hover {
+        border-color: #94a3b8 !important;
     }
     .status-select:focus {
-        border-color: #3b82f6 !important;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15) !important;
+        border-color: #2563eb !important;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
     }
 
-    /* Modern Links & Action Items */
     .btn-link {
         display: inline-flex !important;
         align-items: center !important;
@@ -221,8 +256,8 @@ Applications Dashboard
         text-decoration: none !important;
         font-weight: 600 !important;
         gap: 6px !important;
-        font-size: 0.9rem !important;
-        transition: color 0.2s !important;
+        font-size: 0.88rem !important;
+        transition: color 0.15s ease !important;
     }
     .btn-link:hover {
         color: #1d4ed8 !important;
@@ -231,66 +266,82 @@ Applications Dashboard
 
     .btn-action {
         display: inline-block !important;
-        background-color: #f1f5f9 !important;
+        background-color: #ffffff !important;
         color: #475569 !important;
-        padding: 8px 14px !important;
+        padding: 8px 16px !important;
+        border: 1px solid #cbd5e1 !important;
         border-radius: 8px !important;
-        font-size: 0.9rem !important;
+        font-size: 0.88rem !important;
         text-decoration: none !important;
         font-weight: 600 !important;
-        transition: all 0.2s !important;
+        transition: all 0.2s ease !important;
         text-align: center !important;
     }
     .btn-action:hover {
-        background-color: #e2e8f0 !important;
+        border-color: #0f172a !important;
         color: #0f172a !important;
+        background-color: #f8fafc !important;
     }
 
     .empty-row {
         text-align: center !important;
         color: #94a3b8 !important;
-        font-style: italic !important;
-        padding: 48px !important;
+        font-style: normal !important;
+        font-weight: 500 !important;
+        padding: 64px !important;
+    }
+
+    /* Responsive Breakthrough Frames */
+    @media (max-width: 768px) {
+        .dark-control-plane { padding: 32px 16px 80px 16px !important; }
+        .light-workspace-surface { padding: 0 16px !important; margin-top: -48px !important; }
+        .dashboard-header { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; }
+        .filter-panel-form { flex-direction: column !important; align-items: stretch !important; }
     }
 </style>
 
 <div class="page-wrapper">
-    <div class="dashboard-container">
+    
+    <div class="dark-control-plane">
+        <div class="plane-container">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Applications</h1>
+                <span class="applicant-count">
+                    Active Pool: {{ applications|length }} Total
+                </span>
+            </div>
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3>Total</h3>
+                    <p>{{ total_applications }}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Applied</h3>
+                    <p>{{ applied_count }}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Review</h3>
+                    <p>{{ review_count }}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Shortlisted</h3>
+                    <p>{{ shortlisted_count }}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Rejected</h3>
+                    <p>{{ rejected_count }}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Hired</h3>
+                    <p>{{ hired_count }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="light-workspace-surface">
         
-        <div class="dashboard-header">
-            <h1 class="dashboard-title">Applications</h1>
-            <span class="applicant-count">
-                Active Pool: {{ applications|length }} Total
-            </span>
-        </div>
-
-        <div class="stats-container">
-            <div class="stat-card">
-                <h3>Total</h3>
-                <p>{{ total_applications }}</p>
-            </div>
-            <div class="stat-card">
-                <h3>Applied</h3>
-                <p>{{ applied_count }}</p>
-            </div>
-            <div class="stat-card">
-                <h3>Review</h3>
-                <p>{{ review_count }}</p>
-            </div>
-            <div class="stat-card">
-                <h3>Shortlisted</h3>
-                <p>{{ shortlisted_count }}</p>
-            </div>
-            <div class="stat-card">
-                <h3>Rejected</h3>
-                <p>{{ rejected_count }}</p>
-            </div>
-            <div class="stat-card">
-                <h3>Hired</h3>
-                <p>{{ hired_count }}</p>
-            </div>
-        </div>
-
         <form method="GET" class="filter-panel-form">
             <select name="job" class="filter-select">
                 <option value="">All Jobs</option>
@@ -311,12 +362,12 @@ Applications Dashboard
 
             <select name="status" class="filter-select">
                 <option value="">All Statuses</option>
-                <option value="Applied">Applied</option>
-                <option value="Under Review">Under Review</option>
-                <option value="Shortlisted">Shortlisted</option>
-                <option value="Interview Scheduled">Interview Scheduled</option>
-                <option value="Rejected">Rejected</option>
-                <option value="Hired">Hired</option>
+                <option value="Applied" {% if selected_status == "Applied" %}selected{% endif %}>Applied</option>
+                <option value="Under Review" {% if selected_status == "Under Review" %}selected{% endif %}>Under Review</option>
+                <option value="Shortlisted" {% if selected_status == "Shortlisted" %}selected{% endif %}>Shortlisted</option>
+                <option value="Interview Scheduled" {% if selected_status == "Interview Scheduled" %}selected{% endif %}>Interview Scheduled</option>
+                <option value="Rejected" {% if selected_status == "Rejected" %}selected{% endif %}>Rejected</option>
+                <option value="Hired" {% if selected_status == "Hired" %}selected{% endif %}>Hired</option>
             </select>
 
             <button type="submit" class="btn-filter-submit">Filter</button>
@@ -338,11 +389,11 @@ Applications Dashboard
                 <tbody>
                     {% for application in applications %}
                     <tr>
-                        <td style="font-weight: 600; color: #0f172a;">
+                        <td style="font-weight: 700; color: #0f172a;">
                             {{ application.candidate.name }}
                         </td>
 
-                        <td style="color: #475569;">
+                        <td style="color: #475569; font-weight: 500;">
                             {{ application.job.title }}
                         </td>
 
@@ -366,7 +417,7 @@ Applications Dashboard
                             </form>
                         </td>
 
-                        <td style="color: #64748b; font-size: 0.9rem;">
+                        <td style="color: #64748b; font-size: 0.9rem; font-weight: 500;">
                             {{ application.applied_at|date:"M d, Y" }}
                         </td>
 

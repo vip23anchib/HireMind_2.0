@@ -2,190 +2,248 @@
 
 {% block content %}
 <style>
-    /* Prevent master framework styles from hijacking layout alignment */
-    .form-page-wrapper {
-        max-width: 800px !important;
-        margin: 40px auto !important;
-        padding: 0 20px !important;
-        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif !important;
-        box-sizing: border-box !important;
+    /* ==========================================================================
+       HYBRID CONTRAST FORM THEME (SLATE & WHITE SURFACE)
+       ========================================================================== */
+
+    /* Soft, cool-tinted off-white background for the page body canvas */
+    body {
+        background-color: #f8fafc;
+        color: #334155;
+        margin: 0;
     }
 
-    /* Back links / navigation hints */
+    /* --------------------------------------------------------------------------
+       1. Top Hero Header Segment (Deep Professional Charcoal Slate)
+       -------------------------------------------------------------------------- */
+    .form-hero-header {
+        background-color: #0f172a; /* Solid structural dark anchor */
+        padding: 48px 0 110px 0;   /* Generous bottom padding to cradle the overlapping card */
+        margin-bottom: -70px;      /* Pulls the form card up over the dark canvas boundary */
+    }
+
+    .form-header-inner {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 24px;
+        box-sizing: border-box;
+    }
+
+    /* Dark-mode context navigation links */
     .back-nav {
-        margin-bottom: 20px !important;
+        margin-bottom: 16px;
     }
     .back-nav a {
-        color: #64748b !important;
-        text-decoration: none !important;
-        font-size: 14px !important;
-        font-weight: 500 !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        transition: color 0.2s !important;
+        color: #94a3b8; /* Crisp medium slate gray over dark background */
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        transition: color 0.15s ease;
     }
     .back-nav a:hover {
-        color: #2563eb !important;
+        color: #3b82f6; /* Modern deep sky blue hover highlight */
     }
 
-    /* Header styling */
+    /* Core Title Typography inside header block */
     .form-header-title {
-        font-size: 28px !important;
-        color: #1e293b !important;
-        margin: 0 0 8px 0 !important;
-        font-weight: 700 !important;
-        letter-spacing: -0.5px !important;
+        font-size: 1.85rem;
+        color: #ffffff; /* Brilliant white contrast over charcoal slate */
+        margin: 0 0 6px 0;
+        font-weight: 700;
+        letter-spacing: -0.03em;
     }
     .form-header-subtitle {
-        margin: 0 0 30px 0 !important;
-        color: #64748b !important;
-        font-size: 14px !important;
+        margin: 0;
+        color: #94a3b8;
+        font-size: 0.9rem;
     }
 
-    /* Form Container Card Structure */
+    /* --------------------------------------------------------------------------
+       2. Form Content Area Frame (Clean Pure White Elevation)
+       -------------------------------------------------------------------------- */
+    .form-page-wrapper {
+        max-width: 800px;
+        margin: 0 auto 60px auto;
+        padding: 0 24px;
+        box-sizing: border-box;
+    }
+
     .form-card {
-        background: #ffffff !important;
-        border: 1px solid #e2e8f0 !important;
-        border-radius: 8px !important;
-        padding: 32px !important;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03) !important;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 40px;
+        box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 16px -6px rgba(15, 23, 42, 0.04);
     }
 
-    /* Two-column grid layout for short form metrics */
+    /* Input Structure Matrix Grid */
     .form-grid-2 {
-        display: grid !important;
-        grid-template-columns: 1fr 1fr !important;
-        gap: 20px !important;
-        margin-bottom: 20px !important;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        margin-bottom: 24px;
     }
 
-    /* Standard single-column block elements */
     .form-field-group {
-        margin-bottom: 20px !important;
-        display: flex !important;
-        flex-direction: column !important;
+        margin-bottom: 24px;
+        display: flex;
+        flex-direction: column;
     }
 
-    /* Form inputs and label micro-typography */
+    /* Micro-Typography Metadata Form Labels */
     .form-card label {
-        display: block !important;
-        margin-bottom: 6px !important;
-        color: #475569 !important;
-        font-weight: 600 !important;
-        font-size: 13.5px !important;
+        display: block;
+        margin-bottom: 8px;
+        color: #475569;
+        font-weight: 600;
+        font-size: 0.85rem;
     }
 
+    /* Interactive Component Styling */
     .form-card input[type="text"],
     .form-card input[type="number"],
     .form-card select,
     .form-card textarea {
-        width: 100 Implemented !important;
-        box-sizing: border-box !important;
-        padding: 10px 14px !important;
-        border: 1px solid #cbd5e1 !important;
-        border-radius: 6px !important;
-        font-size: 14px !important;
-        color: #0f172a !important;
-        background-color: #ffffff !important;
-        font-family: inherit !important;
-        transition: border-color 0.2s, box-shadow 0.2s !important;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 11px 14px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        color: #0f172a;
+        background-color: #ffffff;
+        font-family: inherit;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
     }
 
-    /* Interactive state behaviors */
+    /* Interactive Focused Input States */
     .form-card input:focus,
     .form-card select:focus,
     .form-card textarea:focus {
-        outline: none !important;
-        border-color: #2563eb !important;
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
+        outline: none;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
     }
 
     .form-card textarea {
-        min-height: 110px !important;
-        resize: vertical !important;
+        min-height: 120px;
+        resize: vertical;
+        line-height: 1.5;
     }
 
-    /* Action triggers */
+    /* --------------------------------------------------------------------------
+       3. Action Panel Interface Tray
+       -------------------------------------------------------------------------- */
     .form-actions-wrapper {
-        border-top: 1px solid #e2e8f0 !important;
-        margin-top: 30px !important;
-        padding-top: 20px !important;
-        display: flex !important;
-        justify-content: flex-end !important;
-        gap: 12px !important;
+        border-top: 1px solid #f1f5f9;
+        margin-top: 40px;
+        padding-top: 24px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
     }
 
+    /* Submit Action Base Configuration */
     .btn-submit-job {
-        background-color: #2563eb !important;
-        color: #ffffff !important;
-        padding: 10px 24px !important;
-        border: none !important;
-        border-radius: 6px !important;
-        font-weight: 600 !important;
-        font-size: 14px !important;
-        cursor: pointer !important;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
-        transition: background-color 0.2s !important;
+        background-color: #2563eb;
+        color: #ffffff;
+        padding: 11px 24px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.875rem;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+        transition: all 0.2s ease;
     }
     .btn-submit-job:hover {
-        background-color: #1d4ed8 !important;
+        background-color: #1d4ed8;
+        box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
     }
 
+    /* Cancel Action Base Configuration */
     .btn-cancel-job {
-        background-color: #ffffff !important;
-        color: #475569 !important;
-        padding: 10px 20px !important;
-        border: 1px solid #cbd5e1 !important;
-        border-radius: 6px !important;
-        font-weight: 600 !important;
-        font-size: 14px !important;
-        text-decoration: none !important;
-        text-align: center !important;
-        transition: background-color 0.2s !important;
+        background-color: #ffffff;
+        color: #475569;
+        padding: 10px 20px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.875rem;
+        text-decoration: none;
+        text-align: center;
+        transition: all 0.15s ease;
     }
     .btn-cancel-job:hover {
-        background-color: #f8fafc !important;
-        color: #1e293b !important;
+        background-color: #f8fafc;
+        color: #0f172a;
+        border-color: #94a3b8;
+    }
+
+    /* --------------------------------------------------------------------------
+       4. Breakpoint Media Inversion Rules
+       -------------------------------------------------------------------------- */
+    @media (max-width: 640px) {
+        .form-grid-2 {
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+        .form-card {
+            padding: 24px;
+        }
+        .form-actions-wrapper {
+            flex-direction: column-reverse;
+        }
+        .btn-cancel-job, .btn-submit-job {
+            width: 100%;
+        }
     }
 </style>
 
-<div class="form-page-wrapper">
-    
-    <div class="back-nav">
-        <a href="{% url 'manage_jobs' %}">← Back to Manage Jobs</a>
-    </div>
-
-    <div>
+<!-- Layered Dark Canvas Header Segment -->
+<div class="form-hero-header">
+    <div class="form-header-inner">
+        <div class="back-nav">
+            <a href="{% url 'manage_jobs' %}">← Back to Manage Jobs</a>
+        </div>
         <h1 class="form-header-title">Create Job Opening</h1>
         <p class="form-header-subtitle">Publish a new requisition to your company portal database.</p>
     </div>
+</div>
 
+<!-- Layered Balanced Light Surface Card Segment -->
+<div class="form-page-wrapper">
     <div class="form-card">
         <form method="POST">
             {% csrf_token %}
 
+            <!-- Row 1: Title and Slug Metrics -->
             <div class="form-grid-2">
                 <div class="form-field-group">
                     <label for="id_title">Job Title</label>
-                    <input type="text" id_title name="title" placeholder="e.g. MERN Stack Developer" required>
+                    <input type="text" id="id_title" name="title" placeholder="e.g. MERN Stack Developer" required>
                 </div>
                 <div class="form-field-group">
                     <label for="id_slug">URL Slug</label>
-                    <input type="text" id_slug name="slug" placeholder="e.g. mern-stack-developer" required>
+                    <input type="text" id="id_slug" name="slug" placeholder="e.g. mern-stack-developer" required>
                 </div>
             </div>
 
+            <!-- Row 2: Department and Location Metrics -->
             <div class="form-grid-2">
                 <div class="form-field-group">
                     <label for="id_department">Department</label>
-                    <input type="text" id_department name="department" placeholder="e.g. Engineering" required>
+                    <input type="text" id="id_department" name="department" placeholder="e.g. Engineering" required>
                 </div>
                 <div class="form-field-group">
                     <label for="id_location">Location</label>
-                    <input type="text" id_location name="location" placeholder="e.g. Hyderabad" required>
+                    <input type="text" id="id_location" name="location" placeholder="e.g. Hyderabad" required>
                 </div>
             </div>
 
+            <!-- Row 3: Structural Categorical Filters -->
             <div class="form-grid-2">
                 <div class="form-field-group">
                     <label for="id_job_type">Job Type</label>
@@ -201,6 +259,7 @@
                 </div>
             </div>
 
+            <!-- Rich Descriptions / Requirements Textareas -->
             <div class="form-field-group">
                 <label for="id_description">Job Description</label>
                 <textarea id="id_description" name="description" placeholder="Provide a brief summary overview of the position..."></textarea>
@@ -216,6 +275,7 @@
                 <textarea id="id_responsibilities" name="responsibilities" placeholder="Outline day-to-day project workflows, deliverables, and expectations..."></textarea>
             </div>
 
+            <!-- Interactive Lower Action Control Interface Bar -->
             <div class="form-actions-wrapper">
                 <a href="{% url 'manage_jobs' %}" class="btn-cancel-job">Cancel</a>
                 <button type="submit" class="btn-submit-job">Create Job</button>

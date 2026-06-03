@@ -1,0 +1,394 @@
+{% extends "master.html" %}
+{% load static %}
+
+{% block title %}
+HR Operations - Recruitment Control Command
+{% endblock %}
+
+{% block content %}
+<style>
+    /* ==========================================================================
+       1. BASE LAYOUT & SYSTEMS CONTAINER CONSTRAINTS
+       ========================================================================== */
+    .dashboard-container {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 0 60px 0 !important;
+        min-height: calc(100vh - 70px);
+        background-color: #f8fafc !important; /* Soft light workspace workspace floor */
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+        box-sizing: border-box !important;
+    }
+
+    /* CONTROL PLANE: Integrated Dashboard Authority Header Banner */
+    .hr-control-plane {
+        background-color: #0f172a !important; 
+        border-bottom: 4px solid #3b82f6 !important; /* System Signature Tech Blue line */
+        padding: 50px 24px 90px 24px !important;
+        color: #ffffff !important;
+        box-sizing: border-box !important;
+    }
+
+    .plane-container {
+        max-width: 1300px !important;
+        margin: 0 auto !important;
+        width: 100% !important;
+    }
+
+    .page-header h1 {
+        color: #ffffff !important;
+        font-size: 2.25rem !important;
+        font-weight: 800 !important;
+        margin: 0 !important;
+        letter-spacing: -0.03em !important;
+    }
+
+    .page-header p {
+        color: #94a3b8 !important;
+        font-size: 0.95rem !important;
+        font-weight: 500 !important;
+        margin: 6px 0 0 0 !important;
+    }
+
+    /* OVERLAP MAIN LAYOUT SURFACE */
+    .dashboard-surface-layer {
+        max-width: 1300px !important;
+        margin: -50px auto 0 auto !important; /* Floating offset layout overlay */
+        padding: 0 24px !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
+    }
+
+    /* ==========================================================================
+       2. RECRUITMENT METRIC CARDS TRACKING GRID
+       ========================================================================== */
+    .stats-grid {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
+        gap: 16px !important;
+        margin-bottom: 28px !important;
+    }
+
+    .stat-card {
+        background: #ffffff !important;
+        padding: 22px 20px !important;
+        border-radius: 12px !important;
+        border: 1px solid #e2e8f0 !important;
+        box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.03) !important;
+        transition: all 0.2s ease !important;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-2px) !important;
+        border-color: #cbd5e1 !important;
+        box-shadow: 0 12px 30px -5px rgba(15, 23, 42, 0.06) !important;
+    }
+
+    .stat-card h3 {
+        font-size: 2rem !important;
+        font-weight: 800 !important;
+        color: #0f172a !important; /* Professional Dark Gray values */
+        margin: 0 0 4px 0 !important;
+        letter-spacing: -0.02em !important;
+    }
+
+    /* Accent colors customized uniquely per analytical metrics value context */
+    .stats-grid .stat-card:nth-child(1) h3 { color: #2563eb !important; }
+    .stats-grid .stat-card:nth-child(2) h3 { color: #7c3aed !important; }
+    .stats-grid .stat-card:nth-child(6) h3 { color: #16a34a !important; }
+
+    .stat-card span {
+        color: #64748b !important;
+        font-size: 0.82rem !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.02em !important;
+    }
+
+    /* ==========================================================================
+       3. CONSOLE DATA BLOCK GRIDS (FUNNEL, UTILITIES & TABLES)
+       ========================================================================== */
+    .dashboard-row {
+        display: grid !important;
+        grid-template-columns: 2fr 1fr !important;
+        gap: 24px !important;
+        margin-bottom: 24px !important;
+    }
+
+    .dashboard-card {
+        background: #ffffff !important;
+        padding: 28px !important;
+        border-radius: 12px !important;
+        border: 1px solid #e2e8f0 !important;
+        box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.03) !important;
+        box-sizing: border-box !important;
+    }
+
+    .dashboard-card h2 {
+        margin: 0 0 20px 0 !important;
+        color: #0f172a !important;
+        font-size: 1.25rem !important;
+        font-weight: 800 !important;
+        letter-spacing: -0.01em !important;
+    }
+
+    /* PROGRESSIVE FUNNEL MATRIX */
+    .funnel {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+
+    .funnel-item {
+        background: #f8fafc !important;
+        border: 1px solid #e2e8f0 !important;
+        padding: 14px 20px !important;
+        border-radius: 8px !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        font-weight: 600 !important;
+        color: #334155 !important;
+        font-size: 0.92rem !important;
+    }
+
+    /* Shaded step indexing to illustrate descending data volume flows */
+    .funnel-item:nth-child(1) { background-color: #eff6ff !important; border-color: #bfdbfe !important; color: #1e40af !important; }
+    .funnel-item:nth-child(2) { background-color: #f0fdf4 !important; border-color: #bbf7d0 !important; color: #166534 !important; }
+
+    .funnel-item span {
+        background-color: rgba(15, 23, 42, 0.05) !important;
+        color: #0f172a !important;
+        padding: 4px 10px !important;
+        border-radius: 6px !important;
+        font-size: 0.85rem !important;
+        font-family: monospace !important;
+        font-weight: 700 !important;
+    }
+    .funnel-item:nth-child(1) span { background-color: rgba(37, 99, 235, 0.1) !important; }
+
+    /* ACTION UTILITIES PANEL SYSTEM LINK MODULES */
+    .quick-actions {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+
+    .action-btn {
+        text-decoration: none !important;
+        text-align: center !important;
+        padding: 12px !important;
+        background-color: #ffffff !important;
+        color: #334155 !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 8px !important;
+        font-weight: 600 !important;
+        font-size: 0.9rem !important;
+        transition: all 0.2s ease !important;
+    }
+
+    .action-btn:hover {
+        background-color: #f8fafc !important;
+        color: #2563eb !important;
+        border-color: #2563eb !important;
+    }
+
+    /* Highlighted target execution point route (Candidate List) */
+    .action-btn.btn-highlight-route {
+        background-color: #0f172a !important;
+        color: #ffffff !important;
+        border-color: #0f172a !important;
+    }
+
+    .action-btn.btn-highlight-route:hover {
+        background-color: #1e293b !important;
+        border-color: #1e293b !important;
+    }
+
+    /* ADMINISTRATIVE DATA TABLES LOG MATRIX */
+    .full-width-panel {
+        grid-template-columns: 1fr !important;
+    }
+
+    table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        margin-top: 4px !important;
+    }
+
+    table th {
+        background: #f8fafc !important;
+        color: #475569 !important;
+        font-weight: 700 !important;
+        font-size: 0.8rem !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.05em !important;
+        padding: 14px 16px !important;
+        border-bottom: 2px solid #e2e8f0 !important;
+        text-align: left !important;
+    }
+
+    table td {
+        padding: 14px 16px !important;
+        border-bottom: 1px solid #f1f5f9 !important;
+        color: #334155 !important;
+        font-size: 0.95rem !important;
+        font-weight: 500 !important;
+    }
+
+    table tr:last-child td {
+        border-bottom: none !important;
+    }
+
+    /* Structured Semantic Table Status Badge Nodes */
+    .table-status-pill {
+        display: inline-flex !important;
+        align-items: center !important;
+        font-size: 0.75rem !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        padding: 4px 10px !important;
+        border-radius: 6px !important;
+        letter-spacing: 0.02em !important;
+    }
+    .table-status-pill.status-applied { background-color: #eff6ff !important; color: #2563eb !important; }
+    .table-status-pill.status-shortlisted { background-color: #fef3c7 !important; color: #d97706 !important; }
+    .table-status-pill.status-interview { background-color: #f3e8ff !important; color: #7c3aed !important; }
+
+    /* ==========================================================================
+       4. MOBILE RESPONSIVE MEDIA HOOK ADAPTATIONS
+       ========================================================================== */
+    @media (max-width: 900px) {
+        .dashboard-row {
+            grid-template-columns: 1fr !important;
+            gap: 20px !important;
+        }
+        .hr-control-plane { padding: 40px 16px 80px 16px !important; }
+        .dashboard-surface-layer { padding: 0 16px !important; }
+        .dashboard-card { padding: 20px !important; }
+    }
+</style>
+
+<div class="dashboard-container">
+
+    <!-- Top Deep Dark Charcoal-Navy Visual Control Plane Layer Frame -->
+    <div class="hr-control-plane">
+        <div class="plane-container">
+            <div class="page-header">
+                <h1>Recruitment Dashboard</h1>
+                <p>Monitor hiring activity and candidate pipeline metrics.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Floating Workspace Grid Dashboard Layer Surface Frame -->
+    <div class="dashboard-surface-layer">
+
+        <!-- Metrics Overview Section -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>{{ total_applications }}</h3>
+                <span>Total Applications</span>
+            </div>
+            <div class="stat-card">
+                <h3>{{ active_jobs }}</h3>
+                <span>Active Jobs</span>
+            </div>
+            <div class="stat-card">
+                <h3>{{ total_candidates }}</h3>
+                <span>Total Candidates</span>
+            </div>
+            <div class="stat-card">
+                <h3>{{ shortlisted }}</h3>
+                <span>Shortlisted</span>
+            </div>
+            <div class="stat-card">
+                <h3>{{ interviews }}</h3>
+                <span>Interviews</span>
+            </div>
+            <div class="stat-card">
+                <h3>{{ hired }}</h3>
+                <span>Hired</span>
+            </div>
+        </div>
+
+        <!-- Funnel Metric Matrix & Quick Action Row Modules -->
+        <div class="dashboard-row">
+            
+            <!-- Funnel Display Card Block -->
+            <div class="dashboard-card">
+                <h2>Recruitment Funnel</h2>
+                <div class="funnel">
+                    <div class="funnel-item">
+                        Applied
+                        Applied
+                        <span>{{ total_applications }}</span>
+                    </div>
+                    
+                    <div class="funnel-item">
+                        Shortlisted
+                        <span>{{ shortlisted }}</span>
+                    </div>
+                    <div class="funnel-item">
+                        Interview
+                        <span>{{ interviews }}</span>
+                    </div>
+                    <div class="funnel-item">
+                        Hired
+                        <span>{{ hired }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Context Operations Action Navigation Link Cluster Box Card -->
+            <div class="dashboard-card">
+                <h2>Quick Actions</h2>
+                <div class="quick-actions">
+                    <a href="{% url 'create_job' %}" class="action-btn">
+                        Create Job
+                    </a>
+                    <a href="{% url 'search_candidates' %}" class="action-btn">
+                        Search Candidate
+                    </a>
+                    <a href="{% url 'applications_list' %}" class="action-btn">
+                        View Applications
+                    </a>
+                    <!-- Direct Dynamic System Path Pointing to the Primary Active Roster Registry -->
+                    <a href="{% url 'form_data' %}" class="action-btn btn-highlight-route">
+                        Candidate List &rarr;
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Full Width Grid Data Table Tracking System Logs Module -->
+        <div class="dashboard-row full-width-panel">
+            <div class="dashboard-card">
+                <h2>Recent Applications Log</h2>
+                <div style="overflow-x: auto; width: 100%;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Candidate Operator Name</th>
+                                <th>Target Position Role</th>
+                                <th>System Status Flag</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for application in recent_applications %}
+                            <tr>
+                                <td>{{ application.candidate.name }}</td>
+                                <td style="font-weight: 600; color: #0f172a;">{{ application.job.title }}</td>
+                                <td><span class="table-status-pill status-applied">{{ application.status }}</span></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
