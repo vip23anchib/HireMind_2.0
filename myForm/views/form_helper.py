@@ -295,7 +295,7 @@ def extract_skills_from_database(text):
     return sorted(found_skills)
 
 
-    
+
 def normalize_skill(skill_name):
 
     skill = skill_name.strip().lower()
@@ -303,4 +303,5 @@ def normalize_skill(skill_name):
     return SKILL_SYNONYMS.get(
         skill,
         skill_name.strip()
+        
     )
