@@ -35,7 +35,7 @@ class Job(models.Model):
 
     requirements = models.TextField()
     required_skills = models.ManyToManyField(
-        'myForm.Skill',
+        'applicants.Skill',
         blank=True
     )
 

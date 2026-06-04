@@ -24,7 +24,7 @@ import plotly.express as px
 from plotly.offline import plot
 
 from jobs.models import Job
-from myForm.models import UserData, Application
+from applicants.models import UserData, Application
 
 '''
 @login_required(login_url='login_view')

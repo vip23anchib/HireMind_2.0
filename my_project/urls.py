@@ -12,7 +12,7 @@ urlpatterns = [
 
     path('dashboard/', include('members.urls')), #dashboard
 
-    path('',include('myForm.urls')) ,#registration
+    path('',include('applicants.urls')) ,#registration
     
     path('', include('jobs.urls')),
     
