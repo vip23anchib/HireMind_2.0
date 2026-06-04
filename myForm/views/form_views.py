@@ -11,7 +11,7 @@ from pypdf import PdfReader
 from django.core.paginator import Paginator
 import re 
 
-from .form_helper import extract_pdf_text, is_resume, extract_skills
+from .form_helper import extract_pdf_text, is_resume, extract_skills, extract_skills_from_database, normalize_skill
 from .form_helper import extract_email, extract_phone, extract_experience,extract_skill_experience
 
 from jobs.models import Job 
@@ -78,30 +78,61 @@ def form(request):
                 extracted_text = extract_pdf_text(
                     new_file
                 )
+                print(extracted_text)
+
 
                 experience_data = extract_skill_experience(
                     extracted_text
                 )
 
-                print(experience_data)
-
-                # DELETE OLD SKILLS
+                # REMOVE OLD SKILLS
                 UserSkill.objects.filter(
                     user_data=user_data
                 ).delete()
 
-                # CREATE NEW SKILLS
-                for skill_name, years in experience_data.items():
+                #updated for better resume parsing (for with and without experience)
+                if experience_data:
+                    for skill_name, years in experience_data.items():
 
-                    skill, created = Skill.objects.get_or_create(
-                        name=skill_name
-                    )
+                        skill_name = normalize_skill(
+                            skill_name
+                        )
 
-                    UserSkill.objects.create(
-                        user_data=user_data,
-                        skill=skill,
-                        years_of_experience=int(years)
+                        skill, created = Skill.objects.get_or_create(
+                            name=skill_name
+                        )
+
+                        UserSkill.objects.update_or_create(
+                            user_data=user_data,
+                            skill=skill,
+                            defaults={
+                                "years_of_experience": int(years)
+                            }
+                        )
+
+                else:
+
+                    skills = extract_skills_from_database(
+                        extracted_text
                     )
+                    print("DATABASE SKILLS:", skills)
+                    for skill_name in skills:
+
+                        skill_name = normalize_skill(
+                            skill_name
+                        )
+
+                        skill, created = Skill.objects.get_or_create(
+                            name=skill_name
+                        )
+
+                        UserSkill.objects.update_or_create(
+                            user_data=user_data,
+                            skill=skill,
+                            defaults={
+                                "years_of_experience": 0
+                            }
+                        )
 
                 # FORMAT EXPERIENCE
                 formatted_experience = ""
@@ -197,6 +228,7 @@ def form(request):
             extracted_text = extract_pdf_text(
                 uploaded_file
             )
+            print(extracted_text)
 
             experience_data = extract_skill_experience(
                 extracted_text
@@ -204,17 +236,49 @@ def form(request):
 
             print(experience_data)
 
-            for skill_name, years in experience_data.items():
+            if experience_data:
 
-                skill, created = Skill.objects.get_or_create(
-                    name=skill_name
+                for skill_name, years in experience_data.items():
+
+                    skill_name = normalize_skill(
+                        skill_name
+                    )
+
+                    skill, created = Skill.objects.get_or_create(
+                        name=skill_name
+                    )
+
+                    UserSkill.objects.update_or_create(
+                        user_data=user_data,
+                        skill=skill,
+                        defaults={
+                            "years_of_experience": int(years)
+                        }
+                    )
+
+            else:
+
+                skills = extract_skills_from_database(
+                    extracted_text
                 )
 
-                UserSkill.objects.create(
-                    user_data=user_data,
-                    skill=skill,
-                    years_of_experience=int(years)
-                )
+                for skill_name in skills:
+
+                    skill_name = normalize_skill(
+                        skill_name
+                    )
+
+                    skill, created = Skill.objects.get_or_create(
+                        name=skill_name
+                    )
+
+                    UserSkill.objects.update_or_create(
+                        user_data=user_data,
+                        skill=skill,
+                        defaults={
+                            "years_of_experience": 0
+                        }
+                    )
 
             formatted_experience = ""
 

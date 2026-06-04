@@ -20,5 +20,6 @@ from .main_views import (
 from .form_views import(
     form,
     applications_list,
-    update_application_status
+    update_application_status,
+    
 )
