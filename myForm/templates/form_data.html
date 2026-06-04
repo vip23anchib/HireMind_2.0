@@ -80,17 +80,17 @@ Candidates Dashboard
 
                             <!-- STATUS ASSIGNMENT SYSTEM BADGES -->
                             <td>
-                                {% if item.status == "Applied" %}
+                                {% if item.current_status == "Applied" %}
                                     <span class="status-badge applied">Applied</span>
-                                {% elif item.status == "Under Review" %}
+                                {% elif item.current_status == "Under Review" %}
                                     <span class="status-badge review">Under Review</span>
-                                {% elif item.status == "Shortlisted" %}
+                                {% elif item.current_status == "Shortlisted" %}
                                     <span class="status-badge shortlisted">Shortlisted</span>
-                                {% elif item.status == "Interview Scheduled" %}
+                                {% elif item.current_status == "Interview Scheduled" %}
                                     <span class="status-badge interview">Interview</span>
-                                {% elif item.status == "Rejected" %}
+                                {% elif item.current_status == "Rejected" %}
                                     <span class="status-badge rejected">Rejected</span>
-                                {% elif item.status == "Hired" %}
+                                {% elif item.current_status == "Hired" %}
                                     <span class="status-badge hired">Hired</span>
                                 {% endif %}
                             </td>

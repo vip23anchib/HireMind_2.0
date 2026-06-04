@@ -157,6 +157,19 @@ def form_data(request):
     
     users = UserData.objects.all()
 
+    for user in users:
+        latest_application = (
+            user.applications
+            .order_by('-applied_at')
+            .first()
+        )
+
+        user.current_status = (
+            latest_application.status
+            if latest_application
+            else "N/A"
+        )
+
     #paginators
     paginator = Paginator(users, 10)
     page_number = request.GET.get('page')
@@ -277,7 +290,7 @@ def edit_data(request, id):
 
     return render(
         request,
-        "FORM.html",
+        "apply_job.html",
         {"data": data}
     )
 

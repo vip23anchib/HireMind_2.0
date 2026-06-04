@@ -135,13 +135,14 @@ def extract_skill_experience(text):
 
     experience_data = {}
 
-    pattern = r'([A-Za-z+#]+)\s*-\s*(\d+)\s+years'
+    patterns = [
+        r'([A-Za-z0-9.+# ]+?)\s*-\s*(\d+)\s+years',
+        r'([A-Za-z0-9.+# ]+?)\s*\(\s*(\d+)\s+years?\s*\)'
+    ]
 
-    matches = re.findall(pattern, text)
-
-    for skill, years in matches:
-
-        experience_data[skill] = years
+    for pattern in patterns:
+        for skill, years in re.findall(pattern, text, re.IGNORECASE):
+            experience_data[skill.strip()] = int(years)
 
     return experience_data
     print(experience_data)

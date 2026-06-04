@@ -272,7 +272,7 @@ def form(request):
                 )
 
 
-            #to calculate ATS Scoire we need candidate skills and required job skills
+            #to calculate ATS Score we need candidate skills and required job skills
                 candidate_skills = set(
                 UserSkill.objects.filter(
                     user_data=user_data
@@ -281,6 +281,8 @@ def form(request):
                     flat=True
                     )
                 )
+             
+
                 job_skills = set(
                 job.required_skills.values_list(
                     'name',
@@ -292,6 +294,7 @@ def form(request):
                     candidate_skills &
                     job_skills
                 )
+          
 
                 if len(job_skills) > 0:
 
