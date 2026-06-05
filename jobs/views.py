@@ -2,6 +2,7 @@ from django.shortcuts import (
     render,
     get_object_or_404
 )
+from applicants.models import ActivityLog
 from .models import Job
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
@@ -29,7 +30,7 @@ def careers(request):
         context
     )
 
-#function tfor showing job details on career page
+#function for showing job details on career page
 def job_detail(request, slug):
 
     job = get_object_or_404(
@@ -101,6 +102,11 @@ def toggle_job_status(request, id):
 
     job.save()
 
+    ActivityLog.objects.create(
+        performed_by=request.user,
+        action=f"Job '{job.title}'status toggled"
+    )
+
     return redirect(
         'manage_jobs'
     )
@@ -141,6 +147,11 @@ def create_job(request):
             "Job created successfully"
         )
 
+        ActivityLog.objects.create(
+                    performed_by=request.user,
+                    action=f"Job '{job.title}' created"
+                )
+
         return redirect(
             'manage_jobs'
         )
@@ -176,6 +187,11 @@ def edit_job(request, id):
         job.experience_required = request.POST['experience_required']
 
         job.save()
+
+        ActivityLog.objects.create(
+            performed_by=request.user,
+            action=f"Job '{job.title}' edited"
+        )
 
         return redirect(
             'manage_jobs'

@@ -12,7 +12,8 @@ from .main_views import (
     search_candidates,
     candidate_profile,
     ats_dashboard,
-    home_page
+    home_page,
+    logs,
     
 
 )

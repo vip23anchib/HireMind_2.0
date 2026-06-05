@@ -188,3 +188,45 @@ class Application(models.Model):
 
 
 
+#for logging 
+from django.contrib.auth.models import User
+
+
+from django.contrib.auth.models import User
+
+class ActivityLog(models.Model):
+
+    candidate = models.ForeignKey(
+        UserData,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
+
+    performed_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+
+    action = models.CharField(
+        max_length=255
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+
+        candidate_name = (
+            self.candidate.name
+            if self.candidate
+            else "No Candidate"
+        )
+
+        return (
+            f"{candidate_name} - "
+            f"{self.action}"
+        )

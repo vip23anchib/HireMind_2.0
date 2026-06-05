@@ -15,7 +15,8 @@ from pypdf import PdfReader
 
 from django.core.paginator import Paginator
 
-from ..models import UserSkill, Skill
+from ..models import UserSkill, Skill, ActivityLog
+
 
 from django.db.models import Q
 
@@ -625,4 +626,23 @@ def ats_dashboard(request):
         request,
         'ATS_dashboard.html',
         context
+    )
+
+
+#function for logs page
+def logs(request):
+
+    logs = ActivityLog.objects.select_related(
+        "candidate",
+        "performed_by"
+    ).order_by(
+        "-created_at"
+    )
+    return render(
+        request,
+        'logs.html',
+        {
+            'logs': logs,
+            'active_page' : 'logs',
+        }
     )

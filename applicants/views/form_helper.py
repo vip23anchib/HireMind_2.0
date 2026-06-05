@@ -308,3 +308,42 @@ def normalize_skill(skill_name):
         skill_name.strip()
         
     )
+
+"""
+def calculate_ats_score(user_data, job):
+
+    candidate_skills = set(
+        UserSkill.objects.filter(
+            user_data=user_data
+        ).values_list(
+            'skill__name',
+            flat=True
+        )
+    )
+
+    job_skills = set(
+        job.required_skills.values_list(
+            'name',
+            flat=True
+        )
+    )
+
+    matched_skills = (
+        candidate_skills &
+        job_skills
+    )
+
+    if len(job_skills) > 0:
+
+        return round(
+            (
+                len(matched_skills)
+                /
+                len(job_skills)
+            ) * 100,
+            2
+        )
+
+    return 0
+
+"""

@@ -4,7 +4,7 @@ from django.template import loader
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required # Import protection decorator
-from ..models import UserData, Document,Skill, UserSkill, Application
+from ..models import UserData, Document,Skill, UserSkill, Application, ActivityLog
 from django.contrib import messages
 from django.http import JsonResponse
 from pypdf import PdfReader
@@ -15,14 +15,12 @@ from .form_helper import extract_pdf_text, is_resume, extract_skills, extract_sk
 from .form_helper import extract_email, extract_phone, extract_experience,extract_skill_experience
 
 from jobs.models import Job 
-from ..models import Application
+
 from django.shortcuts import render, get_object_or_404
 
-from jobs.models import Job
+
 
 #combined function for both create and update based on whether its GET or POST 
-
-
 def form(request):
 
     if request.method == "POST":
@@ -64,8 +62,11 @@ def form(request):
             )
              
             
-
-            user_data.save()
+            ActivityLog.objects.create(
+                candidate=user_data,
+                performed_by=request.user if request.user.is_authenticated else None,
+                action="Candidate profile updated"
+            )
 
             new_file = request.FILES.get("myfile")
 
@@ -107,6 +108,7 @@ def form(request):
                 ).delete()
 
                 #updated for better resume parsing (for with and without experience)
+
                 print("DATABASE SKILLS:", skills)
                 print("EXPERIENCE DATA:", experience_data)
 
@@ -132,7 +134,58 @@ def form(request):
                             "years_of_experience": years
                         }
                     )
+                    application = Application.objects.filter(
+                        candidate=user_data
+                    ).first()
 
+                    if application:
+
+                        candidate_skills = set(
+                            UserSkill.objects.filter(
+                                user_data=user_data
+                            ).values_list(
+                                'skill__name',
+                                flat=True
+                            )
+                        )
+                        
+                        #function to calculate ats_score
+                        job_skills = set(
+                            application.job.required_skills.values_list(
+                                'name',
+                                flat=True
+                            )
+                        )
+
+                        matched_skills = (
+                            candidate_skills &
+                            job_skills
+                        )
+
+                        if len(job_skills) > 0:
+
+                            ats_score = round(
+                                (
+                                    len(matched_skills)
+                                    /
+                                    len(job_skills)
+                                ) * 100,
+                                2
+                            )
+
+                        else:
+
+                            ats_score = 0
+
+                        application.ats_score = ats_score
+
+                        application.save()
+                ActivityLog.objects.create(
+                    candidate=user_data,
+                    performed_by=request.user if request.user.is_authenticated else None,
+                    action=f"ATS score recalculated to {ats_score}% after resume update"
+                )
+                        
 
                 # FORMAT EXPERIENCE
                 formatted_experience = ""
@@ -183,6 +236,12 @@ def form(request):
                     )
 
                     document.save()
+                    
+                    ActivityLog.objects.create(
+                        candidate=user_data,
+                        performed_by=request.user if request.user.is_authenticated else None,
+                        action="Resume replaced and re-parsed"
+                    )
 
             messages.success(
                 request,
@@ -220,6 +279,7 @@ def form(request):
                 ),
                 user=request.user if request.user.is_authenticated else None
             )
+            
 
             uploaded_file = request.FILES.get(
                 'myfile'
@@ -325,6 +385,11 @@ def form(request):
 
                 experience_info=formatted_experience
             )
+            ActivityLog.objects.create(
+                candidate=user_data,
+                performed_by=request.user if request.user.is_authenticated else None,
+                action="Resume uploaded and parsed"
+            )
 
          #IF candidate applied through careers page
             if job_id:
@@ -344,7 +409,6 @@ def form(request):
                     )
                 )
              
-
                 job_skills = set(
                 job.required_skills.values_list(
                     'name',
@@ -386,7 +450,11 @@ def form(request):
 
                     ats_score = ats_score,
                 )
-
+                ActivityLog.objects.create(
+                    candidate=user_data,
+                    performed_by=request.user if request.user.is_authenticated else None,
+                    action=f"Applied for '{job.title}' with ATS score {ats_score}%"
+                )
                 
 
 
@@ -526,11 +594,45 @@ def update_application_status(
 
     if request.method == "POST":
 
-        application.status = request.POST.get(
+        old_status = application.status
+
+        new_status = request.POST.get(
             'status'
         )
 
+        application.status = new_status
+
         application.save()
+
+        if new_status == "Shortlisted":
+
+            ActivityLog.objects.create(
+                candidate=application.candidate,
+                performed_by=request.user,
+                action="Candidate shortlisted"
+            )
+        if new_status == "Rejected":
+
+            ActivityLog.objects.create(
+                candidate=application.candidate,
+                performed_by=request.user,
+                action="Candidate rejected"
+            )
+        if new_status == "Hired":
+
+            ActivityLog.objects.create(
+                candidate=application.candidate,
+                performed_by=request.user,
+                action="Candidate hired"
+            )
+        if new_status == "Under Review":
+
+            ActivityLog.objects.create(
+                candidate=application.candidate,
+                performed_by=request.user,
+                action="Candidate moved to review stage"
+            )
+
 
     return redirect(
         'applications_list'

@@ -1,40 +1,40 @@
 /* ==========================================================================
-   1. DESIGN TOKENS & SYSTEM VARIABLES
+   1. DESIGN TOKENS - HIGH-CONTRAST LIGHT BACKGROUND + DARK NAVY CARD
    ========================================================================== */
 :root {
-    /* High-Contrast Color Matrix (Dedicated Light-on-Dark Contrast) */
-    --bg-app: #f1f5f9;            /* Crisp, premium light-slate background */
-    --bg-card: #0f172a;           /* Deep midnight-slate card for maximum pop */
-    --bg-input: #1e293b;          /* Slightly lighter slate for input contrast */
+    /* Main Layout Contrast Values */
+    --bg-app: #f1f5f9;             /* Light, clean slate background */
+    --bg-card: #0a1128;            /* Deep, premium dark royal navy card */
+    --bg-input: #101f42;           /* Slightly lighter navy for input contrast inside card */
     
-    /* Branding & Interactive Accent */
-    --primary: #6366f1;           /* Vibrant indigo that glows on dark cards */
-    --primary-hover: #4f46e5;
-    --primary-alpha: rgba(99, 102, 241, 0.15);
-    --focus-ring: rgba(99, 102, 241, 0.4);
+    /* Interactive Accent Colors */
+    --primary: #38bdf8;            /* Vivid sky cyan for optimal legibility against navy */
+    --primary-hover: #0ea5e9;
+    --primary-alpha: rgba(56, 189, 248, 0.15);
+    --focus-ring: rgba(56, 189, 248, 0.35);
     
-    /* High-Contrast Typography Scale */
-    --text-main: #ffffff;         /* Pure white for headers inside the card */
-    --text-body: #cbd5e1;         /* Soft silver/gray for readable form labels */
-    --text-muted: #64748b;        /* Muted slate for placeholders */
+    /* Typography Palette */
+    --text-main: #f8fafc;          /* High contrast bright white for card text */
+    --text-body: #94a3b8;          /* Slate grey for descriptions and labels */
+    --text-muted: #475569;         /* Soft slate for standard placeholders */
     
-    /* Dedicated Error Notification Styling */
-    --text-error: #f87171;        /* Highly visible pastel red */
-    --bg-error: rgba(239, 68, 68, 0.15);
-    --border-error: rgba(239, 68, 68, 0.4);
+    /* Errors */
+    --text-error: #f87171;
+    --bg-error: rgba(239, 68, 68, 0.1);
+    --border-error: rgba(239, 68, 68, 0.3);
     
-    /* Structural Constants */
-    --radius-lg: 20px;
-    --radius-md: 12px;
-    --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Radius, Shadow & Transitions */
+    --radius-lg: 16px;
+    --radius-md: 10px;
+    --transition-smooth: all 0.2s ease-in-out;
     
-    /* Premium Drop Shadows */
-    --shadow-premium: 0 25px 50px -12px rgba(15, 23, 42, 0.25), 
-                      0 0 1px rgba(255, 255, 255, 0.1);
+    /* Soft premium drop shadow to lift the dark card off the light background */
+    --card-shadow: 0 20px 40px -15px rgba(10, 17, 40, 0.3), 
+                   0 0 1px rgba(10, 17, 40, 0.1);
 }
 
 /* ==========================================================================
-   2. BODY RESET & VIEWPORT CENTERING
+   2. GLOBAL BODY SETUP (Lighter Interface Background)
    ========================================================================== */
 * {
     box-sizing: border-box;
@@ -44,68 +44,68 @@
 
 body {
     background-color: var(--bg-app);
+    /* Subtle radial gradient to give depth to the light background */
     background-image: 
-        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.05) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(79, 70, 229, 0.05) 0px, transparent 50%);
+        radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.08) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(14, 165, 233, 0.08) 0px, transparent 50%);
     min-height: 100vh;
     display: grid;
     place-items: center;
     padding: 1.5rem;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-font-smoothing: antialiased;
 }
 
 /* ==========================================================================
-   3. HIGH-CONTRAST LOGIN CARD CONTAINER
+   3. MODERN CONTAINER CARD
    ========================================================================== */
 .login-container {
     background: var(--bg-card);
     width: 100%;
-    max-width: 400px;
-    padding: 3rem 2.5rem;
+    max-width: 380px;
+    padding: 3rem 2.25rem;
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-premium);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    box-shadow: var(--card-shadow);
     transition: var(--transition-smooth);
 }
 
-/* Subtle outer glow effect when a user interacts with fields inside the card */
-.login-container:has(input:focus) {
-    box-shadow: 0 30px 60px -15px rgba(15, 23, 42, 0.4), 
-                0 0 0 1px rgba(99, 102, 241, 0.2);
-}
-
 .login-container h2 {
-    font-size: 2rem;
-    font-weight: 800;
+    font-size: 1.75rem;
+    font-weight: 700;
     color: var(--text-main);
     text-align: center;
-    margin-bottom: 2.25rem;
-    letter-spacing: -0.03em;
+    margin-bottom: 2rem;
+    letter-spacing: -0.02em;
 }
 
 /* ==========================================================================
-   4. FORM LAYOUT & ELEMENTS
+   4. FORM LAYOUT & INPUT FIELDS
    ========================================================================== */
 form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem; /* Better breathing room between sections */
+    gap: 1.25rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 label {
-    font-size: 0.88rem;
+    font-size: 0.85rem;
     font-weight: 600;
     color: var(--text-body);
-    margin-bottom: -0.75rem; /* Pulls label closer to its companion input */
     letter-spacing: 0.01em;
 }
 
 input[type="text"],
 input[type="password"] {
     width: 100%;
-    padding: 14px 16px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 13px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: var(--radius-md);
     font-size: 0.95rem;
     color: var(--text-main);
@@ -118,92 +118,95 @@ input::placeholder {
 }
 
 input:hover {
-    border-color: rgba(255, 255, 255, 0.2);
-    background: cubic-bezier(0.4, 0, 0.2, 1);
+    border-color: rgba(255, 255, 255, 0.15);
 }
 
 input:focus {
     outline: none;
-    background: var(--bg-card); /* Darkens input slightly on focus for sleek feedback */
     border-color: var(--primary);
-    box-shadow: 0 0 0 4px var(--focus-ring);
+    box-shadow: 0 0 0 3px var(--focus-ring);
 }
 
 /* ==========================================================================
-   5. INTERACTIVE BUTTON STYLE
+   5. UNIQUE PASSWORD EYE ALIGNMENT PROPERTIES
+   ========================================================================== */
+.password-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper input {
+    padding-right: 46px; 
+}
+
+.toggle-password-icon {
+    position: absolute;
+    right: 16px;
+    color: var(--text-body);
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-smooth);
+    user-select: none;
+}
+
+.toggle-password-icon:hover {
+    color: var(--primary);
+}
+
+/* ==========================================================================
+   6. INTERACTIVE BUTTON
    ========================================================================== */
 button[type="submit"] {
     width: 100%;
     border: none;
     border-radius: var(--radius-md);
     background: var(--primary);
-    color: #ffffff;
-    padding: 15px;
-    font-size: 1rem;
+    color: #040814; 
+    padding: 14px;
+    font-size: 0.95rem;
     font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
     transition: var(--transition-smooth);
     margin-top: 0.5rem;
-    letter-spacing: -0.01em;
 }
 
 button[type="submit"]:hover {
     background: var(--primary-hover);
-    transform: translateY(-1px);
-    box-shadow: 0 6px 22px rgba(99, 102, 241, 0.5);
-}
-
-button[type="submit"]:active {
-    transform: translateY(1px);
+    transform: translateY(-0.5px);
 }
 
 /* ==========================================================================
-   6. HIGH-CONTRAST DJANGO SYSTEM ERRORS
+   7. SYSTEM DYNAMIC ERROR MESSAGE
    ========================================================================== */
-/* Rewrites your hardcoded template styles into a beautiful UI notification component */
 p#error {
-    color: var(--text-error) !important; 
+    color: var(--text-error) !important;
     background-color: var(--bg-error);
     border: 1px solid var(--border-error);
-    padding: 12px 14px;
+    padding: 10px 12px;
     border-radius: var(--radius-md);
-    font-size: 0.88rem;
-    font-weight: 600;
-    line-height: 1.4;
+    font-size: 0.85rem;
+    font-weight: 500;
     text-align: center;
-    margin-top: 0.5rem !important;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
 }
 
-/* Clean CSS feedback graphic decoration */
-p#error::before {
-    content: "✕";
-    font-weight: 800;
-    font-size: 0.85rem;
-    background: rgba(239, 68, 68, 0.2);
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-}
-
-/* ==========================================================================
-   7. MOBILE RESPONSIEVNESS 
-   ========================================================================== */
+/* Mobile Adjustments */
 @media (max-width: 480px) {
     body {
-        padding: 1rem;
-        background: var(--bg-card); /* Flattens to dark full screen seamlessly on mobile devices */
+        background-color: var(--bg-card); /* Keeps seamless dark look on tiny mobile viewports */
     }
-    
     .login-container {
-        padding: 2rem 1rem;
+        padding: 2rem 1.25rem;
         box-shadow: none;
+        background: transparent;
         border: none;
     }
 }

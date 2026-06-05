@@ -6,8 +6,7 @@ HR Operations - Authorize New Operator
 {% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet"
-      href="{% static 'add_member.css' %}">
+<link rel="stylesheet" href="{% static 'add_member.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -45,6 +44,30 @@ HR Operations - Authorize New Operator
             <div class="form-group-node">
                 <label for="{{ form.joined_date.id_for_label }}">System Onboarding Date</label>
                 {{ form.joined_date }}
+            </div>
+
+            <!-- ROLE FIELD -->
+            <div class="form-group-node">
+                <label for="{{ form.role.id_for_label }}">Role</label>
+                {{ form.role }}
+            </div>
+
+            <!-- USERNAME FIELD -->
+            <div class="form-group-node">
+                <label for="{{ form.username.id_for_label }}">Username</label>
+                {{ form.username }}
+            </div>
+
+            <!-- EMAIL FIELD -->
+            <div class="form-group-node">
+                <label for="{{ form.email.id_for_label }}">Email</label>
+                {{ form.email }}
+            </div>
+
+            <!-- PASSWORD FIELD -->
+            <div class="form-group-node">
+                <label for="{{ form.password.id_for_label }}">Password</label>
+                {{ form.password }}
             </div>
 
             <!-- OPERATION FORM ACTION CONTROLLERS -->

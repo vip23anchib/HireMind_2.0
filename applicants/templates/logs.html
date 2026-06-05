@@ -1,0 +1,87 @@
+{% extends "master.html" %}
+{% load static %}
+
+{% block title %}
+Activity Logs | HireMind
+{% endblock %}
+
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'logsStyle.css' %}?v=1.2">
+{% endblock %}
+
+{% block content %}
+
+<div class="logs-container">
+
+    <div class="page-header">
+        <h1>Activity Logs</h1>
+        <p>Track all candidate and recruitment activities.</p>
+    </div>
+
+    <div class="logs-card">
+
+        <div class="table-responsive">
+
+            <table class="logs-table">
+
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Candidate</th>
+                        <th>Action</th>
+                        <th>Performed By</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for log in logs %}
+                    <tr>
+
+                        <td>
+                            {{ log.created_at|date:"d M Y, h:i A" }}
+                        </td>
+
+                        <td>
+                            <span class="candidate-name">
+                                {{ log.candidate.name }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="action-badge">
+                                {{ log.action }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {{ log.performed_by }}
+                        </td>
+
+                    </tr>
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="4">
+
+                            <div class="empty-state">
+                                No activity logs found.
+                            </div>
+
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

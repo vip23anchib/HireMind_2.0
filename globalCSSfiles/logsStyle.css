@@ -1,0 +1,76 @@
+.logs-container{
+    padding:30px;
+}
+
+.page-header{
+    margin-bottom:25px;
+}
+
+.page-header h1{
+    font-size:32px;
+    font-weight:700;
+    color:#0f172a;
+    margin-bottom:6px;
+}
+
+.page-header p{
+    color:#64748b;
+}
+
+.logs-card{
+    background:#fff;
+    border-radius:16px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    overflow:hidden;
+}
+
+.table-responsive{
+    overflow-x:auto;
+}
+
+.logs-table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.logs-table thead{
+    background:#1e1b4b;
+}
+
+.logs-table thead th{
+    color:white;
+    padding:18px;
+    text-align:left;
+    font-weight:600;
+}
+
+.logs-table tbody td{
+    padding:18px;
+    border-bottom:1px solid #e5e7eb;
+    color:#334155;
+}
+
+.logs-table tbody tr:hover{
+    background:#f8fafc;
+}
+
+.candidate-name{
+    font-weight:600;
+    color:#0f172a;
+}
+
+.action-badge{
+    display:inline-block;
+    padding:6px 12px;
+    background:#eef2ff;
+    color:#4338ca;
+    border-radius:999px;
+    font-size:14px;
+    font-weight:600;
+}
+
+.empty-state{
+    text-align:center;
+    padding:40px;
+    color:#64748b;
+}

@@ -25,6 +25,10 @@ urlpatterns = [
 
     path('home-page/',views.home_page,name='home-page'),
 
+    path('logs-page/',views.logs,name='logs'),
+
+
+
 ]
 
 
