@@ -1,253 +1,305 @@
+/* ==========================================================================
+   1. LAYOUT ARCHITECTURE & CONSTANTS
+   ========================================================================== */
+:root {
+    --brand-blue: #2563eb;
+    --brand-blue-hover: #1d4ed8;
+    --zinc-900: #0f172a;
+    --zinc-800: #1e293b;
+    --zinc-700: #334155;
+    --zinc-500: #64748b;
+    --zinc-400: #94a3b8;
+    --zinc-100: #f1f5f9;
+    --bg-floor: #f8fafc;
+    --surface-card: #ffffff;
+    --border-light: #e2e8f0;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+}
 
-    .page-wrapper {
-        width: 100% !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        min-height: calc(100vh - 70px);
-        background-color: #f8fafc !important; /* Soft light workspace background */
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-        box-sizing: border-box !important;
-    }
+.page-wrapper {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    min-height: calc(100vh - 70px);
+    background-color: var(--bg-floor);
+    font-family: var(--font-sans);
+    box-sizing: border-box;
+}
 
-    /* LAYERED CONTRAST: Deep Charcoal-Navy Control Header Plane */
-    .dark-control-plane {
-        background-color: #0f172a !important; 
-        padding: 48px 24px 96px 24px !important; /* Spacing to anchor overlapping card structure */
-        color: #ffffff !important;
-        box-sizing: border-box !important;
-    }
+/* DEEP SHELL HEADER PLANE */
+.dark-control-plane {
+    background-color: var(--zinc-900);
+    padding: 52px 24px 104px 24px;
+    color: #ffffff;
+    box-sizing: border-box;
+}
 
-    .plane-container {
-        max-width: 1300px !important;
-        margin: 0 auto !important;
-        width: 100% !important;
-    }
+.plane-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    width: 100%;
+}
 
-    /* LAYERED CONTRAST: Lower Light Workspace Layout Surface */
-    .light-workspace-surface {
-        max-width: 1300px !important;
-        margin: -64px auto 60px auto !important; /* Pulls filter blocks upward into dark region */
-        padding: 0 24px !important;
-        box-sizing: border-box !important;
-        width: 100% !important;
-    }
+.form-header-title {
+    font-size: 2rem;
+    color: #ffffff;
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
 
-    /* Header Accent Typography */
-    .form-header-title {
-        font-size: 1.85rem !important;
-        color: #ffffff !important;
-        margin: 0 0 6px 0 !important;
-        font-weight: 700 !important;
-        letter-spacing: -0.02em !important;
-    }
+/* FLOATING OVERLAY SURFACE */
+.light-workspace-surface {
+    max-width: 1300px;
+    margin: -64px auto 60px auto;
+    padding: 0 24px;
+    box-sizing: border-box;
+    width: 100%;
+}
 
-    /* ==========================================================================
-       2. INTERACTIVE FILTER PANEL (Overlapping Card Component)
-       ========================================================================== */
-    .filter-card-form {
-        background: #ffffff !important;
-        border: 1px solid #e2e8f0 !important;
-        border-radius: 12px !important;
-        padding: 24px !important;
-        box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08) !important;
-        margin-bottom: 24px !important;
-    }
+/* ==========================================================================
+   2. INTERACTIVE FILTER PANEL
+   ========================================================================== */
+.filter-card-form {
+    background: var(--surface-card);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.04), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+    margin-bottom: 24px;
+    box-sizing: border-box;
+}
 
+/* Grid architecture replaces flex to fix alignment shifts */
+.filter-grid-layout {
+    display: grid;
+    grid-template-columns: 3fr 1.5fr 1.5fr 1.2fr;
+    gap: 20px;
+    align-items: flex-end;
+}
+
+.field-group-skill,
+.field-group-type,
+.field-group-exp {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filter-card-form label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--zinc-700);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.filter-card-form input[type="text"],
+.filter-card-form input[type="number"],
+.filter-card-form select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.92rem;
+    color: var(--zinc-900);
+    background-color: var(--surface-card);
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.filter-card-form input:focus,
+.filter-card-form select:focus {
+    border-color: var(--brand-blue);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.btn-search-trigger {
+    width: 100%;
+    background: var(--brand-blue);
+    color: #ffffff;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.btn-search-trigger:hover {
+    background-color: var(--brand-blue-hover);
+}
+
+/* ==========================================================================
+   3. DATA TABLE & SEARCH RESULTS
+   ========================================================================== */
+.results-container-card {
+    background: var(--surface-card);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.02), 0 10px 15px -3px rgba(15, 23, 42, 0.03);
+}
+
+.results-card-header {
+    padding: 20px 24px;
+    background-color: var(--bg-floor);
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.results-header-title {
+    margin: 0;
+    color: var(--zinc-900);
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.results-count-badge {
+    background-color: var(--zinc-100);
+    color: var(--zinc-700);
+    padding: 6px 14px;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.table-responsive-wrapper {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.custom-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.92rem;
+}
+
+.custom-data-table th {
+    background-color: var(--bg-floor);
+    color: var(--zinc-500);
+    font-weight: 700;
+    padding: 14px 20px;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid var(--border-light);
+}
+
+.custom-data-table td {
+    padding: 16px 20px;
+    color: var(--zinc-700);
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+}
+
+.custom-data-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.custom-data-table tbody tr:hover {
+    background-color: #fafafa;
+}
+
+/* ==========================================================================
+   4. COMPONENT BADGES & UI CHIPS
+   ========================================================================== */
+.badge-matched-skill {
+    display: inline-flex;
+    background: #eff6ff;
+    color: var(--brand-blue);
+    border: 1px solid #bfdbfe;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin: 3px 2px;
+}
+
+.badge-missing-skill {
+    display: inline-flex;
+    background: #fef2f2;
+    color: #ef4444;
+    border: 1px solid #fecaca;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    margin: 2px 2px;
+}
+
+.badge-experience-metric {
+    background: #f0fdf4;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+/* ATS Score Badging System Engine */
+.badge-ats-score {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.88rem;
+    display: inline-block;
+    min-width: 45px;
+}
+.badge-ats-score.ats-high { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+.badge-ats-score.ats-mid  { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+.badge-ats-score.ats-low  { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
+
+.btn-profile-link {
+    background: var(--surface-card);
+    color: var(--zinc-700);
+    border: 1px solid #cbd5e1;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-block;
+    transition: all 0.15s ease;
+}
+
+.btn-profile-link:hover {
+    background-color: var(--zinc-900);
+    border-color: var(--zinc-900);
+    color: #ffffff;
+}
+
+.empty-row-state {
+    padding: 60px !important;
+    text-align: center !important;
+    color: var(--zinc-400) !important;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+/* ==========================================================================
+   5. RESPONSIVE ADAPTATIONS
+   ========================================================================== */
+@media (max-width: 1024px) {
     .filter-grid-layout {
-        display: flex !important;
-        gap: 16px !important;
-        align-items: flex-end !important;
+        grid-template-columns: 1fr 1fr;
     }
+}
 
-    .field-group-skill { flex: 3 !important; display: flex !important; flex-direction: column !important; gap: 8px !important; }
-    .field-group-type  { flex: 1.5 !important; display: flex !important; flex-direction: column !important; gap: 8px !important; }
-    .field-group-exp   { flex: 1.5 !important; display: flex !important; flex-direction: column !important; gap: 8px !important; }
-    .field-group-btn   { flex: 1 !important; }
-
-    .filter-card-form label {
-        font-size: 0.875rem !important;
-        font-weight: 600 !important;
-        color: #475569 !important;
+@media (max-width: 768px) {
+    .dark-control-plane { padding: 36px 16px 84px 16px; }
+    .light-workspace-surface { padding: 0 16px; margin-top: -48px; }
+    .filter-grid-layout {
+        grid-template-columns: 1fr;
+        gap: 16px;
     }
-
-    .filter-card-form input[type="text"],
-    .filter-card-form input[type="number"],
-    .filter-card-form select {
-        width: 100% !important;
-        box-sizing: border-box !important;
-        padding: 10px 14px !important;
-        border: 1px solid #cbd5e1 !important;
-        border-radius: 8px !important;
-        font-size: 0.9rem !important;
-        color: #0f172a !important;
-        background-color: #ffffff !important;
-        outline: none !important;
-        transition: border-color 0.2s, box-shadow 0.2s !important;
-    }
-
-    .filter-card-form input:focus,
-    .filter-card-form select:focus {
-        border-color: #2563eb !important;
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
-    }
-
-    .btn-search-trigger {
-        width: 100% !important;
-        background: #2563eb !important;
-        color: #ffffff !important;
-        border: none !important;
-        padding: 11px !important;
-        border-radius: 8px !important;
-        font-weight: 600 !important;
-        font-size: 0.95rem !important;
-        cursor: pointer !important;
-        transition: background-color 0.2s !important;
-    }
-    .btn-search-trigger:hover {
-        background-color: #1d4ed8 !important;
-    }
-
-    /* ==========================================================================
-       3. SEARCH RESULTS & DATA TABLE PRESENTATION
-       ========================================================================== */
-    .results-container-card {
-        background: #ffffff !important;
-        border: 1px solid #e2e8f0 !important;
-        border-radius: 12px !important;
-        overflow: hidden !important;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02) !important;
-    }
-
-    .results-card-header {
-        padding: 16px 24px !important;
-        background-color: #f8fafc !important;
-        border-bottom: 1px solid #e2e8f0 !important;
-        display: flex !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-    }
-
-    .results-header-title {
-        margin: 0 !important;
-        color: #334155 !important;
-        font-size: 1.05rem !important;
-        font-weight: 600 !important;
-    }
-
-    .results-count-badge {
-        background-color: #e2e8f0 !important;
-        color: #334155 !important;
-        padding: 4px 12px !important;
-        border-radius: 9999px !important;
-        font-size: 0.85rem !important;
-        font-weight: 600 !important;
-    }
-
-    .table-responsive-wrapper {
-        overflow-x: auto !important;
-    }
-
-    .custom-data-table {
-        width: 100% !important;
-        border-collapse: collapse !important;
-        text-align: left !important;
-        font-size: 0.92rem !important;
-    }
-
-    .custom-data-table th {
-        background-color: #f8fafc !important;
-        color: #64748b !important;
-        font-weight: 700 !important;
-        padding: 14px 18px !important;
-        text-transform: uppercase !important;
-        font-size: 0.75rem !important;
-        letter-spacing: 0.05em !important;
-        border-bottom: 2px solid #e2e8f0 !important;
-    }
-
-    .custom-data-table td {
-        padding: 14px 18px !important;
-        color: #334155 !important;
-        border-bottom: 1px solid #e2e8f0 !important;
-        vertical-align: middle !important;
-    }
-
-    .custom-data-table tbody tr:last-child td {
-        border-bottom: none !important;
-    }
-
-    .custom-data-table tbody tr:hover {
-        background-color: #f8fafc !important;
-    }
-
-    /* Component Tags & Micro-badges */
-    .badge-matched-skill {
-        display: inline-block !important;
-        background: #dbeafe !important;
-        color: #1e40af !important;
-        padding: 4px 8px !important;
-        border-radius: 6px !important;
-        font-size: 0.82rem !important;
-        font-weight: 600 !important;
-        margin: 2px !important;
-    }
-
-    .badge-missing-skill {
-        display: inline-block !important;
-        background: #fee2e2 !important;
-        color: #dc2626 !important;
-        padding: 4px 8px !important;
-        border-radius: 6px !important;
-        font-size: 0.82rem !important;
-        margin: 2px !important;
-    }
-
-    .badge-experience-metric {
-        background: #dcfce7 !important;
-        color: #166534 !important;
-        padding: 6px 10px !important;
-        border-radius: 6px !important;
-        font-size: 0.85rem !important;
-        font-weight: 600 !important;
-        white-space: nowrap !important;
-    }
-
-    .badge-ats-score {
-        background: #f1f5f9 !important;
-        color: #1e293b !important;
-        border: 1px solid #cbd5e1 !important;
-        padding: 6px 10px !important;
-        border-radius: 6px !important;
-        font-weight: 700 !important;
-        white-space: nowrap !important;
-    }
-
-    .btn-profile-link {
-        background: #2563eb !important;
-        color: #ffffff !important;
-        text-decoration: none !important;
-        padding: 8px 14px !important;
-        border-radius: 6px !important;
-        font-size: 0.85rem !important;
-        font-weight: 600 !important;
-        display: inline-block !important;
-        white-space: nowrap !important;
-        transition: background-color 0.2s !important;
-    }
-    .btn-profile-link:hover {
-        background-color: #1d4ed8 !important;
-    }
-
-    .empty-row-state {
-        padding: 48px !important;
-        text-align: center !important;
-        color: #94a3b8 !important;
-        font-weight: 500 !important;
-    }
-
-    /* Responsive Adaptation Viewports */
-    @media (max-width: 868px) {
-        .dark-control-plane { padding: 32px 16px 80px 16px !important; }
-        .light-workspace-surface { padding: 0 16px !important; margin-top: -48px !important; }
-        .filter-grid-layout { flex-direction: column !important; align-items: stretch !important; gap: 14px !important; }
-    }
+    .filter-card-form { padding: 20px; }
+}

@@ -9,15 +9,18 @@
 </head>
 <body>
     <div class="success-container">
+        <!-- Success Icon -->
         <div class="success-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="20 6 9 17 4 12"></polyline>
             </svg>
         </div>
         
+        <!-- Headers -->
         <h1>Submission Successful!</h1>
         <p>Thank you for submitting your details. Your data has been securely saved to our database, and your profile is now updated.</p>
         
+        <!-- Info Security Banner -->
         <div class="info-card">
             <span class="info-emoji">🔒</span>
             <div class="info-text">
@@ -26,11 +29,10 @@
             </div>
         </div>
 
-        
-
-    <a href="{% url 'landing_page' %}" class="btn-return">
-    ← Back to Dashboard
-    </a>
+        <!-- Action Button -->
+        <a href="{% url 'landing_page' %}" class="btn-return">
+            Back to Dashboard
+        </a>
     </div>
 </body>
 </html>

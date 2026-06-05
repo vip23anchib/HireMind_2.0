@@ -6,15 +6,12 @@ HR Operations - Recruitment Control Command
 {% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet"
-      href="{% static 'hr_homePage.css' %}">
+<link rel="stylesheet" href="{% static 'hr_homePage.css' %}">
 {% endblock %}
-
 
 {% block content %}
 <div class="dashboard-container">
 
-    <!-- Top Deep Dark Charcoal-Navy Visual Control Plane Layer Frame -->
     <div class="hr-control-plane">
         <div class="plane-container">
             <div class="page-header">
@@ -24,65 +21,59 @@ HR Operations - Recruitment Control Command
         </div>
     </div>
 
-    <!-- Main Floating Workspace Grid Dashboard Layer Surface Frame -->
     <div class="dashboard-surface-layer">
 
-        <!-- Metrics Overview Section -->
         <div class="stats-grid">
             <div class="stat-card">
-                <h3>{{ total_applications }}</h3>
+                <h3>{{ total_applications|default:"0" }}</h3>
                 <span>Total Applications</span>
             </div>
             <div class="stat-card">
-                <h3>{{ active_jobs }}</h3>
+                <h3>{{ active_jobs|default:"0" }}</h3>
                 <span>Active Jobs</span>
             </div>
             <div class="stat-card">
-                <h3>{{ total_candidates }}</h3>
+                <h3>{{ total_candidates|default:"0" }}</h3>
                 <span>Total Candidates</span>
             </div>
             <div class="stat-card">
-                <h3>{{ shortlisted }}</h3>
+                <h3>{{ shortlisted|default:"0" }}</h3>
                 <span>Shortlisted</span>
             </div>
             <div class="stat-card">
-                <h3>{{ interviews }}</h3>
+                <h3>{{ interviews|default:"0" }}</h3>
                 <span>Interviews</span>
             </div>
             <div class="stat-card">
-                <h3>{{ hired }}</h3>
+                <h3>{{ hired|default:"0" }}</h3>
                 <span>Hired</span>
             </div>
         </div>
 
-        <!-- Funnel Metric Matrix & Quick Action Row Modules -->
         <div class="dashboard-row">
             
-            <!-- Funnel Display Card Block -->
             <div class="dashboard-card">
                 <h2>Recruitment Funnel</h2>
                 <div class="funnel">
-                    <div class="funnel-item">
+                    <div class="funnel-item fn-applied">
                         Applied
-                        <span>{{ total_applications }}</span>
+                        <span>{{ total_applications|default:"0" }}</span>
                     </div>
-                    
-                    <div class="funnel-item">
+                    <div class="funnel-item fn-shortlisted">
                         Shortlisted
-                        <span>{{ shortlisted }}</span>
+                        <span>{{ shortlisted|default:"0" }}</span>
                     </div>
-                    <div class="funnel-item">
+                    <div class="funnel-item fn-interview">
                         Interview
-                        <span>{{ interviews }}</span>
+                        <span>{{ interviews|default:"0" }}</span>
                     </div>
-                    <div class="funnel-item">
+                    <div class="funnel-item fn-hired">
                         Hired
-                        <span>{{ hired }}</span>
+                        <span>{{ hired|default:"0" }}</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Context Operations Action Navigation Link Cluster Box Card -->
             <div class="dashboard-card">
                 <h2>Quick Actions</h2>
                 <div class="quick-actions">
@@ -95,7 +86,6 @@ HR Operations - Recruitment Control Command
                     <a href="{% url 'applications_list' %}" class="action-btn">
                         View Applications
                     </a>
-                    <!-- Direct Dynamic System Path Pointing to the Primary Active Roster Registry -->
                     <a href="{% url 'form_data' %}" class="action-btn btn-highlight-route">
                         Candidate List &rarr;
                     </a>
@@ -104,11 +94,10 @@ HR Operations - Recruitment Control Command
 
         </div>
 
-        <!-- Full Width Grid Data Table Tracking System Logs Module -->
         <div class="dashboard-row full-width-panel">
             <div class="dashboard-card">
                 <h2>Recent Applications Log</h2>
-                <div style="overflow-x: auto; width: 100%;">
+                <div class="table-responsive">
                     <table>
                         <thead>
                             <tr>
@@ -121,8 +110,18 @@ HR Operations - Recruitment Control Command
                             {% for application in recent_applications %}
                             <tr>
                                 <td>{{ application.candidate.name }}</td>
-                                <td style="font-weight: 600; color: #0f172a;">{{ application.job.title }}</td>
-                                <td><span class="table-status-pill status-applied">{{ application.status }}</span></td>
+                                <td style="font-weight: 600; color: var(--slate-900);">{{ application.job.title }}</td>
+                                <td>
+                                    <span class="table-status-pill {% if application.status|lower == 'applied' %}status-applied{% elif application.status|lower == 'shortlisted' %}status-shortlisted{% elif application.status|lower == 'interview' %}status-interview{% elif application.status|lower == 'hired' %}status-hired{% else %}status-default{% endif %}">
+                                        {{ application.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="3" style="text-align: center; color: var(--slate-500); padding: 30px;">
+                                    No application records tracked inside system indexes.
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>

@@ -1,258 +1,293 @@
+/* ==========================================================================
+   1. CORE CANVAS & ARCHITECTURE 
+   ========================================================================== */
+:root {
+    --brand-primary: #2563eb;
+    --brand-primary-hover: #1d4ed8;
+    --slate-900: #0f172a;
+    --slate-800: #1e293b;
+    --slate-700: #334155;
+    --slate-500: #64748b;
+    --slate-400: #94a3b8;
+    --surface-floor: #f8fafc;
+    --surface-card: #ffffff;
+    --border-subtle: #e2e8f0;
+    --border-focus: #cbd5e1;
+    --font-stack: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+}
 
-    .dashboard-container {
-        width: 100% !important;
-        margin: 0 !important;
-        padding: 0 0 60px 0 !important;
-        min-height: calc(100vh - 70px);
-        background-color: #f8fafc !important; /* Soft light workspace workspace floor */
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-        box-sizing: border-box !important;
-    }
+.dashboard-container {
+    width: 100%;
+    margin: 0;
+    padding: 0 0 60px 0;
+    min-height: calc(100vh - 70px);
+    background-color: var(--surface-floor);
+    font-family: var(--font-stack);
+    box-sizing: border-box;
+}
 
-    /* CONTROL PLANE: Integrated Dashboard Authority Header Banner */
-    .hr-control-plane {
-        background-color: #0f172a !important; 
-        border-bottom: 4px solid #3b82f6 !important; /* System Signature Tech Blue line */
-        padding: 50px 24px 90px 24px !important;
-        color: #ffffff !important;
-        box-sizing: border-box !important;
-    }
+/* CONTROL PLANE: Deep Corporate Top Shell */
+.hr-control-plane {
+    background-color: var(--slate-900);
+    border-bottom: 4px solid var(--brand-primary);
+    padding: 55px 24px 95px 24px;
+    color: #ffffff;
+    box-sizing: border-box;
+}
 
-    .plane-container {
-        max-width: 1300px !important;
-        margin: 0 auto !important;
-        width: 100% !important;
-    }
+.plane-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    width: 100%;
+}
 
-    .page-header h1 {
-        color: #ffffff !important;
-        font-size: 2.25rem !important;
-        font-weight: 800 !important;
-        margin: 0 !important;
-        letter-spacing: -0.03em !important;
-    }
+.page-header h1 {
+    color: #ffffff;
+    font-size: 2.25rem;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -0.03em;
+}
 
-    .page-header p {
-        color: #94a3b8 !important;
-        font-size: 0.95rem !important;
-        font-weight: 500 !important;
-        margin: 6px 0 0 0 !important;
-    }
+.page-header p {
+    color: var(--slate-400);
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 8px 0 0 0;
+}
 
-    /* OVERLAP MAIN LAYOUT SURFACE */
-    .dashboard-surface-layer {
-        max-width: 1300px !important;
-        margin: -50px auto 0 auto !important; /* Floating offset layout overlay */
-        padding: 0 24px !important;
-        box-sizing: border-box !important;
-        width: 100% !important;
-    }
+/* OVERLAP FLOATING SURFACE GRID */
+.dashboard-surface-layer {
+    max-width: 1300px;
+    margin: -55px auto 0 auto;
+    padding: 0 24px;
+    box-sizing: border-box;
+    width: 100%;
+}
 
-    /* ==========================================================================
-       2. RECRUITMENT METRIC CARDS TRACKING GRID
-       ========================================================================== */
-    .stats-grid {
-        display: grid !important;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
-        gap: 16px !important;
-        margin-bottom: 28px !important;
-    }
+/* ==========================================================================
+   2. RECRUITMENT METRIC CARDS 
+   ========================================================================== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+}
 
-    .stat-card {
-        background: #ffffff !important;
-        padding: 22px 20px !important;
-        border-radius: 12px !important;
-        border: 1px solid #e2e8f0 !important;
-        box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.03) !important;
-        transition: all 0.2s ease !important;
-    }
+.stat-card {
+    background: var(--surface-card);
+    padding: 24px 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.02), 0 10px 15px -3px rgba(15, 23, 42, 0.03);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease;
+}
 
-    .stat-card:hover {
-        transform: translateY(-2px) !important;
-        border-color: #cbd5e1 !important;
-        box-shadow: 0 12px 30px -5px rgba(15, 23, 42, 0.06) !important;
-    }
+.stat-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--border-focus);
+    box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.05), 0 10px 10px -5px rgba(15, 23, 42, 0.02);
+}
 
-    .stat-card h3 {
-        font-size: 2rem !important;
-        font-weight: 800 !important;
-        color: #0f172a !important; /* Professional Dark Gray values */
-        margin: 0 0 4px 0 !important;
-        letter-spacing: -0.02em !important;
-    }
+.stat-card h3 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--slate-900);
+    margin: 0 0 6px 0;
+    letter-spacing: -0.03em;
+}
 
-    /* Accent colors customized uniquely per analytical metrics value context */
-    .stats-grid .stat-card:nth-child(1) h3 { color: #2563eb !important; }
-    .stats-grid .stat-card:nth-child(2) h3 { color: #7c3aed !important; }
-    .stats-grid .stat-card:nth-child(6) h3 { color: #16a34a !important; }
+/* Explicit UI Color Accents */
+.stats-grid .stat-card:nth-child(1) h3 { color: var(--brand-primary); }
+.stats-grid .stat-card:nth-child(2) h3 { color: #7c3aed; }
+.stats-grid .stat-card:nth-child(4) h3 { color: #ca8a04; }
+.stats-grid .stat-card:nth-child(5) h3 { color: #9333ea; }
+.stats-grid .stat-card:nth-child(6) h3 { color: #16a34a; }
 
-    .stat-card span {
-        color: #64748b !important;
-        font-size: 0.82rem !important;
-        font-weight: 600 !important;
-        text-transform: uppercase !important;
-        letter-spacing: 0.02em !important;
-    }
+.stat-card span {
+    color: var(--slate-500);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
 
-    /* ==========================================================================
-       3. CONSOLE DATA BLOCK GRIDS (FUNNEL, UTILITIES & TABLES)
-       ========================================================================== */
+/* ==========================================================================
+   3. DATA WORKSPACE PANELS (FUNNEL, UTILITIES, TABLES)
+   ========================================================================== */
+.dashboard-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.dashboard-card {
+    background: var(--surface-card);
+    padding: 32px;
+    border-radius: 12px;
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.02), 0 10px 15px -3px rgba(15, 23, 42, 0.03);
+    box-sizing: border-box;
+}
+
+.dashboard-card h2 {
+    margin: 0 0 24px 0;
+    color: var(--slate-900);
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+/* DATA VISUAL FUNNEL ARCHITECTURE */
+.funnel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.funnel-item {
+    background: var(--surface-floor);
+    border: 1px solid var(--border-subtle);
+    padding: 14px 20px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    color: var(--slate-700);
+    font-size: 0.92rem;
+    transition: filter 0.2s ease;
+}
+
+/* Progressive sizing layout steps to illustrate volumetric fluid drops */
+.funnel-item.fn-applied { background-color: #eff6ff; border-color: #bfdbfe; color: #1e40af; width: 100%; }
+.funnel-item.fn-shortlisted { background-color: #fef9c3; border-color: #fef08a; color: #854d0e; width: 95%; }
+.funnel-item.fn-interview { background-color: #f3e8ff; border-color: #e9d5ff; color: #6b21a8; width: 90%; }
+.funnel-item.fn-hired { background-color: #f0fdf4; border-color: #bbf7d0; color: #166534; width: 85%; }
+
+.funnel-item span {
+    background-color: rgba(15, 23, 42, 0.06);
+    color: var(--slate-900);
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-family: monospace;
+    font-weight: 700;
+}
+.funnel-item.fn-applied span { background-color: rgba(37, 99, 235, 0.12); }
+.funnel-item.fn-shortlisted span { background-color: rgba(234, 179, 8, 0.15); }
+.funnel-item.fn-interview span { background-color: rgba(147, 51, 234, 0.12); }
+.funnel-item.fn-hired span { background-color: rgba(22, 163, 74, 0.15); }
+
+/* SYSTEM ACTION LINK CLUSTER BUTTONS */
+.quick-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.action-btn {
+    text-decoration: none;
+    text-align: center;
+    padding: 14px;
+    background-color: var(--surface-card);
+    color: var(--slate-700);
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.15s ease-in-out;
+}
+
+.action-btn:hover {
+    background-color: var(--surface-floor);
+    color: var(--brand-primary);
+    border-color: var(--brand-primary);
+}
+
+.action-btn.btn-highlight-route {
+    background-color: var(--slate-900);
+    color: #ffffff;
+    border-color: var(--slate-900);
+}
+
+.action-btn.btn-highlight-route:hover {
+    background-color: var(--slate-800);
+    border-color: var(--slate-800);
+    color: #ffffff;
+}
+
+/* ENTERPRISE DATATABLE SCHEMA LOGS */
+.full-width-panel {
+    grid-template-columns: 1fr;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid var(--border-subtle);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+table th {
+    background: var(--surface-floor);
+    color: var(--slate-500);
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f1f5f9;
+    color: var(--slate-700);
+    font-size: 0.92rem;
+}
+
+table tr:last-child td {
+    border-bottom: none;
+}
+
+/* SEMANTIC STATUS SYSTEM BADGES */
+.table-status-pill {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 6px;
+    letter-spacing: 0.03em;
+}
+
+/* Custom Status Conditions handled cleanly */
+.table-status-pill.status-applied, 
+.table-status-pill.status-default { background-color: #eff6ff; color: var(--brand-primary); }
+.table-status-pill.status-shortlisted { background-color: #fef3c7; color: #d97706; }
+.table-status-pill.status-interview { background-color: #f3e8ff; color: #7c3aed; }
+.table-status-pill.status-hired { background-color: #dcfce7; color: #15803d; }
+
+/* ==========================================================================
+   4. MOBILE ADAPTIVE VIEWPORTS
+   ========================================================================== */
+@media (max-width: 900px) {
     .dashboard-row {
-        display: grid !important;
-        grid-template-columns: 2fr 1fr !important;
-        gap: 24px !important;
-        margin-bottom: 24px !important;
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
-
-    .dashboard-card {
-        background: #ffffff !important;
-        padding: 28px !important;
-        border-radius: 12px !important;
-        border: 1px solid #e2e8f0 !important;
-        box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.03) !important;
-        box-sizing: border-box !important;
-    }
-
-    .dashboard-card h2 {
-        margin: 0 0 20px 0 !important;
-        color: #0f172a !important;
-        font-size: 1.25rem !important;
-        font-weight: 800 !important;
-        letter-spacing: -0.01em !important;
-    }
-
-    /* PROGRESSIVE FUNNEL MATRIX */
-    .funnel {
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 10px !important;
-    }
-
-    .funnel-item {
-        background: #f8fafc !important;
-        border: 1px solid #e2e8f0 !important;
-        padding: 14px 20px !important;
-        border-radius: 8px !important;
-        display: flex !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-        font-weight: 600 !important;
-        color: #334155 !important;
-        font-size: 0.92rem !important;
-    }
-
-    /* Shaded step indexing to illustrate descending data volume flows */
-    .funnel-item:nth-child(1) { background-color: #eff6ff !important; border-color: #bfdbfe !important; color: #1e40af !important; }
-    .funnel-item:nth-child(2) { background-color: #f0fdf4 !important; border-color: #bbf7d0 !important; color: #166534 !important; }
-
-    .funnel-item span {
-        background-color: rgba(15, 23, 42, 0.05) !important;
-        color: #0f172a !important;
-        padding: 4px 10px !important;
-        border-radius: 6px !important;
-        font-size: 0.85rem !important;
-        font-family: monospace !important;
-        font-weight: 700 !important;
-    }
-    .funnel-item:nth-child(1) span { background-color: rgba(37, 99, 235, 0.1) !important; }
-
-    /* ACTION UTILITIES PANEL SYSTEM LINK MODULES */
-    .quick-actions {
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 10px !important;
-    }
-
-    .action-btn {
-        text-decoration: none !important;
-        text-align: center !important;
-        padding: 12px !important;
-        background-color: #ffffff !important;
-        color: #334155 !important;
-        border: 1px solid #cbd5e1 !important;
-        border-radius: 8px !important;
-        font-weight: 600 !important;
-        font-size: 0.9rem !important;
-        transition: all 0.2s ease !important;
-    }
-
-    .action-btn:hover {
-        background-color: #f8fafc !important;
-        color: #2563eb !important;
-        border-color: #2563eb !important;
-    }
-
-    /* Highlighted target execution point route (Candidate List) */
-    .action-btn.btn-highlight-route {
-        background-color: #0f172a !important;
-        color: #ffffff !important;
-        border-color: #0f172a !important;
-    }
-
-    .action-btn.btn-highlight-route:hover {
-        background-color: #1e293b !important;
-        border-color: #1e293b !important;
-    }
-
-    /* ADMINISTRATIVE DATA TABLES LOG MATRIX */
-    .full-width-panel {
-        grid-template-columns: 1fr !important;
-    }
-
-    table {
-        width: 100% !important;
-        border-collapse: collapse !important;
-        margin-top: 4px !important;
-    }
-
-    table th {
-        background: #f8fafc !important;
-        color: #475569 !important;
-        font-weight: 700 !important;
-        font-size: 0.8rem !important;
-        text-transform: uppercase !important;
-        letter-spacing: 0.05em !important;
-        padding: 14px 16px !important;
-        border-bottom: 2px solid #e2e8f0 !important;
-        text-align: left !important;
-    }
-
-    table td {
-        padding: 14px 16px !important;
-        border-bottom: 1px solid #f1f5f9 !important;
-        color: #334155 !important;
-        font-size: 0.95rem !important;
-        font-weight: 500 !important;
-    }
-
-    table tr:last-child td {
-        border-bottom: none !important;
-    }
-
-    /* Structured Semantic Table Status Badge Nodes */
-    .table-status-pill {
-        display: inline-flex !important;
-        align-items: center !important;
-        font-size: 0.75rem !important;
-        font-weight: 700 !important;
-        text-transform: uppercase !important;
-        padding: 4px 10px !important;
-        border-radius: 6px !important;
-        letter-spacing: 0.02em !important;
-    }
-    .table-status-pill.status-applied { background-color: #eff6ff !important; color: #2563eb !important; }
-    .table-status-pill.status-shortlisted { background-color: #fef3c7 !important; color: #d97706 !important; }
-    .table-status-pill.status-interview { background-color: #f3e8ff !important; color: #7c3aed !important; }
-
-    /* ==========================================================================
-       4. MOBILE RESPONSIVE MEDIA HOOK ADAPTATIONS
-       ========================================================================== */
-    @media (max-width: 900px) {
-        .dashboard-row {
-            grid-template-columns: 1fr !important;
-            gap: 20px !important;
-        }
-        .hr-control-plane { padding: 40px 16px 80px 16px !important; }
-        .dashboard-surface-layer { padding: 0 16px !important; }
-        .dashboard-card { padding: 20px !important; }
-    }
+    .hr-control-plane { padding: 45px 16px 85px 16px; }
+    .dashboard-surface-layer { padding: 0 16px; }
+    .dashboard-card { padding: 24px; }
+    .funnel-item { width: 100%; } /* Drop scaling on mobile devices for readable content stretch */
+}

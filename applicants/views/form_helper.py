@@ -38,7 +38,9 @@ SKILL_DATABASE = [
         "Git",
         "GitHub",
         "Excel",
-        "Power BI"
+        "Power BI",
+        "HTML5",
+        "CSS3",
     ]
 
 #This mapping normalizes inputs to a clean, standardized string (the values),
@@ -75,6 +77,7 @@ SKILL_SYNONYMS = {
     
     "css": "CSS3",
     "css3": "CSS3",
+   
     "tailwindcss": "Tailwind CSS",
     "tailwind": "Tailwind CSS",
     "sass": "Sass",

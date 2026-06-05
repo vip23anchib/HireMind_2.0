@@ -85,54 +85,54 @@ def form(request):
                     extracted_text
                 )
 
+                normalized_experience_data = {}
+
+                for skill, years in experience_data.items():
+
+                    normalized_skill = normalize_skill(
+                        skill
+                    )
+
+                    normalized_experience_data[
+                        normalized_skill
+                    ] = years
+
+                skills = extract_skills_from_database(
+                    extracted_text
+                )
+
                 # REMOVE OLD SKILLS
                 UserSkill.objects.filter(
                     user_data=user_data
                 ).delete()
 
                 #updated for better resume parsing (for with and without experience)
-                if experience_data:
-                    for skill_name, years in experience_data.items():
+                print("DATABASE SKILLS:", skills)
+                print("EXPERIENCE DATA:", experience_data)
 
-                        skill_name = normalize_skill(
-                            skill_name
-                        )
+                for skill_name in skills:
 
-                        skill, created = Skill.objects.get_or_create(
-                            name=skill_name
-                        )
-
-                        UserSkill.objects.update_or_create(
-                            user_data=user_data,
-                            skill=skill,
-                            defaults={
-                                "years_of_experience": int(years)
-                            }
-                        )
-
-                else:
-
-                    skills = extract_skills_from_database(
-                        extracted_text
+                    skill_name = normalize_skill(
+                        skill_name
                     )
-                    print("DATABASE SKILLS:", skills)
-                    for skill_name in skills:
 
-                        skill_name = normalize_skill(
-                            skill_name
-                        )
+                    years = normalized_experience_data.get(
+                        skill_name,
+                        0
+                    )
 
-                        skill, created = Skill.objects.get_or_create(
-                            name=skill_name
-                        )
+                    skill, created = Skill.objects.get_or_create(
+                        name=skill_name
+                    )
 
-                        UserSkill.objects.update_or_create(
-                            user_data=user_data,
-                            skill=skill,
-                            defaults={
-                                "years_of_experience": 0
-                            }
-                        )
+                    UserSkill.objects.update_or_create(
+                        user_data=user_data,
+                        skill=skill,
+                        defaults={
+                            "years_of_experience": years
+                        }
+                    )
+
 
                 # FORMAT EXPERIENCE
                 formatted_experience = ""
@@ -234,51 +234,49 @@ def form(request):
                 extracted_text
             )
 
-            print(experience_data)
+            normalized_experience_data = {}
 
-            if experience_data:
+            for skill, years in experience_data.items():
 
-                for skill_name, years in experience_data.items():
-
-                    skill_name = normalize_skill(
-                        skill_name
-                    )
-
-                    skill, created = Skill.objects.get_or_create(
-                        name=skill_name
-                    )
-
-                    UserSkill.objects.update_or_create(
-                        user_data=user_data,
-                        skill=skill,
-                        defaults={
-                            "years_of_experience": int(years)
-                        }
-                    )
-
-            else:
-
-                skills = extract_skills_from_database(
-                    extracted_text
+                normalized_skill = normalize_skill(
+                    skill
                 )
 
-                for skill_name in skills:
+                normalized_experience_data[
+                    normalized_skill
+                ] = years
 
-                    skill_name = normalize_skill(
-                        skill_name
-                    )
+            skills = extract_skills_from_database(
+                extracted_text
+            )
 
-                    skill, created = Skill.objects.get_or_create(
-                        name=skill_name
-                    )
+            print(experience_data)
 
-                    UserSkill.objects.update_or_create(
-                        user_data=user_data,
-                        skill=skill,
-                        defaults={
-                            "years_of_experience": 0
-                        }
-                    )
+            print("DATABASE SKILLS:", skills)
+            print("EXPERIENCE DATA:", experience_data)
+
+            for skill_name in skills:
+
+                skill_name = normalize_skill(
+                    skill_name
+                )
+
+                years = normalized_experience_data.get(
+                    skill_name,
+                    0
+                )
+
+                skill, created = Skill.objects.get_or_create(
+                    name=skill_name
+                )
+
+                UserSkill.objects.update_or_create(
+                    user_data=user_data,
+                    skill=skill,
+                    defaults={
+                        "years_of_experience": years
+                    }
+                )
 
             formatted_experience = ""
 

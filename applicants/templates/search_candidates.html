@@ -1,12 +1,12 @@
 {% extends 'master.html' %}
 {% load static %}
+
 {% block title %}
 Candidate Search
 {% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet"
-      href="{% static 'search_candidates.css' %}">
+<link rel="stylesheet" href="{% static 'search_candidates.css' %}?v=1.2">
 {% endblock %}
 
 {% block content %}
@@ -25,7 +25,7 @@ Candidate Search
 
                 <div class="field-group-skill">
                     <label for="id_skill">Skills</label>
-                    <input type="text" id="id_skill" name="skill" value="{{ skill }}" placeholder="Python, Django, React">
+                    <input type="text" id="id_skill" name="skill" value="{{ skill|default:'' }}" placeholder="e.g. Python, Django, React">
                 </div>
 
                 <div class="field-group-type">
@@ -38,11 +38,11 @@ Candidate Search
 
                 <div class="field-group-exp">
                     <label for="id_experience">Minimum Experience</label>
-                    <input type="number" id="id_experience" name="experience" value="{{ experience }}" min="0" placeholder="Years">
+                    <input type="number" id="id_experience" name="experience" value="{{ experience|default:'' }}" min="0" placeholder="Years">
                 </div>
 
                 <div class="field-group-btn">
-                    <button type="submit" class="btn-search-trigger">Search</button>
+                    <button type="submit" class="btn-search-trigger">Search Candidates</button>
                 </div>
 
             </div>
@@ -72,19 +72,19 @@ Candidate Search
                     <tbody>
                         {% for item in candidate_results %}
                         <tr>
-                            <td style="font-weight: 600; color: #0f172a; min-width: 140px;">
+                            <td style="font-weight: 700; color: var(--zinc-900); min-width: 140px;">
                                 {{ item.candidate.name }}
                             </td>
 
-                            <td style="color: #334155; min-width: 180px;">
+                            <td style="color: var(--zinc-700); min-width: 180px;">
                                 {{ item.candidate.email }}
                             </td>
 
-                            <td style="color: #334155;">
+                            <td style="color: var(--zinc-700);">
                                 {{ item.candidate.country }}
                             </td>
 
-                            <td style="color: #334155;">
+                            <td style="color: var(--zinc-500); font-weight: 500;">
                                 {{ item.candidate.gender }}
                             </td>
 
@@ -94,8 +94,8 @@ Candidate Search
                                 {% endfor %}
 
                                 {% if item.missing_skills %}
-                                <div style="margin-top: 6px;">
-                                    <small style="color: #64748b; font-weight: 600; font-size: 0.75rem;">Missing:</small><br>
+                                <div style="margin-top: 8px;">
+                                    <small style="color: var(--zinc-500); font-weight: 700; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.02em;">Missing:</small><br>
                                     {% for skill in item.missing_skills %}
                                         <span class="badge-missing-skill">{{ skill }}</span>
                                     {% endfor %}
@@ -104,11 +104,13 @@ Candidate Search
                             </td>
 
                             <td style="text-align: center;">
-                                <span class="badge-experience-metric">{{ item.experience }} Years</span>
+                                <span class="badge-experience-metric">{{ item.experience }} Yrs</span>
                             </td>
 
                             <td style="text-align: center; min-width: 100px;">
-                                <span class="badge-ats-score">{{ item.score }}</span>
+                                <span class="badge-ats-score {% if item.score >= 80 %}ats-high{% elif item.score >= 50 %}ats-mid{% else %}ats-low{% endif %}">
+                                    {{ item.score }}%
+                                </span>
                             </td>
 
                             <td style="text-align: right; min-width: 140px;">
@@ -120,7 +122,7 @@ Candidate Search
                         {% empty %}
                         <tr>
                             <td colspan="8" class="empty-row-state">
-                                No candidates match your search criteria.
+                                No candidate profiles matching your query definitions exist inside current registry loops.
                             </td>
                         </tr>
                         {% endfor %}
