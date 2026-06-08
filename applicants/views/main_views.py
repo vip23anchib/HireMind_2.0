@@ -4,7 +4,7 @@ from django.template import loader
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required # Import protection decorator
-
+import json
 from ..models import UserData, Document
 
 from django.contrib import messages
@@ -521,7 +521,6 @@ def candidate_profile(request, id):
         'candidate_profile.html',
         context
     )
-
 
 #---------------------------------------------------------------------------------------------------------
 #function for ATS dashboard

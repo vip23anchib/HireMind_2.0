@@ -44,7 +44,7 @@ class UserData(models.Model):
     )
 
     class Meta:
-        ordering = ['id']  # <-- This tells Django to always sort by ID automatically
+        ordering = ['id'] 
 
     def __str__(self):
         return self.name
@@ -54,7 +54,7 @@ class Document(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     user_data = models.ForeignKey(
-        UserData,    #Document belongs to a UserData record.
+        UserData,    
         on_delete=models.CASCADE,
         null=True,
         blank=True
