@@ -5,23 +5,20 @@ HR Operations - Profile Details for {{ mymember.firstname }} {{ mymember.lastnam
 {% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet"
-      href="{% static 'member_details.css' %}">
+<link rel="stylesheet" href="{% static 'member_details.css' %}">
 {% endblock %}
 
 {% block content %}
-
 <div class="page-wrapper">
     
-    <!-- Top Deep Dark Charcoal-Navy Visual Control Plane Layer Frame -->
     <div class="hr-control-plane">
         <div class="plane-container">
             <div>
                 <h1 class="hr-operator-name">
-                    {{ mymember.firstname }} {{ mymember.lastname }}
+                    {{ mymember.firstname }} {% if mymember.middlename %}{{ mymember.middlename }} {% endif %}{{ mymember.lastname }}
                 </h1>
-                <span style="color: #94a3b8; font-size: 1rem; font-weight: 500;">
-                    HR Administrative Personnel Profile
+                <span class="hr-sub-badge">
+                    HR Operations &bull; {{ mymember.role }}
                 </span>
             </div>
             
@@ -32,49 +29,94 @@ HR Operations - Profile Details for {{ mymember.firstname }} {{ mymember.lastnam
         </div>
     </div>
 
-    <!-- Light Surface Layout Workspace Account Information Card Drop Layer -->
     <div class="hr-workspace-surface">
         
         <div class="profile-details-card">
             
             <div class="profile-card-header">
-                <h3>Authentication & Meta Log</h3>
+                <h3>Personnel File & Metadata</h3>
                 <span class="system-serial-token">
                     SYS_NODE_00{{ mymember.id }}
                 </span>
             </div>
 
-            <!-- Structured Metadata Data Grid Configuration Block -->
             <div class="data-meta-grid">
                 
-                <!-- FIELD: Secure Contact Line -->
+                <div class="meta-field-node">
+                    <span class="field-label">First Name</span>
+                    <div class="field-value">{{ mymember.firstname }}</div>
+                </div>
+
+                <div class="meta-field-node">
+                    <span class="field-label">Middle Name</span>
+                    <div class="field-value">
+                        {% if mymember.middlename %}
+                            {{ mymember.middlename }}
+                        {% else %}
+                            <span class="empty-field-fallback">None</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="meta-field-node">
+                    <span class="field-label">Last Name</span>
+                    <div class="field-value">{{ mymember.lastname }}</div>
+                </div>
+
+                <div class="meta-field-node">
+                    <span class="field-label">System Username</span>
+                    <div class="field-value text-accent-navy">
+                        {% if mymember.user.username %}
+                            {{ mymember.user.username }}
+                        {% else %}
+                            <span class="empty-field-fallback">No account linked</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="meta-field-node">
+                    <span class="field-label">Corporate Email Address</span>
+                    <div class="field-value">
+                        {% if mymember.user.email %}
+                            {{ mymember.user.email }}
+                        {% else %}
+                            <span class="empty-field-fallback">No email configured</span>
+                        {% endif %}
+                    </div>
+                </div>
+
                 <div class="meta-field-node">
                     <span class="field-label">Secured Contact Extension</span>
                     <div class="field-value">
                         {% if mymember.phone %}
                             {{ mymember.phone }}
                         {% else %}
-                            <span style="color: #94a3b8; font-style: italic; font-weight: 400;">No line allocated</span>
+                            <span class="empty-field-fallback">No line allocated</span>
                         {% endif %}
                     </div>
                 </div>
 
-                <!-- FIELD: Registration Frame Date Timestamp -->
+                <div class="meta-field-node">
+                    <span class="field-label">Assigned Role Architecture</span>
+                    <div class="field-value">
+                        <span class="role-badge">{{ mymember.role }}</span>
+                    </div>
+                </div>
+
                 <div class="meta-field-node">
                     <span class="field-label">System Authorization Date</span>
                     <div class="field-value">
                         {% if mymember.joined_date %}
-                            {{ mymember.joined_date }}
+                            {{ mymember.joined_date|date:"F d, Y" }}
                         {% else %}
-                            <span style="color: #94a3b8; font-style: italic; font-weight: 400;">Date unrecorded</span>
+                            <span class="empty-field-fallback">Date unrecorded</span>
                         {% endif %}
                     </div>
                 </div>
 
             </div>
 
-            <!-- Action Return Utility Control Link Button -->
-            <div style="border-top: 1px solid #f1f5f9; padding-top: 24px;">
+            <div class="card-footer-action">
                 <a href="javascript:history.back()" class="btn-return-back">
                     &larr; Return to Team Roster Directory
                 </a>

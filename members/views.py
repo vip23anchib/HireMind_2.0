@@ -66,7 +66,7 @@ def add_member(request):
 
             member = form.save(commit=False)
 
-            member.user = user
+            member.user = user  #This Member belongs to this User
 
             member.save()
 

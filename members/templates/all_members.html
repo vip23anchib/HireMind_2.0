@@ -6,89 +6,89 @@ HR Operations - Team Access Directory
 {% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet"
-      href="{% static 'all_members.css' %}">
+<link rel="stylesheet" href="{% static 'all_members.css' %}">
 {% endblock %}
 
 {% block content %}
-
-<div class="page-wrapper">
+<div class="directory-container">
     
-    <!-- Top Deep Dark Control Plane Frame Layer -->
-    <div class="hr-control-plane">
-        <div class="plane-container">
-            <div>
-                <h1 class="hr-title">HR Operations Team</h1>
-                <span class="hr-subtitle">Internal Security & Portal Access Registry</span>
+    <header class="directory-header">
+        <div class="header-content">
+            <div class="title-meta">
+                <span class="badge-pill">Internal Workspace</span>
+                <h1 class="main-title">Team Access Directory</h1>
+                <p class="subtitle">Manage system identities, workspace permissions, and operator credentials.</p>
             </div>
             
-            <!-- Context Control Pane Items Block -->
-            <div class="control-plane-actions">
+            <div class="header-actions">
                 {% if mymembers %}
-                <div>
-                    <span class="system-counter-tag">
-                        Authorized Operators: {{ mymembers|length }}
-                    </span>
+                <div class="stats-card">
+                    <span class="stats-label">Active Registry</span>
+                    <span class="stats-value">{{ mymembers|length }} Members</span>
                 </div>
                 {% endif %}
                 
-                <!-- NEW ACTION CONTROLLER LINK VALUE -->
-                <a href="{% url 'add_member' %}" class="btn-add-operator">
-                    <span>&#43;</span> Add Team Member
+                <a href="{% url 'add_member' %}" class="btn-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    Add Team Member
                 </a>
             </div>
         </div>
-    </div>
+    </header>
 
-    <!-- Light Workspace Surface Layer Dynamic Admin Cards Grid -->
-    <div class="hr-workspace-surface">
-        
+    <main class="directory-body">
         {% if mymembers %}
-        <div class="hr-grid-container">
+        <div class="directory-grid">
             {% for x in mymembers %}
-                <!-- Authorized HR Admin Node Dashboard Item -->
-                <a href="{% url 'details' x.id %}" class="hr-card-node">
+                <a href="{% url 'details' x.id %}" class="profile-card">
+                    <div class="card-glow-effect"></div>
                     
-                    <div class="hr-card-header">
-                        <!-- Modern Box-Cut Profile Initial Identifier Block -->
-                        <div class="hr-avatar-node">
-                            {{ x.firstname|slice:":1" }}{% if x.lastname %}{{ x.lastname|slice:":1" }}{% endif %}
+                    <div class="card-main">
+                        <div class="card-top">
+                            <div class="avatar-wrapper">
+                                <div class="avatar-circle">
+                                    {{ x.firstname|slice:":1" }}{% if x.lastname %}{{ x.lastname|slice:":1" }}{% endif %}
+                                </div>
+                            </div>
+                            <span class="id-tag">ID_#00{{ x.id }}</span>
                         </div>
                         
-                        <!-- System Identity Specifications Block -->
-                        <div class="hr-meta-block">
-                            <h3 class="hr-operator-name">
-                                {{ x.firstname }} {{ x.lastname }}
-                            </h3>
-                            <span class="hr-system-id">
-                                SEC_ID_00{{ x.id }}
-                            </span>
+                        <div class="card-info">
+                            <h3 class="profile-name">{{ x.firstname }} {{ x.lastname }}</h3>
+                            <p class="profile-role">
+                                {% if x.role %}{{ x.role }}{% else %}HR Specialist{% endif %}
+                            </p>
+                            
+                            <div class="meta-row">
+                                <svg class="meta-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                                <span class="meta-text">{% if x.email %}{{ x.email }}{% else %}{{ x.firstname|lower }}@company.com{% endif %}</span>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Security Verification & Clearance Level Metadata Footer -->
-                    <div class="hr-card-footer">
-                        <span class="access-badge">
-                            <div class="indicator-dot"></div>
-                            Portal Login Active
+                    <div class="card-footer">
+                        <span class="status-indicator-pill">
+                            <span class="pulse-dot"></span>
+                            View Profile
                         </span>
-                        
-                        <div class="action-panel-link">
-                            Manage Console &rarr;
+                        <div class="arrow-action">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                         </div>
                     </div>
-
                 </a>
             {% endfor %}
         </div>
         
         {% else %}
-        <!-- Security Registry Null State Notice Block -->
-        <h3 class="empty-directory-state">
-            No verified HR administrative members located inside the access registry.
-        </h3>
+        <div class="directory-empty-state">
+            <div class="empty-icon-box">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+            <h3>No Active Profiles Found</h3>
+            <p>The system directory registry is currently empty.</p>
+            <a href="{% url 'add_member' %}" class="btn-primary">Add Team Member</a>
+        </div>
         {% endif %}
-
-    </div>
+    </main>
 </div>
 {% endblock %}
