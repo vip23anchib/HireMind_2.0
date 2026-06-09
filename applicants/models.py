@@ -12,7 +12,10 @@ class UserData(models.Model):
         blank=True
     )
 
-    name = models.CharField(max_length=100)
+    name = models.CharField(
+        max_length=100,
+        db_index=True
+    )
     email = models.EmailField()
     gender = models.CharField(max_length=20)
     phone_number = models.CharField(

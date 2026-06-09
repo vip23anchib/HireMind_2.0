@@ -15,6 +15,8 @@ urlpatterns = [
     path('',include('applicants.urls')) ,#registration
     
     path('', include('jobs.urls')),
+
+    path('', include('relationships.urls')),
     
     path('landing-dashboard/', include('members.urls')),
 
