@@ -1,0 +1,17 @@
+asgiref==3.11.1
+bitarray==3.8.1
+Django==6.0.6
+narwhals==2.22.1
+numpy==2.4.6
+packaging==26.2
+pdfreader==0.1.15
+pillow==12.2.0
+plotly==6.8.0
+psycopg2-binary==2.9.12
+pycryptodome==3.23.0
+pypdf==6.13.2
+python-dateutil==2.9.0.post0
+six==1.17.0
+sqlparse==0.5.5
+tzdata==2026.2
+whitenoise==6.12.0

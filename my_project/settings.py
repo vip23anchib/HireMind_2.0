@@ -82,7 +82,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'hiremind_db',
         'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'PASSWORD': '231105',
         'HOST': 'localhost',
         'PORT': '5432',
     }
