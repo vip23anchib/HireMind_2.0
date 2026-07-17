@@ -312,7 +312,6 @@ def delete_data(request, id):
     return redirect("form_data")
 
 #---------------------------------------------------------------------------------------------------------
-# candidate search 
 @login_required(login_url='login_view')
 def search_candidates(request):
 
@@ -345,7 +344,7 @@ def search_candidates(request):
             query = Q()
             for skill_name in skills_list:
                 query |= Q(
-                skill__name__icontains=skill_name
+                skill__name__iexact=skill_name
             )
 
             results = UserSkill.objects.filter(query)
@@ -356,7 +355,7 @@ def search_candidates(request):
                 # Get a unique set of user IDs who have the current skill in the loop
                 skill_candidates = set(
                     UserSkill.objects.filter(
-                        skill__name__icontains=skill_name
+                        skill__name__iexact=skill_name
                     ).values_list(
                         'user_data_id',
                         flat=True
@@ -388,7 +387,7 @@ def search_candidates(request):
                 # Chain each skill search using the OR operator (|=)
                 # It creates a query like: WHERE skill LIKE '%A%' OR skill LIKE '%B%'
                 query |= Q(
-                    skill__name__icontains=skill_name
+                    skill__name__iexact=skill_name
                 )
             results = results.filter(query)
             
@@ -437,11 +436,11 @@ def search_candidates(request):
                 )
         for data in candidate_map.values():
             matched_count = len(
-                data['skills']
+                set(
+                    skill.lower().strip()
+                    for skill in data['skills']
+                )
             )
-            requested_count = len(
-                skills_list
-            )   
 
             score = round((matched_count / requested_count) * 100)
 
@@ -449,12 +448,16 @@ def search_candidates(request):
        
         #function to find missing skill
         for data in candidate_map.values():
-            candidate_skills = set(
-                data['skills']
-            )
-            requested_skills = set(
-                skills_list
-            )
+    
+            candidate_skills = {
+                s.lower().strip()
+                for s in data['skills']
+            }
+
+            requested_skills = {
+                s.lower().strip()
+                for s in skills_list
+            }
             missing_skills = (
                 requested_skills
                 -           
@@ -492,6 +495,7 @@ def search_candidates(request):
         'search_candidates.html',
         context
     )
+
 
 #---------------------------------------------------------------------------------------------------------
 # candidate PROFILE
