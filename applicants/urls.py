@@ -3,7 +3,7 @@ from . import views
 from django.conf import settings
 
 urlpatterns = [
-    path('', views.login_view, name='login_view'),
+    path('login/', views.login_view, name='login_view'),
     path('registration/', views.form, name='contact_form'),
     path('success/', views.success_view, name='form_success'),
     path('logout/', views.logout_view, name='logout_view'),

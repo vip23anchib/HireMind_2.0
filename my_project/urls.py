@@ -7,8 +7,12 @@ from django.conf.urls.static import static
 
 print("--- PROJECT URLS are LOADING ---") 
 
+from members.views import landing_page
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    path('', landing_page, name='landing_page'),
 
     path('dashboard/', include('members.urls')), #dashboard
 
