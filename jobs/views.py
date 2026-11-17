@@ -1,13 +1,13 @@
-from django.shortcuts import (
-    render,
-    get_object_or_404
-)
-from applicants.models import ActivityLog
-from .models import Job
-from django.shortcuts import render, redirect
-from django.shortcuts import get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+
+from .models import Job
+from .services.job_service import (
+    create_job as create_job_service,
+    update_job as update_job_service,
+    toggle_job_status as toggle_job_status_service,
+)
 
 
 
@@ -92,69 +92,29 @@ def manage_jobs(request):
 #function to make job active or inactive 
 @login_required(login_url='login_view')
 def toggle_job_status(request, id):
-
-    job = get_object_or_404(
-        Job,
-        id=id
-    )
-
-    job.is_active = not job.is_active
-
-    job.save()
-
-    ActivityLog.objects.create(
-        performed_by=request.user,
-        action=f"Job '{job.title}'status toggled"
-    )
-
-    return redirect(
-        'manage_jobs'
-    )
+    job = get_object_or_404(Job, id=id)
+    toggle_job_status_service(job, performed_by=request.user)
+    return redirect('manage_jobs')
 
 
 #function to let HR create jobs 
 @login_required(login_url='login_view')
 def create_job(request):
-
     if request.method == "POST":
-
-        Job.objects.create(
-
-            title=request.POST['title'],
-
-            slug=request.POST['slug'],
-
-            department=request.POST['department'],
-
-            location=request.POST['location'],
-
-            job_type=request.POST['job_type'],
-
-            description=request.POST['description'],
-
-            requirements=request.POST['requirements'],
-
-            responsibilities=request.POST['responsibilities'],
-
-            experience_required=request.POST['experience_required'],
-
-            is_active=True
-
-        )
-
-        messages.success(
-            request,
-            "Job created successfully"
-        )
-
-        ActivityLog.objects.create(
-                    performed_by=request.user,
-                    action=f"Job '{job.title}' created"
-                )
-
-        return redirect(
-            'manage_jobs'
-        )
+        data = {
+            'title': request.POST['title'],
+            'slug': request.POST['slug'],
+            'department': request.POST['department'],
+            'location': request.POST['location'],
+            'job_type': request.POST['job_type'],
+            'description': request.POST['description'],
+            'requirements': request.POST['requirements'],
+            'responsibilities': request.POST['responsibilities'],
+            'experience_required': request.POST['experience_required'],
+        }
+        create_job_service(data=data, performed_by=request.user)
+        messages.success(request, "Job created successfully")
+        return redirect('manage_jobs')
 
     return render(
         request,
@@ -168,34 +128,22 @@ def create_job(request):
 #function to edit job 
 @login_required(login_url='login_view')
 def edit_job(request, id):
-
-    job = get_object_or_404(
-        Job,
-        id=id
-    )
+    job = get_object_or_404(Job, id=id)
 
     if request.method == "POST":
-
-        job.title = request.POST['title']
-        job.slug = request.POST['slug']
-        job.department = request.POST['department']
-        job.location = request.POST['location']
-        job.job_type = request.POST['job_type']
-        job.description = request.POST['description']
-        job.requirements = request.POST['requirements']
-        job.responsibilities = request.POST['responsibilities']
-        job.experience_required = request.POST['experience_required']
-
-        job.save()
-
-        ActivityLog.objects.create(
-            performed_by=request.user,
-            action=f"Job '{job.title}' edited"
-        )
-
-        return redirect(
-            'manage_jobs'
-        )
+        data = {
+            'title': request.POST['title'],
+            'slug': request.POST['slug'],
+            'department': request.POST['department'],
+            'location': request.POST['location'],
+            'job_type': request.POST['job_type'],
+            'description': request.POST['description'],
+            'requirements': request.POST['requirements'],
+            'responsibilities': request.POST['responsibilities'],
+            'experience_required': request.POST['experience_required'],
+        }
+        update_job_service(job=job, data=data, performed_by=request.user)
+        return redirect('manage_jobs')
 
     return render(
         request,
