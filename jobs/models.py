@@ -1,6 +1,5 @@
 from django.db import models
 
-# Create your models here.
 
 class Job(models.Model):
 
@@ -51,6 +50,12 @@ class Job(models.Model):
         auto_now_add=True
     )
 
+    class Meta:
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['is_active', '-created_at'], name='idx_job_active_created'),
+            models.Index(fields=['department'], name='idx_job_department'),
+        ]
+
     def __str__(self):
         return self.title
-

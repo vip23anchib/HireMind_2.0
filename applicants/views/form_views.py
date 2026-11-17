@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db import transaction
 
-from ..models import UserData, Document, Application
+from ..models import UserData, Document, Application, ApplicationStatusHistory
 from jobs.models import Job
 from ..services.resume_parser import extract_pdf_text, extract_metadata_from_text
 from ..services.skill_service import extract_skills_from_text, sync_candidate_skills
@@ -208,8 +208,17 @@ def update_application_status(request, application_id):
     if request.method == "POST":
         new_status = request.POST.get('status')
         if new_status and new_status != application.status:
+            old_status = application.status
             application.status = new_status
             application.save(update_fields=['status'])
+
+            ApplicationStatusHistory.objects.create(
+                application=application,
+                old_status=old_status,
+                new_status=new_status,
+                changed_by=request.user if request.user.is_authenticated else None,
+            )
+
             log_activity(
                 action=f"Application status changed to '{new_status}' for {application.candidate.name}",
                 candidate=application.candidate,
