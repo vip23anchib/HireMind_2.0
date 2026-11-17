@@ -1,0 +1,3 @@
+"""
+Candidates API module.
+"""
