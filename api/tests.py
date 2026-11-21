@@ -317,3 +317,12 @@ class APIRestFrameworkTests(TestCase):
         status_res = self.client.get(f'/api/v1/resumes/{doc_id}/status/')
         self.assertEqual(status_res.status_code, 200)
         self.assertIn(status_res.json()['status'], ['Queued', 'Processing', 'Completed'])
+
+    # -------------------------------------------------------------
+    # 9. Health Check Endpoint
+    # -------------------------------------------------------------
+    def test_health_check_endpoint(self):
+        res = self.client.get('/api/v1/health/')
+        self.assertIn(res.status_code, [200, 503])
+        self.assertIn('checks', res.json())
+        self.assertEqual(res.json()['checks']['database'], 'healthy')

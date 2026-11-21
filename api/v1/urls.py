@@ -4,8 +4,10 @@ Aggregates all version 1 domain API routes.
 """
 
 from django.urls import path, include
+from api.v1.health.views import HealthCheckAPIView
 
 urlpatterns = [
+    path('health/', HealthCheckAPIView.as_view(), name='api_health'),
     path('auth/', include('api.v1.auth.urls')),
     path('jobs/', include('api.v1.jobs.urls')),
     path('candidates/', include('api.v1.candidates.urls')),
