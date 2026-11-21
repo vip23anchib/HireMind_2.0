@@ -7,7 +7,7 @@ Fixes BUG-04: resolves previously undefined 'SKILLS' variable.
 
 import re
 import logging
-from typing import Dict, List, Set, Tuple
+from typing import Dict, List, Set, Tuple, Optional
 from django.db import transaction
 from applicants.models import Skill, UserSkill, UserData
 
@@ -200,7 +200,7 @@ def extract_skills_from_text(text: str) -> List[str]:
 def sync_candidate_skills(
     candidate: UserData,
     detected_skills: List[str],
-    skill_experience_map: Dict[str, int]
+    skill_experience_map: Optional[Dict[str, int]] = None
 ) -> List[UserSkill]:
     """
     Synchronizes candidate skills: normalizes experience data, updates or creates Skill
@@ -208,9 +208,12 @@ def sync_candidate_skills(
     
     :param candidate: Candidate UserData instance.
     :param detected_skills: List of detected skill names.
-    :param skill_experience_map: Raw skill-to-years mapping.
+    :param skill_experience_map: Raw skill-to-years mapping (optional).
     :return: List of UserSkill instances created or updated.
     """
+    if skill_experience_map is None:
+        skill_experience_map = {}
+
     normalized_experience: Dict[str, int] = {}
     for skill_name, years in skill_experience_map.items():
         canonical = normalize_skill_name(skill_name)

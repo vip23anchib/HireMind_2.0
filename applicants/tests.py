@@ -193,3 +193,75 @@ class AnalyticsServiceTest(TestCase):
 
         exp = get_experience_distribution()
         self.assertEqual(exp[0]["avg_years"], 4.0)
+
+
+class CeleryResumeProcessingTaskTest(TestCase):
+    def setUp(self):
+        from unittest.mock import MagicMock
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        from applicants.tasks import process_resume_task
+
+        self.candidate = UserData.objects.create(name="Task Candidate", email="task@candidate.io")
+        self.skill_py = Skill.objects.create(name="Python")
+        self.skill_dj = Skill.objects.create(name="Django")
+        self.job = Job.objects.create(title="Backend Dev", slug="backend-dev", experience_required=2)
+        self.job.required_skills.set([self.skill_py, self.skill_dj])
+
+        self.app = Application.objects.create(
+            candidate=self.candidate,
+            job=self.job,
+            status="Applied",
+            ats_score=0.0
+        )
+
+        sample_file = SimpleUploadedFile("candidate_resume.pdf", b"%PDF-1.4 dummy resume", content_type="application/pdf")
+        self.doc = Document.objects.create(
+            user_data=self.candidate,
+            file=sample_file,
+            status="Queued"
+        )
+
+    def test_process_resume_task_success(self):
+        from unittest.mock import patch
+        from applicants.tasks import process_resume_task
+
+        mock_resume_text = (
+            "Alex Task\n"
+            "Email: task@candidate.io | Phone: +1 555-0199\n"
+            "Professional Experience: 4 years working with Python and Django.\n"
+            "Skills: Python, Django, PostgreSQL.\n"
+            "Education: BS in Computer Science.\n"
+            "Projects: Built automated applicant tracking system."
+        )
+
+        with patch("applicants.tasks.extract_pdf_text", return_value=mock_resume_text):
+            result = process_resume_task(self.doc.id, application_id=self.app.id)
+
+        self.assertEqual(result["status"], "Completed")
+        self.doc.refresh_from_db()
+        self.assertEqual(self.doc.status, "Completed")
+
+        # Verify candidate phone updated
+        self.candidate.refresh_from_db()
+        self.assertIn("555", self.candidate.phone_number)
+
+        # Verify skills synced
+        candidate_skills = list(self.candidate.skills_m2m.values_list('name', flat=True))
+        self.assertIn("Python", candidate_skills)
+        self.assertIn("Django", candidate_skills)
+
+        # Verify application ATS score recalculated
+        self.app.refresh_from_db()
+        self.assertEqual(self.app.ats_score, 100.0)
+
+    def test_process_resume_task_invalid_document_fails_gracefully(self):
+        from unittest.mock import patch
+        from applicants.tasks import process_resume_task
+
+        # Return non-resume garbage text
+        with patch("applicants.tasks.extract_pdf_text", return_value="Random non-resume grocery list milk eggs bread"):
+            result = process_resume_task(self.doc.id)
+
+        self.assertEqual(result["status"], "Failed")
+        self.doc.refresh_from_db()
+        self.assertEqual(self.doc.status, "Failed")

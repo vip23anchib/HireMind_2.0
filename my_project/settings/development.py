@@ -37,3 +37,7 @@ STORAGES = {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
+
+# In local dev, default to executing Celery tasks eagerly if Redis is not running
+CELERY_TASK_ALWAYS_EAGER = os.environ.get('CELERY_TASK_ALWAYS_EAGER', 'True').lower() in ('true', '1')
+CELERY_TASK_EAGER_PROPAGATES = True

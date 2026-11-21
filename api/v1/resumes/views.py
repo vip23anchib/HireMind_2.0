@@ -9,10 +9,7 @@ from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema, OpenApiResponse
 
 from applicants.models import Document, UserData
-from jobs.models import Job
-from applicants.services.resume_parser import extract_pdf_text, extract_metadata_from_text
-from applicants.services.skill_service import extract_skills_from_text, sync_candidate_skills
-from applicants.services.matching_service import calculate_ats_match
+from applicants.tasks import process_resume_task
 from applicants.services.activity_service import log_activity
 from .serializers import ResumeUploadSerializer, ResumeStatusSerializer
 
@@ -24,9 +21,10 @@ class ResumeUploadAPIView(views.APIView):
         request=ResumeUploadSerializer,
         responses={
             201: ResumeStatusSerializer,
+            202: ResumeStatusSerializer,
             400: OpenApiResponse(description="Validation error")
         },
-        description="Upload a candidate PDF resume and trigger parsing/skill extraction."
+        description="Upload a candidate PDF resume and queue asynchronous parsing and skill extraction."
     )
     def post(self, request):
         serializer = ResumeUploadSerializer(data=request.data)
@@ -40,38 +38,29 @@ class ResumeUploadAPIView(views.APIView):
         if candidate_id:
             candidate = get_object_or_404(UserData, id=candidate_id)
 
-        # Ingest and parse
-        extracted_text = extract_pdf_text(file)
-        metadata = extract_metadata_from_text(extracted_text)
-        detected_skills = extract_skills_from_text(extracted_text)
-
-        if candidate:
-            sync_candidate_skills(
-                candidate=candidate,
-                detected_skills=detected_skills,
-                skill_experience_map=metadata["skill_experience"]
-            )
-
         document = Document.objects.create(
             user=request.user if request.user.is_authenticated else None,
             user_data=candidate,
             file=file,
-            pdf_text=extracted_text,
-            additional_info=metadata["additional_info"],
-            experience_info=metadata["experience_info"],
-            status='Completed'
+            status='Queued'
         )
 
         log_activity(
-            action=f"Resume uploaded and processed (Document #{document.id})",
+            action=f"Resume uploaded and queued for processing (Document #{document.id})",
             candidate=candidate,
-            performed_by=request.user
+            performed_by=request.user if request.user.is_authenticated else None
         )
 
-        return Response(
-            ResumeStatusSerializer(document).data,
-            status=status.HTTP_201_CREATED
-        )
+        # Trigger async parsing task
+        task = process_resume_task.delay(document.id)
+
+        # If eager execution ran, refresh document from DB to get the latest status
+        document.refresh_from_db()
+
+        response_status = status.HTTP_201_CREATED if document.status == 'Completed' else status.HTTP_202_ACCEPTED
+        data = ResumeStatusSerializer(document).data
+        data['task_id'] = task.id if task else None
+        return Response(data, status=response_status)
 
 
 class ResumeStatusAPIView(views.APIView):

@@ -282,3 +282,38 @@ class APIRestFrameworkTests(TestCase):
         res = self.client.get('/api/redoc/')
         self.assertEqual(res.status_code, 200)
         self.assertContains(res, "redoc")
+
+    # -------------------------------------------------------------
+    # 8. Asynchronous Resume Ingestion & Status Tracking
+    # -------------------------------------------------------------
+    def test_resume_upload_and_status_polling(self):
+        from unittest.mock import patch
+        mock_text = (
+            "Alex Resume\n"
+            "Email: alex@hiremind.io | Phone: +1 555-9876\n"
+            "Experience: 4 years Python developer.\n"
+            "Skills: Python, React.js.\n"
+            "Education: BS CS\n"
+            "Projects: Full stack ATS application."
+        )
+
+        sample_pdf = SimpleUploadedFile("test_resume.pdf", b"%PDF-1.4 dummy resume", content_type="application/pdf")
+
+        with patch("applicants.tasks.extract_pdf_text", return_value=mock_text):
+            res = self.client.post(
+                '/api/v1/resumes/upload/',
+                data={
+                    'file': sample_pdf,
+                    'candidate_id': self.candidate.id
+                },
+                format='multipart'
+            )
+
+        self.assertIn(res.status_code, [201, 202])
+        doc_id = res.json()['id']
+        self.assertTrue(doc_id > 0)
+
+        # Poll status
+        status_res = self.client.get(f'/api/v1/resumes/{doc_id}/status/')
+        self.assertEqual(status_res.status_code, 200)
+        self.assertIn(status_res.json()['status'], ['Queued', 'Processing', 'Completed'])
